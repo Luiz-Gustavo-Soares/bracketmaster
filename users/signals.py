@@ -9,4 +9,4 @@ from .models import Profile
 def create_profile(sender, instance, created, **kwargs):
 
     if created:
-        Profile.objects.create(user=instance)
+        Profile.objects.create(user=instance, nickname=instance.username)
