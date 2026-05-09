@@ -34,10 +34,10 @@ class Profile(models.Model):
             old_image = Profile.objects.get(
                 pk=self.pk
             ).profile_imagem
-
             if old_image:
                 if os.path.isfile(old_image.path):
-                    os.remove(old_image.path)
+                    if old_image.name != 'profiles/default.png':
+                        os.remove(old_image.path)
 
         except:
             pass
