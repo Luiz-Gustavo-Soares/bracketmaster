@@ -5,7 +5,7 @@ import os
 
 
 def profile_image_path(instance, filename):
-
+    """Reformula o nome de uma imagem para user_id.extension"""
     extension = filename.split('.')[-1]
 
     filename = f'user_{instance.user.id}.{extension}'
@@ -30,20 +30,31 @@ class Profile(models.Model):
         )
     
     def save(self, *args, **kwargs):
+        """Sebrescrita do metodo de save
+        Processa o upload da imagem
+        """
+
+
         try:
-            old_image = Profile.objects.get(
-                pk=self.pk
-            ).profile_imagem
-            if old_image:
-                if os.path.isfile(old_image.path):
-                    if old_image.name != 'profiles/default.png':
+            old_profile = Profile.objects.get(pk=self.pk)
+
+            old_image = old_profile.profile_imagem
+            new_image = self.profile_imagem
+
+            if old_image != new_image:
+
+                if old_image.name != 'profiles/default.png':
+
+                    # Remove a imagem antiga se for enviada uma nova
+                    if old_image and os.path.isfile(old_image.path):
                         os.remove(old_image.path)
 
-        except:
+        except Profile.DoesNotExist:
             pass
 
         super().save(*args, **kwargs)
-
+        
+        # Redimenciona e corta a imagem
         if self.profile_imagem:
 
             img = Image.open(self.profile_imagem.path)

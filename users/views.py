@@ -7,6 +7,7 @@ from .forms import RegisterForm, ProfileForm
 
 
 def register_view(request):
+    """View criacao de Usuario"""
     if request.method == 'POST':
         form = RegisterForm(request.POST)
 
@@ -19,13 +20,15 @@ def register_view(request):
     else:
         form = RegisterForm()
 
-    return render(request, 'users/register.html', {
+    return render(request, '.', {
         'form': form
     })
 
 
 @login_required
 def edit_profile(request):
+    """View de edicao do Profile"""
+
     profile = request.user.profile
     
     if request.method == 'POST':
@@ -50,9 +53,15 @@ def edit_profile(request):
 
 
 def profile(request, username):
+    """View de renderizacao de um usuario em questao
+    Args:
+        username (str): username referente a um User
+    """
+
     p = get_object_or_404(Profile, user__username=username)
     context = {
+    'user': p
     }
-    return HttpResponse(f'O us usuario ae, {p}')
+    return render(request, 'users/profile.html', context)
 
 
