@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.conf import settings
 from PIL import Image
 import os
@@ -29,6 +30,44 @@ class Profile(models.Model):
             default='profiles/default.png'
         )
     
+
+    def get_friends(self):
+        """Retorna todos os amigos de um determinado Usuario"""
+        friendships = Friendship.objects.filter(
+            Q(sender=self.user) | Q(receiver=self.user),
+            status=FriendshipStatus.ACEITA
+        )
+
+        friends = []
+
+        for friendship in friendships:
+            if friendship.sender == self.user:
+                friends.append(friendship.receiver)
+            else:
+                friends.append(friendship.sender)
+
+        return friends
+    
+    def is_friend(self, friend):
+        """Verifica se é amigo de um determinado Usuario
+        Args:
+            friend: User
+        Return: 
+            bool
+        """
+        if self.user == friend:
+            return False
+
+        return Friendship.objects.filter(
+            (
+                Q(sender=self.user, receiver=friend) |
+                Q(sender=friend, receiver=self.user)
+            ),
+            status=FriendshipStatus.ACEITA
+        ).exists()
+
+
+
     def save(self, *args, **kwargs):
         """Sebrescrita do metodo de save
         Processa o upload da imagem
@@ -79,3 +118,47 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+
+class FriendshipStatus(models.TextChoices):
+    PENDENTE = 'P', 'Pendente'
+    ACEITA = 'A', 'Aceita'
+    RECUSADA = 'R', 'Recusada'
+
+
+class Friendship(models.Model):
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='friendships_sent'
+    )
+
+    receiver = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='friendships_received'
+    )
+
+    status = models.CharField(
+        max_length=1,
+        choices=FriendshipStatus.choices,
+        default=FriendshipStatus.PENDENTE
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        """Impede o envio de pedidos de amizade duplicada"""
+        if self.sender.id > self.receiver.id:
+            self.sender, self.receiver = self.receiver, self.sender
+
+        super().save(*args, **kwargs)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['sender', 'receiver'],
+                name='unique_friendship'
+            )
+        ]
