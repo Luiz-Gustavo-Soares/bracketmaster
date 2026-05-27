@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class TipoPartida(models.TextChoices):
+class TipoTorneio(models.TextChoices):
     CASUAL = "CA", "Casual"
     COMPETITIVA = "CO", "Competitiva"
 
