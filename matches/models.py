@@ -1,5 +1,5 @@
 from django.db import models
-from .enums import StatusPartida, TipoPartida, FormatoJogo, ResultadoPartida
+from .enums import StatusPartida, ResultadoPartida
 from django.contrib.auth.models import User
 
 
@@ -11,16 +11,6 @@ class Partida(models.Model):
         max_length=2,
         choices=StatusPartida.choices,
         default=StatusPartida.AGENDADA
-    )
-    tipo = models.CharField(
-        max_length=2,
-        choices=TipoPartida.choices,
-        default=TipoPartida.CASUAL
-    )
-    formato = models.CharField(
-        max_length=2,
-        choices=FormatoJogo.choices,
-        default=FormatoJogo.COMMANDER
     )
 
     jogadores = models.ManyToManyField(
@@ -103,7 +93,7 @@ class Partida(models.Model):
 
 
     def __str__(self):
-        return f'Partida {self.id} - {self.formato}'
+        return f'Partida {self.id}'
     
 
 
