@@ -8,6 +8,8 @@ from .strategies.swissStrategy import SwissStrategy
 from .states.statesTorneio import EncInscricoesState, EmAndamentoState, CriadoState, InscricoesState
 
 class Torneio(models.Model):
+    """Modelo Principal do torneio"""
+
     nome = models.CharField(max_length=150)
     descricao = models.TextField(blank=True, null=True)
 
@@ -49,7 +51,7 @@ class Torneio(models.Model):
 
     @property
     def strategy(self):
-
+        """Altera a estrategia conforme o FORMATO do TORNEIO"""
         mapping = {
 
             FormatoTorneio.SWISS:
@@ -66,6 +68,7 @@ class Torneio(models.Model):
 
     @property
     def state(self):
+        """Garante que a alteracao do status do torneio seja feita da maneira correta"""
 
         mapping = {
 
@@ -88,6 +91,7 @@ class Torneio(models.Model):
 
 
 class TorneioParticipante(models.Model):
+    """Modelo responsavel de registrar jogadores no torneio"""
 
     torneio = models.ForeignKey(
         Torneio,
@@ -113,6 +117,7 @@ class TorneioParticipante(models.Model):
         ]
 
 class Rodada(models.Model):
+    """Modelo responsavel por cada rodada do torneio"""
 
     torneio = models.ForeignKey(
         Torneio,
