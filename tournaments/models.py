@@ -2,6 +2,10 @@ from django.db import models
 from .enums import FormatoJogo, TipoTorneio, FormatoTorneio, StatusTorneio, StatusRodada
 from django.contrib.auth.models import User
 
+from .strategies.singleEliminationStrategy import SingleEliminationStrategy
+from .strategies.swissStrategy import SwissStrategy
+
+from .states.statesTorneio import EncInscricoesState, EmAndamentoState, CriadoState, InscricoesState
 
 class Torneio(models.Model):
     nome = models.CharField(max_length=150)
@@ -43,6 +47,45 @@ class Torneio(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
 
 
+    @property
+    def strategy(self):
+
+        mapping = {
+
+            FormatoTorneio.SWISS:
+                SwissStrategy,
+
+            FormatoTorneio.SINGLE_ELIM:
+                SingleEliminationStrategy
+        }
+
+        return mapping[
+            self.formato_torneio
+        ](self)
+    
+
+    @property
+    def state(self):
+
+        mapping = {
+
+            StatusTorneio.CRIADO:
+                CriadoState,
+
+            StatusTorneio.INSCRICOES:
+                InscricoesState,
+
+            StatusTorneio.INSCRICOES_E:
+                EncInscricoesState,
+
+            StatusTorneio.EM_ANDAMENTO:
+                EmAndamentoState
+        }
+
+        return mapping[
+            self.status
+        ](self)
+
 
 class TorneioParticipante(models.Model):
 
@@ -61,9 +104,7 @@ class TorneioParticipante(models.Model):
     pontos = models.IntegerField(default=0)
 
     vitorias = models.IntegerField(default=0)
-
     derrotas = models.IntegerField(default=0)
-
     empates = models.IntegerField(default=0)
 
     class Meta:
