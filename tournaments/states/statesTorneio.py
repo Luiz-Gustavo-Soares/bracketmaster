@@ -1,9 +1,8 @@
 from abc import ABC
-from ..models import Torneio
 
 
 class StateTorneio(ABC):
-    def __init__(self, torneio: Torneio):
+    def __init__(self, torneio):
         self.torneio = torneio
 
     def abrir_inscricoes(self):
