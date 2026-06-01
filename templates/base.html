@@ -1,3 +1,4 @@
+<!-- Layout raiz: Aqui vai ficar a estrutura básica do HTML, tags e importação de scripts e estilos globais. -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -9,21 +10,13 @@
     {% block style %}{% endblock style %}
 </head>
 <body>
-    {% block nav %}
-    
-    {% endblock %}
 
     <main>
         {% block content %}
         <!-- Child templates will inject content here -->
         {% endblock %}
     </main>
-
-
-    {% block footer %}
-    {% endblock %}
-
-    
+ 
     <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
