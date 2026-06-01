@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from ..models import Torneio
+
 
 
 class BaseStrategy(ABC):
     """Classe pai para gerir diferentes formatos de torneio"""
 
-    def __init__(self, torneio: Torneio):
+    def __init__(self, torneio):
         self.torneio = torneio
 
     @abstractmethod

@@ -1,5 +1,5 @@
-from .base_strategy import FormatoTorneioStrategy
+from .base_strategy import BaseStrategy
 
-class SwissStrategy(FormatoTorneioStrategy):
+class SwissStrategy(BaseStrategy):
         """Torneio Formato suiço"""
         pass
