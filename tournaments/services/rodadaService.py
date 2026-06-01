@@ -1,0 +1,1 @@
+# Responsável por criar e finalizar rodadas.

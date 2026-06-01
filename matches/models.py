@@ -2,10 +2,10 @@ from django.db import models
 from .enums import StatusPartida, ResultadoPartida
 from django.contrib.auth.models import User
 
+from tournaments.models import Rodada
 
 class Partida(models.Model):
     """Model referente a uma unica partida"""
-    nome = models.CharField(max_length=100)
     data = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=2,
@@ -18,6 +18,14 @@ class Partida(models.Model):
         through="ParticipacaoPartida"
     )
 
+    rodada = models.ForeignKey(
+        Rodada,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='partidas'
+    )
+    
     def _get_ganhador(self):
         """
         Retorna (se ouver) o ganhador da Partida
@@ -69,11 +77,14 @@ class Partida(models.Model):
         if self.status == StatusPartida.FINALIZADA:
             raise RuntimeError('Partida já finalizada')
         
+        participacoes = self.participacoes.all()
+
         if winner and not participacoes.filter(jogador=winner).exists():
             raise RuntimeError('O vencedor nao pertence a partida')
 
-
-        participacoes = self.participacoes.all()
+        if self.participacoes.count() < 2:
+            raise RuntimeError('Partida sem participantes suficientes')
+        
 
         for participante in participacoes:
 
