@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ..models import Torneio
+
 
 
 class BaseStrategy(ABC):
