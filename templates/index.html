@@ -1,1 +1,93 @@
 <!--Landing Page-->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bracketmaster - Torneios de Magic: The Gathering{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<header class="home-fixed-header">
+    {% include 'components/navbar.html' %}
+    
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="scrollIndicator"></div>
+    </div>
+</header>
+
+<section class="hero-section" style="background-image: url('{% static 'media/bg-auth.jpg' %}');">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content text-center">
+        <h1 class="hero-title">Bracketmaster</h1>
+        <p class="hero-subtitle">Torneios de Magic: The Gathering® em minutos</p>
+        <a href="{% url 'register' %}" class="btn btn-primary hero-btn">COMECE AGORA</a>
+    </div>
+</section>
+
+<section class="featured-tournaments">
+    <div class="container">
+        <h2 class="section-title">Torneios Destacados</h2>
+        
+        <!-- Grid Dinâmico com loop do Django -->
+<div class="cards-grid">
+    
+    {% for torneio in torneios_destacados %}
+            <div class="tournament-card">
+                
+                <!-- O Django resolve a variável dentro da tag static magicamente -->
+                <div class="card-image" style="background-image: url('{% static torneio.imagem_capa %}');">
+                    <span class="card-format">{{ torneio.formato }}</span>
+                    <span class="card-date">📅 {{ torneio.data }}</span>
+                </div>
+                
+                <div class="card-body">
+                    <h3 class="card-title">{{ torneio.titulo }}</h3>
+                    <p class="card-desc">{{ torneio.descricao }}</p>
+
+                    <a href="#" class="card-author-link">
+                        <img src="{% static torneio.autor_avatar %}" alt="{{ torneio.autor_nome }}" class="author-avatar">
+                        <span class="author-name">{{ torneio.autor_nome }}</span>
+                    </a>
+                </div>
+                
+            </div>
+            {% empty %}
+            <!-- Caso o banco de dados esteja vazio, mostra essa mensagem ao invés de quebrar a tela -->
+            <div style="grid-column: 1 / -1; text-align: center; color: var(--text-secondary); padding: 3rem 0;">
+                <p>Nenhum torneio em destaque no momento.</p>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+<section class="benefits-section">
+    <div class="container">
+        <h2 class="section-title">Benefícios</h2>
+        
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <h4 class="benefit-title">ⓘ Torneios Rápidos</h4>
+                <p class="benefit-desc">Crie chaves, gerencie rodadas e acompanhe resultados com uma experiência simples e intuitiva.</p>
+            </div>
+            <div class="benefit-item">
+                <h4 class="benefit-title">ⓘ Decks na Vitrine</h4>
+                <p class="benefit-desc">Monte um perfil público, destaque seus decks favoritos e compartilhe suas listas.</p>
+            </div>
+            <div class="benefit-item">
+                <h4 class="benefit-title">ⓘ Mostre a Vitória</h4>
+                <p class="benefit-desc">Visualize métricas de vitória, histórico de partidas e a evolução dos seus resultados.</p>
+            </div>
+            <div class="benefit-item">
+                <h4 class="benefit-title">ⓘ Conecte-se</h4>
+                <p class="benefit-desc">Descubra jogadores, acompanhe torneios e mantenha tudo reunido em uma única plataforma.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'components/footer.html' %}
+{% endblock %}

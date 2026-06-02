@@ -1,8 +1,5 @@
-/*sidebar, grid, topbar*/
-
 /* ESTRUTURAS DE GRID E CONTAINERS */
 
-/* Container para a Landing Page */
 .container {
     width: 100%;
     max-width: 1200px;
@@ -10,11 +7,12 @@
     padding: 0 1.5rem;
 }
 
-/* --- Layout do Dashboard --- */
+/* --- Dashboard --- */
 .dashboard-layout {
     display: grid;
-    grid-template-columns: 260px 1fr; /* 260px fixos para Sidebar, resto para o conteúdo */
-    min-height: 100vh;
+    grid-template-columns: 260px 1fr;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .dashboard-sidebar {
@@ -24,10 +22,8 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    /* Impede que a sidebar role junto com o conteúdo */
-    position: sticky;
-    top: 0;
     height: 100vh;
+    overflow-y: auto;
 }
 
 .dashboard-main {
@@ -36,47 +32,72 @@
     flex-direction: column;
     gap: 2rem;
     overflow-y: auto;
+    height: 100vh;
 }
 
-/* --- Layout de Autenticação (Login/Cadastro) --- */
 .auth-layout {
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;     
+    display: grid;
+    grid-template-rows: auto 1fr auto; 
     position: relative;
     background-size: cover;
     background-position: center;
+    overflow-x: hidden; 
 }
 
-/* Overlay escuro para garantir que o formulário fique legível em cima da arte do MTG */
 .auth-layout::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(9, 9, 11, 0.85); /* Fundo com transparência */
+    background: rgba(9, 9, 11, 0.85);
     z-index: 0;
 }
 
-/* Container do formulário em si */
-.auth-container {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 420px;
-    padding: 2rem;
-}
-
 .auth-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 2rem 3rem;
+    position: relative;
+    z-index: 2;
+    padding: 1.5rem 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.auth-container {
+    display: grid;
+    place-items: center; 
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-card {
+    background-color: rgba(24, 24, 27, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    padding: 3rem 2.5rem;
+    width: 100%; 
+    max-width: 420px; 
+}
+
+.auth-footer-bottom {
+    position: relative;
     z-index: 2;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.auth-footer-links {
+    display: flex;
+    gap: 1.5rem;
 }
 
 .logo-text {
@@ -92,33 +113,6 @@
     text-transform: uppercase;
 }
 
-.auth-footer-bottom {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 2rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 2;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.auth-footer-links {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.auth-card {
-    background-color: rgba(24, 24, 27, 0.4); /* Fundo mais transparente que o normal */
-    backdrop-filter: blur(12px); /* Efeito de vidro do Figma */
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 3rem 2.5rem;
-}
-
 .auth-title {
     font-size: 2.5rem;
     margin-bottom: 0.25rem;
@@ -131,32 +125,116 @@
     margin-bottom: 2.5rem;
 }
 
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-
 .label-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.link-muted {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
-.link-muted:hover { color: var(--text-primary); }
-
-.btn-full {
-    width: 100%;
-    margin-top: 1rem;
-}
-
 .auth-footer-text {
     margin-top: 2rem;
     font-size: 0.75rem;
     letter-spacing: 0.05em;
+    text-align: center;
 }
+
+.link-muted {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+.link-muted:hover { color: var(--text-primary); }
 
 .link-subtle { color: var(--text-secondary); }
 .link-subtle:hover { color: var(--text-primary); }
+
+/* --- MAIN FOOTER (LANDING PAGE) --- */
+.main-footer {
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-base);
+    padding: 4rem 0 2rem 0;
+    color: var(--text-secondary);
+    margin-top: auto; 
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+}
+
+.footer-brand-section {
+    max-width: 320px;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem; 
+}
+
+.social-icon {
+    color: var(--text-primary);
+    transition: color var(--transition-base);
+}
+
+.social-icon:hover {
+    color: var(--brand-primary);
+}
+
+.brand-disclaimer {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.legal-links {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.75rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.legal-links a:hover {
+    color: var(--text-primary);
+}
+
+.footer-links-section {
+    display: flex;
+    gap: 6rem;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-col-title {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-base);
+    font-weight: 600;
+}
+
+.footer-col a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color var(--transition-base);
+}
+
+.footer-col a:hover {
+    color: var(--text-primary);
+}
+
+.footer-bottom {
+    padding-top: 2rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}

@@ -1,6 +1,4 @@
-/*botões, badges, tabelas, forms*/
-
-/* BOTÕES, FORMS, CARDS E TABELAS */
+/* BOTÕES, FORMS, CARDS, TABELAS E BADGES */
 
 /* --- Botões --- */
 .btn {
@@ -12,18 +10,30 @@
     font-weight: 600;
     font-size: 0.875rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-base);
     border: none;
     gap: 0.5rem;
+    font-family: inherit;
 }
 
 .btn-primary {
     background-color: var(--brand-primary);
     color: white;
 }
+.btn-primary:hover { background-color: var(--brand-hover); }
 
-.btn-primary:hover {
-    background-color: var(--brand-hover);
+.btn-auth {
+    background-color: #ffffff;
+    color: #09090b;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: var(--radius-md);
+}
+
+.btn-auth:hover {
+    background-color: #e4e4e7;
 }
 
 .btn-outline {
@@ -31,9 +41,20 @@
     border: 1px solid var(--border-color);
     color: var(--text-primary);
 }
+.btn-outline:hover { background-color: var(--bg-surface-hover); }
 
-.btn-outline:hover {
-    background-color: var(--bg-surface-hover);
+.btn-danger {
+    background-color: transparent;
+    border: 1px solid var(--danger);
+    color: var(--danger);
+}
+.btn-danger:hover {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-full {
+    width: 100%;
 }
 
 /* --- Formulários --- */
@@ -44,6 +65,10 @@
     margin-bottom: 1.25rem;
 }
 
+.auth-form {
+    width: 100%;
+}
+
 .form-label {
     font-size: 0.875rem;
     color: var(--text-secondary);
@@ -51,21 +76,27 @@
 }
 
 .form-input {
-    background-color: transparent;
-    border: 1px solid var(--text-muted);
+    background-color: rgba(9, 9, 11, 0.6);
+    border: 1px solid var(--border-color);
     color: var(--text-primary);
     padding: 0.75rem 1rem;
     border-radius: var(--radius-md);
     font-size: 1rem;
-    transition: border-color 0.2s ease;
+    transition: border-color var(--transition-base);
+    width: 100%;
 }
-
 .form-input:focus {
     outline: none;
     border-color: var(--brand-primary);
 }
 
-/* --- Cards  --- */
+.form-error {
+    font-size: 0.75rem;
+    color: var(--danger);
+    margin-top: 0.25rem;
+}
+
+/* --- Cards --- */
 .card {
     background-color: var(--bg-surface);
     border: 1px solid var(--border-color);
@@ -74,7 +105,7 @@
     box-shadow: var(--shadow-md);
 }
 
-/* --- Tabelas (Para Standings e Pairings) --- */
+/* --- Tabelas --- */
 .table-container {
     width: 100%;
     overflow-x: auto;
@@ -104,6 +135,41 @@
     font-size: 0.875rem;
 }
 
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
 .table tbody tr:hover {
     background-color: var(--bg-surface-hover);
 }
+
+/* --- Badges --- */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.badge-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.badge-muted {
+    background-color: rgba(82, 82, 91, 0.2);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+

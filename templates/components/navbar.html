@@ -1,0 +1,18 @@
+<nav class="main-navbar">
+    <div class="container navbar-container">
+        <a href="{% url 'home' %}" class="brand-logo"> <!--esse url com home tá daquele naipe-->
+            <span class="logo-text">B</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="#">Dashboard</a>
+            <a href="#">Perfis</a>
+            <a href="#">Torneios</a>
+        </div>
+
+        <div class="nav-actions">
+            <a href="{% url 'login' %}" class="btn btn-outline">Entrar</a>
+            <a href="{% url 'register' %}" class="btn btn-auth">Cadastrar</a>
+        </div>
+    </div>
+</nav>

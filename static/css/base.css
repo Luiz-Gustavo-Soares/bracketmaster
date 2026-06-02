@@ -2,40 +2,67 @@
 
 :root {
     /* Tipografia */
-    --font-display: 'Cinzel', serif;   /* Títulos temáticos */
-    --font-base: 'Inter', sans-serif;  /* Corpo e dados */
+    --font-display: 'Cinzel', serif;
+    --font-base: 'Inter', sans-serif;
 
     /* Paleta Dark Theme */
-    --bg-base: #09090b;          /* Fundo escuro profundo (Raiz) */
-    --bg-surface: #18181b;       /* Fundo de cards, modais e sidebar */
-    --bg-surface-hover: #27272a; /* Hover de linhas e botões secundários */
+    --bg-base: #09090b;
+    --bg-surface: #18181b;
+    --bg-surface-hover: #27272a;
 
-    /* Cores de Texto */
-    --text-primary: #f8fafc;     /* Branco alta leitura */
-    --text-secondary: #a1a1aa;   /* Cinza para labels e descrições */
-    --text-muted: #52525b;       /* Cinza escuro para bordas ou textos desabilitados */
+    /* Texto */
+    --text-primary: #f8fafc;
+    --text-secondary: #a1a1aa;
+    --text-muted: #52525b;
 
-    /* Interação / Marca */
-    --brand-primary: #6366f1;    /* Cor de destaque */
+    /* Marca */
+    --brand-primary: #6366f1;
     --brand-hover: #4f46e5;
-    --danger: #ef4444;           /* Destrutivo (Ex: Encerrar Torneio) */
-    --success: #10b981;          /* Vitórias / Status Ativo */
+    --brand-gold: #c9963a;
+    --brand-gold-hover: #e0aa45;
+    --danger: #ef4444;
+    --success: #10b981;
 
     /* Estrutura */
     --border-color: #27272a;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --radius-sm: 4px;
     --radius-md: 8px;
     --radius-lg: 12px;
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.2s ease;
 }
 
-/* --- Reset Mestre --- */
+/* Reset */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* --- Tipografia Global --- */
+img, svg {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+/* Tipografia Global */
 body {
     font-family: var(--font-base);
     background-color: var(--bg-base);
@@ -43,25 +70,45 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
-/* Aplicando a Cinzel automaticamente em todos os títulos */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 600;
     line-height: 1.2;
     margin-bottom: 0.5rem;
-    letter-spacing: 0.02em; /* Um respiro leve nas letras serifadas */
+    letter-spacing: 0.01em;
+}
+
+h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
 }
 
 a {
     color: inherit;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--transition-base);
 }
 
-ul, ol {
-    list-style: none;
+/* --- Utilitários --- */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+
+/* --- Esconder a Barra de Rolagem --- */
+html, body, .dashboard-main, .dashboard-sidebar {
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar, 
+.dashboard-main::-webkit-scrollbar, 
+.dashboard-sidebar::-webkit-scrollbar {
+    display: none;
 }
