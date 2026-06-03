@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 
 from .strategies.singleEliminationStrategy import SingleEliminationStrategy
 from .strategies.swissStrategy import SwissStrategy
+from .strategies.base_strategy import BaseStrategy
 
-from .states.statesTorneio import EncInscricoesState, EmAndamentoState, CriadoState, InscricoesState
+from .states.statesTorneio import EncInscricoesState, EmAndamentoState, CriadoState, InscricoesState, StateTorneio
 
 class Torneio(models.Model):
     """Modelo Principal do torneio"""
@@ -50,7 +51,7 @@ class Torneio(models.Model):
 
 
     @property
-    def strategy(self):
+    def strategy(self) -> BaseStrategy:
         """Altera a estrategia conforme o FORMATO do TORNEIO"""
         mapping = {
 
@@ -67,7 +68,7 @@ class Torneio(models.Model):
     
 
     @property
-    def state(self):
+    def state(self) -> StateTorneio:
         """Garante que a alteracao do status do torneio seja feita da maneira correta"""
 
         mapping = {
