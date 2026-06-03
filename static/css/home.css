@@ -15,6 +15,7 @@
     align-items: center;
 }
 
+ /* botões top da navbar */
 .nav-links {
     display: flex;
     gap: 2rem;
@@ -28,13 +29,45 @@
     letter-spacing: 0.05em;
 }
 
+.nav-login-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; 
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color var(--transition-base);
+}
+
+.nav-login-link:hover {
+    color: var(--brand-primary);
+}
+
 .nav-links a:hover {
     color: var(--brand-primary);
 }
 
 .nav-actions {
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Botão de Cadastrar */
+.btn-nav-register {
+    padding: 0.5rem 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.25); 
+    border-radius: var(--radius-sm); 
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: transparent;
+    transition: all var(--transition-base);
+}
+
+.btn-nav-register:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* 1. fotinha */
@@ -46,7 +79,8 @@
     align-items: center;
     justify-content: center;
     background-size: cover;
-    background-position: center;
+    background-position: top center;
+    padding-top: 60px;
 }
 
 .hero-overlay {
@@ -75,9 +109,19 @@
 }
 
 .hero-btn {
-    padding: 1rem 2.5rem;
-    font-size: 0.875rem;
-    letter-spacing: 0.1em;
+    padding: 0.75rem 2.5rem; 
+    border: 1px solid rgba(255, 255, 255, 0.25); 
+    border-radius: var(--radius-sm); 
+    color: var(--text-primary);
+    font-size: 1rem; 
+    font-weight: 500;
+    background: transparent;
+    transition: all var(--transition-base);
+}
+
+.hero-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* 2. SEÇÃO PADRÃO & TORNEIOS */
@@ -210,20 +254,45 @@
 
 .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.benefit-item {
+    background-color: rgba(24, 24, 27, 0.3); /* Fundo um pouco mais claro que o preto total */
+    border: 1px solid rgba(255, 255, 255, 0.05); /* Borda super sutil */
+    border-radius: var(--radius-md);
+    padding: 2rem 1.5rem; /* Dá bastante "ar" por dentro */
+    transition: transform var(--transition-base), border-color var(--transition-base);
+}
+
+.benefit-item:hover {
+    transform: translateY(-5px); /* Dá uma leve "flutuada" para cima */
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .benefit-title {
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    font-size: 1.125rem; /* Aumentamos a fonte do título */
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+}
+
+
+.benefit-title svg, 
+.benefit-title i {
+    width: 24px;  /* Deixa o ícone maior */
+    height: 24px;
+    color: var(--brand-primary); /* Pinta o ícone com a cor destaque do sistema */
 }
 
 .benefit-desc {
-    font-size: 0.875rem;
+    font-size: 0.95rem; 
     color: var(--text-secondary);
     line-height: 1.6;
 }
@@ -236,7 +305,7 @@
     width: 100%;
     z-index: 1000;
     
-    /* Efeito de vidro escuro para dar leitura enquanto você rola a página */
+    /* Efeito de vidro escuro para dar leitura enquanto rola a página */
     background-color: rgba(9, 9, 11, 0.85);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05); 

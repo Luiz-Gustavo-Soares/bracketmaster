@@ -4,7 +4,7 @@
 {% block body_class %}auth{% endblock %}
 
 {% block content %}
-<div class="auth-layout" style="background-image: url('{% static 'media/bg-auth.jpg' %}');">
+<div class="auth-layout" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}');">
 
     <header class="auth-header">
         <a href="{% url 'home' %}" class="brand-logo">
@@ -17,7 +17,7 @@
         {% block auth_content %}{% endblock %}
     </div>
 
-    {% include 'components/footer.html' %}
+    {% include 'components/footer_minimal.html' %}
 
 </div>
 {% endblock %}
