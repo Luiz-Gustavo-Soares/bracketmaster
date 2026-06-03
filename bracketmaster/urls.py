@@ -20,11 +20,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import home
+from .views.index import home
+from .views.dashboard import dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('dashboard/', dashboard, name='dashboard'),
     path('users/', include('users.urls')),
 ]
 
