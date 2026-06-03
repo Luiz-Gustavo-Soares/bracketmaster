@@ -2,8 +2,6 @@ from django.db import models
 from .enums import StatusPartida, ResultadoPartida
 from django.contrib.auth.models import User
 
-from tournaments.models import Rodada
-
 class Partida(models.Model):
     """Model referente a uma unica partida"""
     data = models.DateTimeField(auto_now_add=True)
@@ -19,7 +17,7 @@ class Partida(models.Model):
     )
 
     rodada = models.ForeignKey(
-        Rodada,
+        'tournaments.Rodada',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

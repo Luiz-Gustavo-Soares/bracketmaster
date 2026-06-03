@@ -17,9 +17,5 @@ class BaseStrategy(ABC):
         pass
 
     @abstractmethod
-    def finalizar_rodada(self):
-        pass
-
-    @abstractmethod
     def terminou(self):
         pass
