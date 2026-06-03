@@ -1,0 +1,123 @@
+/* --- MAIN FOOTER (LANDING PAGE) --- */
+.main-footer {
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-base);
+    padding: 4rem 0 2rem 0;
+    color: var(--text-secondary);
+    margin-top: auto; 
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+}
+
+.footer-brand-section {
+    max-width: 320px;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem; 
+}
+
+.social-icon {
+    color: var(--text-primary);
+    transition: color var(--transition-base);
+}
+
+.social-icon:hover {
+    color: var(--brand-primary);
+}
+
+.brand-disclaimer {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.legal-links {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.75rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.legal-links a:hover {
+    color: var(--text-primary);
+}
+
+.footer-links-section {
+    display: flex;
+    gap: 6rem;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-col-title {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-base);
+    font-weight: 600;
+}
+
+.footer-col a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color var(--transition-base);
+}
+
+.footer-col a:hover {
+    color: var(--text-primary);
+}
+
+.footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    margin-top: 2rem;
+}
+
+.footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Estilo específico para o texto da Wizards*/
+.wotc-disclaimer {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto; 
+}
+
+.wotc-disclaimer p {
+    font-size: 0.65rem; 
+    line-height: 1.6;
+    color: var(--text-muted); 
+    margin-bottom: 0.5rem;
+}
+
+/* Responsividade para celular */
+@media (max-width: 768px) {
+    .footer-bottom-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}

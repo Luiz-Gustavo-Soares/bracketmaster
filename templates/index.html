@@ -6,6 +6,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -26,7 +27,7 @@
     </div>
 </section>
 
-<section class="featured-tournaments">
+<section class="section-spacing">
     <div class="container">
         <h2 class="section-title">Torneios Destacados</h2>
         
@@ -54,12 +55,10 @@
                 
             </div>
             {% empty %}
-            <!-- Caso o banco de dados esteja vazio, mostra essa mensagem ao invés de quebrar a tela -->
-            <div style="grid-column: 1 / -1; text-align: center; color: var(--text-secondary); padding: 3rem 0;">
-                <p>Nenhum torneio em destaque no momento.</p>
-            </div>
-            {% endfor %}
-
+                    <div style="grid-column: 1 / -1;">
+                        {% include 'components/alerts.html' with type="info" message="Nenhum torneio em destaque no momento." %}
+                    </div>
+            {% endfor %}    
         </div>
     </div>
 </section>

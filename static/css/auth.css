@@ -1,0 +1,110 @@
+/*css do auth*/
+
+.auth-layout {
+    position: relative; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: 1rem;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat; 
+}
+
+.auth-layout::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(9, 9, 11, 0.85);
+    z-index: 0;
+}
+
+.auth-header {
+    position: absolute; 
+    top: 0;             
+    left: 0;
+    width: 100%;        
+    box-sizing: border-box; 
+    
+    z-index: 2;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.auth-container {
+    display: grid;
+    place-items: center; 
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-card {
+    background-color: rgba(24, 24, 27, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    padding: 2.5rem 2rem;
+    width: 100%; 
+    max-width: 420px; 
+}
+
+.auth-footer-bottom {
+    position: absolute; 
+    bottom: 0;          
+    left: 0;
+    width: 100%;
+    box-sizing: border-box; 
+    
+    z-index: 2;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.auth-footer-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.auth-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.auth-footer-text {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+.link-muted {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+.link-muted:hover { color: var(--text-primary); }
+
+.link-subtle { color: var(--text-secondary); }
+.link-subtle:hover { color: var(--text-primary); }

@@ -8,12 +8,12 @@
     <p class="auth-subtitle">SENTE-SE À MESA</p>
 
     {% if form.errors %}
-        <div class="form-error" style="margin-bottom: 1rem;">
-            Usuário ou senha inválidos.
-        </div>
+        {% if form.errors %}
+            {% include 'components/alerts.html' with type="error" message="Usuário ou senha inválidos." %}
+        {% endif %}
     {% endif %}
 
-    <form method="POST" action="" class="auth-form">
+    <form method="POST" action="" class="auth-form"> <!--Colocar uma ação-->
         {% csrf_token %}
 
         <div class="form-group text-left">

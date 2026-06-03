@@ -7,7 +7,7 @@
     
     <title>{% block title %}Bracketmaster{% endblock %}</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> /*biblioteca de icones*/
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,17 +16,30 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilitarios.css' %}">
 
-    {% block extra_css %}{% endblock %}
+{% block extra_css %}{% endblock %}
+
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
-    {% include "components/alerts.html" %}
+    {% if messages %}
+        <div class="messages-container" style="margin-bottom: 1.5rem; width: 100%;">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    {% include 'components/alerts.html' with type="success" message=message %}
+                {% elif message.tags == 'error' %}
+                    {% include 'components/alerts.html' with type="error" message=message %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
 
     {% block content %}{% endblock %}
 
     <script src="{% static 'js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}
 
+    
 </body>
 </html>

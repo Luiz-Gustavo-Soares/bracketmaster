@@ -2,7 +2,9 @@
 {% load static %}
 
 {% block body_class %}auth{% endblock %}
-
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
 {% block content %}
 <div class="auth-layout" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}');">
 

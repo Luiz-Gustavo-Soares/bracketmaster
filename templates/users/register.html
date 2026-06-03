@@ -8,10 +8,14 @@
     <h1 class="auth-title">Cadastro</h1>
     <p class="auth-subtitle">PREPARE-SE PARA O PRÓXIMO TORNEIO</p>
 
-    {% if form.errors %}
-        <div class="form-error" style="margin-bottom: 1rem;">
-            Verifique os dados informados e tente novamente.
-        </div>
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            {% include 'components/alerts.html' with type="error" message=error %}
+        {% endfor %}
+    {% endif %}
+
+    {% if form.errors and not form.non_field_errors %}
+        {% include 'components/alerts.html' with type="error" message="Por favor, verifique os campos destacados em vermelho e tente novamente." %}
     {% endif %}
 
     <form method="POST" action="" class="auth-form">

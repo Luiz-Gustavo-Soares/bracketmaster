@@ -171,5 +171,246 @@
     background-color: rgba(82, 82, 91, 0.2);
     color: var(--text-secondary);
     border: 1px solid var(--border-color);
+
 }
 
+/*Configuração da navbar*/
+.logo-text {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.nav-link-subtle {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.main-navbar {
+    width: 100%;
+    z-index: 10;
+    padding: 1.5rem 0;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ /* botões top da navbar */
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.nav-login-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; 
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color var(--transition-base);
+}
+
+.nav-login-link:hover {
+    color: var(--brand-primary);
+}
+
+.nav-links a:hover {
+    color: var(--brand-primary);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Botão de Cadastrar */
+.btn-nav-register {
+    padding: 0.5rem 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.25); 
+    border-radius: var(--radius-sm); 
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: transparent;
+    transition: all var(--transition-base);
+}
+
+.btn-nav-register:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+/*Seção de torneio*/
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.tournament-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+    display: flex; 
+    flex-direction: column;
+}
+
+.tournament-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--text-muted);
+}
+
+.card-image {
+    height: 160px; 
+    background-size: cover;
+    background-position: center;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; 
+    position: relative;
+}
+
+.card-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(24,24,27,0.95) 100%);
+    z-index: 0;
+}
+
+.card-format, .card-date {
+    position: relative;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #ffffff; 
+    letter-spacing: 0.02em;
+}
+
+.card-format {
+    text-transform: capitalize; 
+}
+
+.card-date {
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+}
+
+.card-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Garante que a descrição dê um espaço antes do perfil */
+.card-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 1.5rem; 
+}
+
+.card-author-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    margin-top: auto;
+}
+
+.author-avatar {
+    width: 28px; 
+    height: 28px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 1px solid var(--border-color);
+    flex-shrink: 0; 
+}
+
+.author-name {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: color var(--transition-base);
+    white-space: nowrap; /* Impede que o nome quebre de linha */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Coloca "..." se o nome for big*/
+}
+
+.card-author-link:hover .author-name {
+    color: var(--text-primary);
+}
+
+/*Alerts configurações*/
+
+/* --- ALERTAS --- */
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+    width: 100%;
+}
+
+.alert svg {
+    flex-shrink: 0;
+}
+
+/* Alerta de Erro (Vermelho) */
+.alert-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+/* Alerta de Informação / Vazio (Cinza/Neutro) */
+.alert-info {
+    background-color: rgba(82, 82, 91, 0.1);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    justify-content: center; /
+}
+
+/* Alerta de Sucesso (Verde) */
+.alert-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
