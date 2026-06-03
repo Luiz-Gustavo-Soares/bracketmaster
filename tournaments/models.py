@@ -89,6 +89,8 @@ class Torneio(models.Model):
             self.status
         ](self)
 
+    def __str__(self):
+        return self.nome
 
 class TorneioParticipante(models.Model):
     """Modelo responsavel de registrar jogadores no torneio"""
@@ -115,6 +117,9 @@ class TorneioParticipante(models.Model):
         unique_together = [
             ('torneio', 'jogador')
         ]
+    
+    def __str__(self):
+        return f'{self.torneio} - {self.jogador}'
 
 class Rodada(models.Model):
     """Modelo responsavel por cada rodada do torneio"""
