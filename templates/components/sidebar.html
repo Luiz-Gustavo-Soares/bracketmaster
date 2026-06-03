@@ -1,27 +1,32 @@
-<div style="display: flex; flex-direction: column; height: 100%; background-color: rgba(9, 9, 11, 0.7); backdrop-filter: blur(8px);">
-    
-    <div style="padding: 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
-        <a href="{% url 'home' %}" class="logo-text">B</a>
-    </div>
-
-    <nav style="flex-grow: 1; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-        <a href="#" class="nav-login-link">
-            👤 Perfil
+{% load static %}
+<div class="dash-sidebar__inner">
+    <nav class="dash-sidebar__nav">
+        <a href="#" class="dash-sidebar__link {% if active_sidebar == 'perfil' %}is-active{% endif %}">
+            <i class="fa-regular fa-user"></i>
+            <span>Perfil</span>
         </a>
-        <a href="#" class="nav-login-link">
-            📩 Inbox
+        <a href="#" class="dash-sidebar__link {% if active_sidebar == 'inbox' %}is-active{% endif %}">
+            <i class="fa-regular fa-envelope"></i>
+            <span>Inbox</span>
         </a>
-        <a href="#" class="nav-login-link">
-            🕰️ Histórico
+        <a href="#" class="dash-sidebar__link {% if active_sidebar == 'historico' %}is-active{% endif %}">
+            <i class="fa-regular fa-clock"></i>
+            <span>Histórico</span>
         </a>
-        <a href="#" class="nav-login-link">
-            🏆 Torneios
+        <a href="#" class="dash-sidebar__link {% if active_sidebar == 'torneios' %}is-active{% endif %}">
+            <i class="fa-solid fa-trophy"></i>
+            <span>Torneios</span>
         </a>
-        <a href="#" class="nav-login-link">
-            🗃️ Decks
-        </a>
-        <a href="#" class="nav-login-link" style="margin-top: auto;">
-            ❓ Ajuda
+        <a href="#" class="dash-sidebar__link {% if active_sidebar == 'decks' %}is-active{% endif %}">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Decks</span>
         </a>
     </nav>
+
+    <div class="dash-sidebar__footer">
+        <a href="#" class="dash-sidebar__link">
+            <i class="fa-regular fa-circle-question"></i>
+            <span>Ajuda</span>
+        </a>
+    </div>
 </div>

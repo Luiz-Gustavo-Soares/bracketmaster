@@ -1,5 +1,3 @@
-<!--Layout do painel interno-->
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -7,46 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Dashboard{% endblock %} | BracketMaster</title>
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
     <link rel="stylesheet" href="{% static 'css/utilitarios.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="dash-body" style="background-image: url('{% static 'media/backgrounds/casal_magic.png' %}');">
 
-    <div class="dashboard-layout">
-        
-        <aside class="dashboard-sidebar" style="background-image: url('{% static 'media/backgrounds/casal_magic.png' %}'); background-size: cover;">
+    <header class="dash-header">
+        {% include 'components/navbar.html' %}
+    </header>
+
+    <div class="dash-wrapper">
+
+        <aside class="dash-sidebar">
             {% include 'components/sidebar.html' %}
         </aside>
 
-        <div style="display: flex; flex-direction: column; height: 100vh; overflow: hidden;">
-            
-            {% include 'components/navbar.html' %}
-            
-            <main class="dashboard-main" style="flex-grow: 1; overflow-y: auto;">
-                
-                {% if messages %}
-                    <div class="messages-container" style="margin-bottom: 1.5rem;">
-                        {% for message in messages %}
-                            {% if message.tags == 'success' %}
-                                {% include 'components/alerts.html' with type="success" message=message %}
-                            {% elif message.tags == 'error' %}
-                                {% include 'components/alerts.html' with type="error" message=message %}
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
+        <main class="dash-main">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                        {% include 'components/alerts.html' with type="success" message=message %}
+                    {% elif message.tags == 'error' %}
+                        {% include 'components/alerts.html' with type="error" message=message %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% block content %}{% endblock %}
+        </main>
 
-                {% block content %}
-                {% endblock %}
-                
-            </main>
-        </div>
-        
     </div>
 
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+
 </body>
-</html>
+</html> 
