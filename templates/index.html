@@ -37,7 +37,6 @@
     {% for torneio in torneios_destacados %}
             <div class="tournament-card">
                 
-                <!-- O Django resolve a variável dentro da tag static magicamente -->
                 <div class="card-image" style="background-image: url('{% static torneio.imagem_capa %}');">
                     <span class="card-format">{{ torneio.formato }}</span>
                     <span class="card-date">📅 {{ torneio.data }}</span>
@@ -47,10 +46,14 @@
                     <h3 class="card-title">{{ torneio.titulo }}</h3>
                     <p class="card-desc">{{ torneio.descricao }}</p>
 
-                    <a href="#" class="card-author-link">
-                        <img src="{% static torneio.autor_avatar %}" alt="{{ torneio.autor_nome }}" class="author-avatar">
-                        <span class="author-name">{{ torneio.autor_nome }}</span>
-                    </a>
+                    <div class="card-footer-info">
+                        <a href="#" class="card-author-link">
+                            <img src="{% static torneio.autor_avatar %}" alt="{{ torneio.autor_nome }}" class="author-avatar">
+                            <span class="author-name">{{ torneio.autor_nome }}</span>
+                        </a>
+                        
+                        {% include 'components/status_badge.html' with status=torneio.status %}
+                    </div>
                 </div>
                 
             </div>

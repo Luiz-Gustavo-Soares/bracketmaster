@@ -96,14 +96,6 @@
     margin-top: 0.25rem;
 }
 
-/* --- Cards --- */
-.card {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    box-shadow: var(--shadow-md);
-}
 
 /* --- Tabelas --- */
 .table-container {
@@ -143,6 +135,7 @@
     background-color: var(--bg-surface-hover);
 }
 
+
 /* --- Badges --- */
 .badge {
     display: inline-flex;
@@ -150,15 +143,24 @@
     padding: 0.25rem 0.75rem;
     border-radius: 999px;
     font-size: 0.7rem;
-    font-weight: 600;
+    font-weight: 600; 
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    white-space: nowrap; 
+    flex-shrink: 0; 
 }
+
 
 .badge-success {
     background-color: rgba(16, 185, 129, 0.1);
     color: var(--success);
     border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.2);
 }
 
 .badge-danger {
@@ -171,7 +173,12 @@
     background-color: rgba(82, 82, 91, 0.2);
     color: var(--text-secondary);
     border: 1px solid var(--border-color);
+}
 
+.badge-primary {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--brand-primary);
+    border: 1px solid rgba(99, 102, 241, 0.2);
 }
 
 /*Configuração da navbar*/
@@ -263,7 +270,15 @@
     padding-bottom: 1rem;
 }
 
-/*Seção de torneio*/
+/*Seção de torneio e cards*/
+
+.card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
 
 .cards-grid {
     display: grid;
@@ -348,7 +363,7 @@
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
-    margin-top: auto;
+    min-width: 0;
 }
 
 .author-avatar {
@@ -372,6 +387,15 @@
 
 .card-author-link:hover .author-name {
     color: var(--text-primary);
+}
+
+.card-footer-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; 
+    gap: 1rem; 
+    width: 100%;
 }
 
 /*Alerts configurações*/
