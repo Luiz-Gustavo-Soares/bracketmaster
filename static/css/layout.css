@@ -1,5 +1,7 @@
 /* ESTRUTURAS DE GRID E CONTAINERS */
 
+
+/*Usando em tudo*/
 .container {
     width: 100%;
     max-width: 1200px;
@@ -7,35 +9,7 @@
     padding: 0 1.5rem;
 }
 
-/* --- Dashboard --- */
-.dashboard-layout {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.dashboard-sidebar {
-    background-color: var(--bg-surface);
-    border-right: 1px solid var(--border-color);
-    padding: 2rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    height: 100vh;
-    overflow-y: auto;
-}
-
-.dashboard-main {
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    overflow-y: auto;
-    height: 100vh;
-}
-
-/* --- Seções e Espaçamentos Padrão --- */
+/* --- Usando no index --- */
 .section-spacing {
     padding: 4rem 0;
     background-color: var(--bg-base);

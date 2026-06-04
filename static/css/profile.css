@@ -1,11 +1,5 @@
 /* PERFIL PÚBLICO */
 
-.profile-body {
-    background-size: cover;
-    background-position: center top;
-
-}
-
 .profile-page {
     padding-top: var(--navbar-height);
     min-height: 100vh;
@@ -13,10 +7,6 @@
     flex-direction: column;
 }
 
-
-
-
-/* 3. A arte não empurra mais os textos internamente, pois a página inteira já desceu */
 
 .profile-hero {
     position: relative;
@@ -32,7 +22,7 @@
     background-color: var(--bg-base);
     width: 100%;
     position: relative;
-    z-index: 1; /* ← garante que fica na frente da imagem do body */
+    z-index: 1; 
 }
 
 .profile-hero::before {
@@ -185,6 +175,8 @@
 
 /* --- Body / Tabs --- */
 .profile-body {
+    background-size: cover;
+    background-position: center top;
     flex: 1;
     padding-top: 2rem;
     padding-bottom: 4rem;
