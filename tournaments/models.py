@@ -180,4 +180,4 @@ class Rodada(models.Model):
             ('torneio', 'numero')
         ]
 
-        ordering = ['numero']
+        ordering = ['-numero']
