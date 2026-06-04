@@ -23,7 +23,7 @@ class TournamentService:
         """Adiciona um jogador em um torneio
         Args:
             torneio: Torneio
-            jogador: User a ser encerido
+            jogador: User a ser inserido
         """
 
         if torneio.status != StatusTorneio.INSCRICOES:
@@ -73,7 +73,7 @@ class TournamentService:
 
         RankingService.recalcular(torneio)
 
-        if torneio.strategy.terminou(torneio):
+        if torneio.strategy.terminou():
             cls.finalizar(torneio)
             return None
 
