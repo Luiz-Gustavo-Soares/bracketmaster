@@ -20,7 +20,7 @@ def register_view(request):
     else:
         form = RegisterForm()
 
-    return render(request, '.', {
+    return render(request, 'users/register.html', {
         'form': form
     })
 
@@ -60,7 +60,7 @@ def profile(request, username):
 
     p = get_object_or_404(Profile, user__username=username)
     context = {
-    'user': p
+    'profile': p
     }
     return render(request, 'users/profile.html', context)
 

@@ -20,12 +20,17 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import home
+from .views.index import home, profile_view
+from .views.dashboard import dashboard
+
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('dashboard/', dashboard, name='dashboard'),
     path('users/', include('users.urls')),
+    path('perfil/<str:nickname>/', profile_view, name='profile_view'),
 ]
 
 if settings.DEBUG:

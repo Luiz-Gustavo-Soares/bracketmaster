@@ -1,1 +1,25 @@
-<!--Layout Login/cadastro-->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_class %}auth{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+{% block content %}
+<div class="auth-layout" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}');">
+
+    <header class="auth-header">
+        <a href="{% url 'home' %}" class="brand-logo">
+            <span class="logo-text">B</span>
+        </a>
+        <a href="{% url 'home' %}" class="nav-link-subtle">Início</a>
+    </header>
+
+    <div class="auth-container">
+        {% block auth_content %}{% endblock %}
+    </div>
+
+    {% include 'components/footer_minimal.html' %}
+
+</div>
+{% endblock %}

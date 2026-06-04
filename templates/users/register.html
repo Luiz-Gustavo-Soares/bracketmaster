@@ -1,1 +1,57 @@
 <!--Tela de Cadastro de Usuários-->
+{% extends 'layouts/auth.html' %}
+
+{% block title %}Cadastro — Bracketmaster{% endblock %}
+
+{% block auth_content %}
+<div class="auth-card text-center">
+    <h1 class="auth-title">Cadastro</h1>
+    <p class="auth-subtitle">PREPARE-SE PARA O PRÓXIMO TORNEIO</p>
+
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            {% include 'components/alerts.html' with type="error" message=error %}
+        {% endfor %}
+    {% endif %}
+
+    {% if form.errors and not form.non_field_errors %}
+        {% include 'components/alerts.html' with type="error" message="Por favor, verifique os campos destacados em vermelho e tente novamente." %}
+    {% endif %}
+
+    <form method="POST" action="" class="auth-form">
+        {% csrf_token %}
+
+        <div class="form-group text-left">
+            <label for="username" class="form-label">USUÁRIO</label>
+            <input type="text" id="username" name="username"
+                   class="form-input"
+                   placeholder="LordCalabreso"
+                   required>
+        </div>
+
+        <div class="form-group text-left">
+            <label for="email" class="form-label">E-MAIL</label>
+            <input type="email" id="email" name="email"
+                   class="form-input"
+                   placeholder="lord.calabreso@bracketmaster.gg"
+                   required>
+        </div>
+
+        <div class="form-group text-left">
+            <label for="password" class="form-label">SENHA</label>
+            <input type="password" id="password" name="password"
+                   class="form-input"
+                   placeholder="••••••••"
+                   required>
+        </div>
+
+        <button type="submit" class="btn btn-auth btn-full">CRIAR CONTA</button>
+    </form>
+
+    <div class="auth-footer-text">
+        <a href="{% url 'login' %}" class="link-subtle">
+            JÁ TEM UMA CONTA? ENTRE
+        </a>
+    </div>
+</div>
+{% endblock %}

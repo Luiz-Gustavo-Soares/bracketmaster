@@ -12,7 +12,8 @@ urlpatterns = [
 
     path('register/', register_view, name='register'),
 
-    path('<str:username>', profile, name='profile'),
+    path('<str:username>', profile, name='users/profile_view.html'),
     path('profile/edit', edit_profile, name='edit_profile'),
+    
 
 ]
