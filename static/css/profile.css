@@ -1,28 +1,22 @@
-/* PERFIL PÚBLICO */
+/* PERFIL — visual only */
 
-.profile-page {
-    padding-top: var(--navbar-height);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-
-.profile-hero {
-    position: relative;
-    min-height: 420px;
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: 3rem;
-
+.profile-body {
+    background-size: cover;
+    background-position: center top;
+    flex: 1;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
 }
 
 .profile-body-content {
-    flex: 1;
     background-color: var(--bg-base);
-    width: 100%;
-    position: relative;
-    z-index: 1; 
+}
+
+.profile-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(9,9,11,0.3) 0%, rgba(9,9,11,0.95) 100%);
+    z-index: 0;
 }
 
 .profile-hero::before {
@@ -38,22 +32,6 @@
     z-index: -1;
 }
 
-.profile-hero__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(9,9,11,0.3) 0%, rgba(9,9,11,0.95) 100%);
-    z-index: 0;
-}
-
-.profile-hero__content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: flex-end;
-    gap: 3rem;
-}
-
-/* Avatar */
 .profile-avatar-wrap {
     display: flex;
     flex-direction: column;
@@ -94,7 +72,6 @@
     border-color: rgba(255,255,255,0.4);
 }
 
-/* Info */
 .profile-info {
     display: flex;
     flex-direction: column;
@@ -173,15 +150,6 @@
     color: var(--success);
 }
 
-/* --- Body / Tabs --- */
-.profile-body {
-    background-size: cover;
-    background-position: center top;
-    flex: 1;
-    padding-top: 2rem;
-    padding-bottom: 4rem;
-}
-
 .profile-tabs-header {
     display: flex;
     justify-content: space-between;
@@ -191,10 +159,7 @@
     padding-bottom: 0;
 }
 
-.profile-tabs {
-    display: flex;
-    gap: 0;
-}
+.profile-tabs { display: flex; gap: 0; }
 
 .profile-tab {
     padding: 0.75rem 1.25rem;
@@ -230,7 +195,6 @@
 
 .btn-filter:hover { color: var(--text-primary); }
 
-/* Painéis */
 .profile-panel { display: none; }
 .profile-panel.is-active { display: block; }
 
@@ -240,7 +204,6 @@
     margin-bottom: 1.5rem;
 }
 
-/* Tabela */
 .table-tournament-name {
     font-size: 0.875rem;
     font-weight: 500;
@@ -260,37 +223,15 @@
 .profile-result--silver { color: var(--text-secondary); }
 .profile-result--muted  { color: var(--text-muted); }
 
-.text-muted { color: var(--text-muted); }
-
-
-/* --- Responsividade (Mobile) --- */
 @media (max-width: 768px) {
-    /* Empilha o Avatar e as Informações */
     .profile-hero__content {
         flex-direction: column;
         align-items: center;
         text-align: center;
         gap: 1.5rem;
     }
-    
-    /* Centraliza o cabeçalho (Nome e Localização) */
-    .profile-info__header {
-        justify-content: center;
-    }
-    
-    /* Centraliza a Bio */
-    .profile-bio {
-        margin: 0 auto;
-    }
-
-    /* Centraliza as Tags de Decks e a Taxa de Vitória */
-    .profile-tags, 
-    .profile-winrate {
-        justify-content: center;
-    }
-
-    /* Diminui um pouco o nome para caber na tela do celular */
-    .profile-name {
-        font-size: 2rem;
-    }
+    .profile-info__header { justify-content: center; }
+    .profile-bio { margin: 0 auto; }
+    .profile-tags, .profile-winrate { justify-content: center; }
+    .profile-name { font-size: 2rem; }
 }

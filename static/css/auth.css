@@ -1,17 +1,5 @@
 /*css do auth*/
 
-.auth-layout {
-    position: relative; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100dvh;
-    padding: 1rem;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat; 
-}
-
 .auth-layout::before {
     content: '';
     position: absolute;
@@ -20,26 +8,8 @@
     z-index: 0;
 }
 
-.auth-header {
-    position: absolute; 
-    top: 0;             
-    left: 0;
-    width: 100%;        
-    box-sizing: border-box; 
-    
-    z-index: 2;
-    padding: 1.5rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.auth-container {
-    display: grid;
-    place-items: center; 
+.auth-form {
     width: 100%;
-    padding: 2rem;
-    position: relative;
-    z-index: 1;
 }
 
 .auth-card {
@@ -53,26 +23,10 @@
 }
 
 .auth-footer-bottom {
-    position: absolute; 
-    bottom: 0;          
-    left: 0;
-    width: 100%;
-    box-sizing: border-box; 
-    
-    z-index: 2;
-    padding: 1.5rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     font-size: 0.7rem;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-}
-
-.auth-footer-links {
-    display: flex;
-    gap: 1.5rem;
 }
 
 .auth-title {
@@ -85,12 +39,6 @@
     color: var(--text-secondary);
     letter-spacing: 0.15em;
     margin-bottom: 1.5rem;
-}
-
-.label-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .auth-footer-text {
