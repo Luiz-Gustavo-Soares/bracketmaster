@@ -1,4 +1,5 @@
 from django.db import models
+import secrets
 from .enums import FormatoJogo, TipoTorneio, FormatoTorneio, StatusTorneio, StatusRodada
 from django.contrib.auth.models import User
 
@@ -20,6 +21,17 @@ class Torneio(models.Model):
         User,
         on_delete=models.PROTECT,
         related_name='torneios_criados'
+    )
+
+    numero_maximo_participantes = models.PositiveIntegerField(default=20)
+
+    codigo_inscricao = models.CharField(
+        max_length=10,
+        editable=False
+    )
+
+    inscricao_publica = models.BooleanField(
+        default=False
     )
 
     tipo = models.CharField(
@@ -91,6 +103,30 @@ class Torneio(models.Model):
         return mapping[
             self.status
         ](self)
+    
+
+    @staticmethod
+    def gerar_codigo() -> str:
+        """Gera um token de 6 digitos hexadecimal"""
+        codigo = secrets.token_hex(3).upper()
+        return codigo
+
+
+    def inscricoes_abertas(self):
+        """Verifica se o status do torneio aceita inscricoes"""
+        return self.status == StatusTorneio.INSCRICOES
+
+
+    def save(self, *args, **kwargs):
+
+        if not self.codigo_inscricao:
+            self.codigo_inscricao = (
+                self.gerar_codigo()
+            )
+
+        super().save(*args, **kwargs)
+
+
 
     def __str__(self):
         return self.nome
@@ -115,6 +151,11 @@ class TorneioParticipante(models.Model):
     vitorias = models.IntegerField(default=0)
     derrotas = models.IntegerField(default=0)
     empates = models.IntegerField(default=0)
+
+
+    data_inscricao = models.DateTimeField(
+        auto_now_add=True
+    )
     
 
     def get_opponents(self):
@@ -147,8 +188,15 @@ class TorneioParticipante(models.Model):
     
 
     class Meta:
-        unique_together = [
-            ('torneio', 'jogador')
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    'torneio',
+                    'jogador'
+                ],
+
+                name='participante_unico'
+            )
         ]
     
     def __str__(self):

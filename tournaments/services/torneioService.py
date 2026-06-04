@@ -19,16 +19,27 @@ class TournamentService:
     
     @classmethod
     @transaction.atomic
-    def adicionar_jogador(cls, torneio: Torneio, jogador: User):
+    def adicionar_jogador(cls, torneio: Torneio, jogador: User, codigo: str = None):
         """Adiciona um jogador em um torneio
         Args:
             torneio: Torneio
             jogador: User a ser inserido
+            codigo: str contendo o codigo para se inscrever
         """
 
-        if torneio.status != StatusTorneio.INSCRICOES:
-            raise RuntimeError("Fora da etapa de Inscricoes")
+        if not torneio.inscricoes_abertas():
+            raise RuntimeError("Fora da etapa de Inscricão")
         
+        if TorneioParticipante.objects.filter(torneio=torneio, jogador=jogador).exists():
+            raise RuntimeError('Já inscrito')
+        
+        if TorneioParticipante.objects.count() >= torneio.numero_maximo_participantes:
+            raise RuntimeError('Limte de participantes atingido')
+
+        if not torneio.inscricao_publica:
+            if torneio.codigo_inscricao != codigo:
+                raise RuntimeError('Codigo Invalido')
+
         TorneioParticipante.objects.create(torneio=torneio, jogador=jogador)
         
 
