@@ -14,11 +14,11 @@ class FormatoJogo(models.TextChoices):
 
 
 class StatusTorneio(models.TextChoices):
-    CRIADO = 'CRIADO'
-    INSCRICOES = 'INSCRICOES'
-    INSCRICOES_E = 'INSCRICOES_ENCERRADAS'
-    EM_ANDAMENTO = 'EM_ANDAMENTO'
-    FINALIZADO = 'FINALIZADO'
+    CRIADO = 'CRIADO', 'Criado'
+    INSCRICOES = 'ABERTA', "Aberto"
+    INSCRICOES_E = 'FECHADA', "Fechado"
+    EM_ANDAMENTO = 'EM_ANDAMENTO', 'Em Andamento'
+    FINALIZADO = 'FINALIZADO', "Finalizado"
 
 
 class FormatoTorneio(models.TextChoices):
