@@ -80,7 +80,7 @@ class Partida(models.Model):
         if winner and not participacoes.filter(jogador=winner).exists():
             raise RuntimeError('O vencedor nao pertence a partida')
 
-        if self.participacoes.count() < 2:
+        if self.participacoes.count() < 1:
             raise RuntimeError('Partida sem participantes suficientes')
         
 
