@@ -7,6 +7,8 @@ from .strategies.swissStrategy import SwissStrategy
 from .strategies.base_strategy import BaseStrategy
 
 from .states.statesTorneio import EncInscricoesState, EmAndamentoState, CriadoState, InscricoesState, StateTorneio
+from matches.models import Partida
+
 
 class Torneio(models.Model):
     """Modelo Principal do torneio"""
@@ -113,6 +115,36 @@ class TorneioParticipante(models.Model):
     vitorias = models.IntegerField(default=0)
     derrotas = models.IntegerField(default=0)
     empates = models.IntegerField(default=0)
+    
+
+    def get_opponents(self):
+        """Busca todos os oponentes do participante"""
+
+        opponents = []
+
+        partidas = Partida.objects.filter(
+            participacoes__jogador=self.jogador,
+            rodada__torneio=self.torneio
+        )
+
+        for partida in partidas:
+
+            participacoes = (
+                partida.participacoes.exclude(
+                    jogador=self.jogador
+                )
+            )
+
+            for p in participacoes:
+                opponents.append(
+                    TorneioParticipante.objects.get(
+                        torneio=self.torneio,
+                        jogador=p.jogador
+                    )
+                )
+
+        return opponents
+    
 
     class Meta:
         unique_together = [
