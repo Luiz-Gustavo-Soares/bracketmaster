@@ -53,3 +53,4 @@ class EmAndamentoState(StateTorneio):
             raise RuntimeError("Rodadas abertas")
 
         self.torneio.status = StatusTorneio.FINALIZADO
+        self.torneio.save()
