@@ -81,7 +81,13 @@ def login_view(request):
             email = form.cleaned_data["email"]
             senha = form.cleaned_data["password"]
 
-            print(email, senha)
+            username = User.objects.filter(email=email).first().username
+
+            user = authenticate(request, username=username, password=senha)
+            if user is not None:
+                login(request, user)
+
+                return redirect('home')
 
     return render(
         request, "users/login.html", {"form": form}
