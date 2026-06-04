@@ -1,0 +1,304 @@
+/* PERFIL PÚBLICO */
+
+.profile-body {
+    background-size: cover;
+    background-position: center top;
+
+}
+
+.profile-page {
+    padding-top: var(--navbar-height);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+/* 3. A arte não empurra mais os textos internamente, pois a página inteira já desceu */
+
+.profile-hero {
+    position: relative;
+    min-height: 420px;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 3rem;
+
+}
+
+.profile-body-content {
+    flex: 1;
+    background-color: var(--bg-base);
+    width: 100%;
+    position: relative;
+    z-index: 1; /* ← garante que fica na frente da imagem do body */
+}
+
+.profile-hero::before {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--navbar-height));
+    left: 0;
+    width: 100%;
+    height: var(--navbar-height);
+    background: inherit;
+    background-size: cover;
+    background-position: center top;
+    z-index: -1;
+}
+
+.profile-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(9,9,11,0.3) 0%, rgba(9,9,11,0.95) 100%);
+    z-index: 0;
+}
+
+.profile-hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 3rem;
+}
+
+/* Avatar */
+.profile-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.profile-avatar {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+.btn-follow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.btn-follow:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.4);
+}
+
+/* Info */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-bottom: 0.5rem;
+}
+
+.profile-info__header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.profile-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.profile-location {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.profile-block-label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.profile-bio {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+.profile-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.profile-tag {
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.profile-winrate {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.profile-winrate__value {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+}
+
+.profile-winrate__delta {
+    font-size: 0.875rem;
+    color: var(--success);
+}
+
+/* --- Body / Tabs --- */
+.profile-body {
+    flex: 1;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+
+.profile-tabs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0;
+}
+
+.profile-tabs {
+    display: flex;
+    gap: 0;
+}
+
+.profile-tab {
+    padding: 0.75rem 1.25rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    margin-bottom: -1px;
+}
+
+.profile-tab:hover { color: var(--text-primary); }
+
+.profile-tab.is-active {
+    color: var(--brand-primary);
+    border-bottom-color: var(--brand-primary);
+}
+
+.btn-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition-base);
+    padding-bottom: 1rem;
+}
+
+.btn-filter:hover { color: var(--text-primary); }
+
+/* Painéis */
+.profile-panel { display: none; }
+.profile-panel.is-active { display: block; }
+
+.profile-panel__desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+/* Tabela */
+.table-tournament-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.table-tournament-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.profile-result { font-size: 0.875rem; }
+.profile-result--gold   { color: #f59e0b; }
+.profile-result--silver { color: var(--text-secondary); }
+.profile-result--muted  { color: var(--text-muted); }
+
+.text-muted { color: var(--text-muted); }
+
+
+/* --- Responsividade (Mobile) --- */
+@media (max-width: 768px) {
+    /* Empilha o Avatar e as Informações */
+    .profile-hero__content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    /* Centraliza o cabeçalho (Nome e Localização) */
+    .profile-info__header {
+        justify-content: center;
+    }
+    
+    /* Centraliza a Bio */
+    .profile-bio {
+        margin: 0 auto;
+    }
+
+    /* Centraliza as Tags de Decks e a Taxa de Vitória */
+    .profile-tags, 
+    .profile-winrate {
+        justify-content: center;
+    }
+
+    /* Diminui um pouco o nome para caber na tela do celular */
+    .profile-name {
+        font-size: 2rem;
+    }
+}

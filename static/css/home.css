@@ -105,20 +105,6 @@
     line-height: 1.6;
 }
 
-/*  HEADER FIXO DA HOME  */
-.home-fixed-header {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    
-    /* Efeito de vidro escuro para dar leitura enquanto rola a página */
-    background-color: rgba(9, 9, 11, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-}
-
 
 /* BARRA DE PROGRESSO DE ROLAGEM */
 .scroll-progress-container {

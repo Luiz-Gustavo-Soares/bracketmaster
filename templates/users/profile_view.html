@@ -1,5 +1,199 @@
 <!--Perfil Público-->
-<h1>Profile</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-<p>{{user.user.username}}</p>
-<p>{{user.bio}}</p>
+{% block title %}{{ profile.nickname|default:profile.user.username }} | BracketMaster{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-page">
+
+    {% include 'components/navbar.html' %}
+
+    <div class="profile-hero" style="background-image: url('{% if profile.banner %}{{ profile.banner.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
+        <div class="profile-hero__overlay"></div>
+
+        <div class="profile-hero__content container">
+
+            <div class="profile-avatar-wrap">
+                {% if profile.profile_imagem %}
+                    <img src="{{ profile.profile_imagem.url }}" alt="{{ profile.nickname }}" class="profile-avatar">
+                {% else %}
+                    <img src="{% static 'media/avatares/Atraxa.png' %}" alt="Avatar padrão" class="profile-avatar">
+                {% endif %}
+
+                <form method="POST" action="#">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-follow">
+                        <i class="fa-regular fa-heart"></i>
+                        Seguir Jogador
+                    </button>
+                </form>
+            </div>
+
+            
+            <div class="profile-info">
+
+                <div class="profile-info__header">
+                    <h1 class="profile-name">{{ profile.nickname|default:profile.user.username }}</h1>
+                    {# TODO: adicionar localização ao modelo Profile #}
+                    {% if profile.location %}
+                        <span class="profile-location">
+                            <i class="fa-solid fa-location-dot"></i>
+                            {{ profile.location }}
+                        </span>
+                    {% endif %}
+                </div>
+
+                {% if profile.bio %}
+                    <div class="profile-bio-block">
+                        <span class="profile-block-label">BIO</span>
+                        <p class="profile-bio">{{ profile.bio }}</p>
+                    </div>
+                {% endif %}
+
+                {# TODO: adicionar decks favoritos ao modelo quando disponível #}
+                {% if profile.decks_favoritos.all %}
+                    <div class="profile-decks-block">
+                        <span class="profile-block-label">DECKS FAVORITOS</span>
+                        <div class="profile-tags">
+                            {% for deck in profile.decks_favoritos.all %}
+                                <span class="profile-tag">{{ deck.nome }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {# TODO: calcular taxa de vitória quando histórico estiver disponível #}
+                {% if taxa_vitoria %}
+                    <div class="profile-winrate-block">
+                        <span class="profile-block-label">TAXA DE VITÓRIA</span>
+                        <div class="profile-winrate">
+                            <span class="profile-winrate__value">{{ taxa_vitoria }}%</span>
+                            {% if variacao_winrate %}
+                                <span class="profile-winrate__delta">+{{ variacao_winrate }}%</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+
+    {# === TABS + HISTÓRICO === #}
+    <div class="profile-body container">
+
+        <div class="profile-tabs-header">
+            <div class="profile-tabs">
+                <button class="profile-tab is-active" data-tab="historico" aria-label="Histórico de Partidas" title="Histórico">
+                    <i class="fa-solid fa-trophy"></i>
+                </button>
+                <button class="profile-tab" data-tab="conquistas" aria-label="Conquistas e Medalhas" title="Conquistas">
+                    <i class="fa-solid fa-shield"></i>
+                </button>
+                <button class="profile-tab" data-tab="decks" aria-label="Decks Cadastrados" title="Decks">
+                    <i class="fa-solid fa-layer-group"></i>
+                </button>
+            </div>
+
+            <button class="btn-filter">
+                <i class="fa-solid fa-sliders"></i>
+                Filtrar
+            </button>
+        </div>
+
+        {# Painel Histórico #}
+        <div class="profile-panel is-active" id="panel-historico">
+            <p class="profile-panel__desc">Histórico recente de incursões em torneios oficiais.</p>
+
+            {% if historico %}
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Torneio</th>
+                                <th>Data</th>
+                                <th>Deck</th>
+                                <th>Resultado</th>
+                                <th>Pontos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entrada in historico %}
+                            <tr>
+                                <td>
+                                    <div class="table-tournament-name">{{ entrada.torneio.nome }}</div>
+                                    <div class="table-tournament-meta">{{ entrada.torneio.formato }} / {{ entrada.torneio.total_jogadores }} players</div>
+                                </td>
+                                <td>{{ entrada.torneio.data|date:"d M, Y" }}</td>
+                                <td>
+                                    {% if entrada.deck %}
+                                        <span class="badge badge-muted">{{ entrada.deck }}</span>
+                                    {% else %}
+                                        <span class="text-muted">—</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="profile-result {% if entrada.posicao == 1 %}profile-result--gold{% elif entrada.posicao <= 4 %}profile-result--silver{% else %}profile-result--muted{% endif %}">
+                                        ● {{ entrada.posicao }}º Lugar
+                                    </span>
+                                </td>
+                                <td>{{ entrada.pontos }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {# Paginação #}
+                {% if historico.has_other_pages %}
+                    {% include 'components/pagination.html' with page_obj=historico %}
+                {% endif %}
+
+            {% else %}
+                {% include 'components/alerts.html' with type="info" message="Nenhum torneio registrado ainda." %}
+            {% endif %}
+        </div>
+
+        {# Painel Conquistas #}
+        <div class="profile-panel" id="panel-conquistas">
+            {% include 'components/alerts.html' with type="info" message="Conquistas em breve." %}
+        </div>
+
+        {# Painel Decks #}
+        <div class="profile-panel" id="panel-decks">
+            {% include 'components/alerts.html' with type="info" message="Decks em breve." %}
+        </div>
+
+    </div>
+
+</div>
+
+{% include 'components/footer_minimal.html' %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Tabs do perfil
+    const tabs = document.querySelectorAll('.profile-tab');
+    const panels = document.querySelectorAll('.profile-panel');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('is-active'));
+            panels.forEach(p => p.classList.remove('is-active'));
+
+            tab.classList.add('is-active');
+            document.getElementById('panel-' + tab.dataset.tab).classList.add('is-active');
+        });
+    });
+</script>
+{% endblock %}

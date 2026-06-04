@@ -32,6 +32,9 @@
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
     --transition-fast: 0.15s ease;
     --transition-base: 0.2s ease;
+
+    --navbar-height: 90px;
+    --border-color: #27272a;
 }
 
 /* Reset */
@@ -70,6 +73,7 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 h1, h2, h3 {
@@ -93,3 +97,4 @@ a {
     text-decoration: none;
     transition: color var(--transition-base);
 }
+
