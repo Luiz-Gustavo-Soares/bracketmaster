@@ -4,6 +4,8 @@ from tournaments.enums import StatusTorneio
 from tournaments.models import TorneioParticipante, Torneio
 from tournaments.services.rodadaService import RodadaService
 from tournaments.services.rankinService import RankingService
+from tournaments.services.exceptions import RegistrationClosedError, AlreadyRegisteredError,\
+                                            ParticipantLimitError, InvalidCodeError
 
 class TournamentService:
 
@@ -28,17 +30,17 @@ class TournamentService:
         """
 
         if not torneio.inscricoes_abertas():
-            raise RuntimeError("Fora da etapa de Inscricão")
+            raise RegistrationClosedError('Fora da etapa de inscrição')
         
         if TorneioParticipante.objects.filter(torneio=torneio, jogador=jogador).exists():
-            raise RuntimeError('Já inscrito')
+            raise AlreadyRegisteredError('Já inscrito')
         
         if TorneioParticipante.objects.count() >= torneio.numero_maximo_participantes:
-            raise RuntimeError('Limte de participantes atingido')
+            raise ParticipantLimitError('Limte de participantes atingido')
 
         if not torneio.inscricao_publica:
             if torneio.codigo_inscricao != codigo:
-                raise RuntimeError('Codigo Invalido')
+                raise InvalidCodeError('Codigo Invalido')
 
         TorneioParticipante.objects.create(torneio=torneio, jogador=jogador)
         

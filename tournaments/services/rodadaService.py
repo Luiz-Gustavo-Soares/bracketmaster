@@ -2,7 +2,7 @@ from django.db import transaction
 from tournaments.models import Rodada
 from tournaments.enums import StatusRodada
 from matches.enums import StatusPartida
-
+from tournaments.services.exceptions import OpenMatchesError
 
 class RodadaService:
 
@@ -52,10 +52,7 @@ class RodadaService:
         ).exists()
 
         if abertas:
-
-            raise RuntimeError(
-                "Existem partidas abertas"
-            )
+            raise OpenMatchesError("Existem partidas abertas")
 
         rodada.status = (
             StatusRodada.FINALIZADA
