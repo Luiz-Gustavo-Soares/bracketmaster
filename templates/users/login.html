@@ -13,26 +13,20 @@
         {% endif %}
     {% endif %}
 
-    <form method="POST" action="" class="auth-form"> <!--Colocar uma ação-->
+    <form method="POST" action="" class="auth-form">
         {% csrf_token %}
 
         <div class="form-group text-left">
-            <label for="email" class="form-label">E-MAIL</label>
-            <input type="email" id="email" name="email"
-                   class="form-input"
-                   placeholder="calabresinho@bracketmaster.gg"
-                   required>
+            <label for="{{ form.email.id_for_label }}" class="form-label">E-MAIL</label>
+            {{ form.email }}
         </div>
 
         <div class="form-group text-left">
             <div class="label-row">
-                <label for="password" class="form-label">SENHA</label>
+                <label for="{{ form.password.id_for_label }}" class="form-label">SENHA</label>
                 <a href="#" class="link-muted">ESQUECEU?</a>
             </div>
-            <input type="password" id="password" name="password"
-                   class="form-input"
-                   placeholder="••••••••"
-                   required>
+            {{ form.password }}
         </div>
 
         <button type="submit" class="btn btn-auth btn-full">ENTRAR</button>
