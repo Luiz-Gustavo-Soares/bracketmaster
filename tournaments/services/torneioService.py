@@ -1,4 +1,7 @@
 from django.db import transaction
+from django.contrib.auth.models import User
+from tournaments.enums import StatusTorneio
+from tournaments.models import TorneioParticipante, Torneio
 from tournaments.services.rodadaService import RodadaService
 from tournaments.services.rankinService import RankingService
 
@@ -6,11 +9,47 @@ class TournamentService:
 
     @classmethod
     @transaction.atomic
-    def iniciar(cls, torneio):
+    def abrir_inscricoes(cls, torneio: Torneio):
+        """Inicia o periodo de inscricoes
+        Args: 
+            torneio: Torneio"""
+        
+        torneio.state.abrir_inscricoes()
+
+    
+    @classmethod
+    @transaction.atomic
+    def adicionar_jogador(cls, torneio: Torneio, jogador: User):
+        """Adiciona um jogador em um torneio
+        Args:
+            torneio: Torneio
+            jogador: User a ser encerido
+        """
+
+        if torneio.status != StatusTorneio.INSCRICOES:
+            raise RuntimeError("Fora da etapa de Inscricoes")
+        
+        TorneioParticipante.objects.create(torneio=torneio, jogador=jogador)
+        
+
+    @classmethod
+    @transaction.atomic
+    def encerrar_inscricoes(cls, torneio: Torneio):
+        """Ecerra o periodo de inscrições
+        Args: 
+            torneio: Torneio"""
+            
+        torneio.state.encerrar_inscricoes()
+
+
+    @classmethod
+    @transaction.atomic
+    def iniciar(cls, torneio: Torneio):
         """Inicia um torneio já gerando os pareamentos
         Args:
             torneio: Torneio a ser iniciado
         """
+
         torneio.state.iniciar()
         rodada = RodadaService.criar(torneio)
         RodadaService.gerar_pareamentos(rodada)
@@ -18,7 +57,7 @@ class TournamentService:
 
     @classmethod
     @transaction.atomic
-    def proxima_rodada(cls,torneio):
+    def proxima_rodada(cls, torneio: Torneio):
         """Gera uma proxima rodada se não for a ultima
         Caso contrario finaliza o torneio
         Args:
@@ -46,6 +85,10 @@ class TournamentService:
 
 
     @classmethod
-    def finalizar(cls, torneio):
-        """Finaliza o Torneio"""
+    @transaction.atomic
+    def finalizar(cls, torneio: Torneio):
+        """Finaliza o Torneio
+        Args: 
+            torneio: Torneio"""
+        
         torneio.state.finalizar()

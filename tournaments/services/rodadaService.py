@@ -32,7 +32,7 @@ class RodadaService:
         """
         torneio = rodada.torneio
 
-        torneio.strategy.gerar_pareamentos(rodada)
+        torneio.strategy.gerar_pareamento(rodada)
         rodada.save()
 
 
