@@ -1,7 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
-
-
+from datetime import date
 
 def home(request):
     """Pagina inicial da aplicação"""
@@ -63,11 +61,7 @@ def home(request):
     context = {
         'torneios_destacados': torneios_mock
     }
-    user = request.user
     return render(request, 'index.html', context)
-
-from django.shortcuts import render
-from datetime import date
 
 # --- CLASSES MOCK PARA SIMULAR O BANCO DE DADOS ---
 class MockDeck:
@@ -98,10 +92,9 @@ class MockProfile:
         self.user = self.User()
         self.location = "Zendikar"
         self.bio = "Planeswalker focada em magia verde, animando terrenos e invocando elementais poderosos. Defensora implacável do multiverso."
-        self.profile_imagem = None  # O seu fallback do Atraxa/Nissa vai assumir aqui
-        self.banner = None          # O seu fallback do banner vai assumir aqui
+        self.profile_imagem = None  
+        self.banner = None          
 
-    # Simula o ".all()" do Django ORM que você usou no HTML
     class DecksFavoritos:
         def all(self):
             return [MockDeck("Mono-Green Ramp"), MockDeck("Zendikar Elementals")]
@@ -134,89 +127,20 @@ def profile_view(request, nickname):
             ]
         }
     else:
-        # Se clicar no Gideon ou qualquer outro que ainda não mockamos
+        # Se clicar no Gideon ou qualquer outro
         class GenericoProfile:
-            nickname = nickname
-            user = type('User', (), {'username': nickname, 'pk': 2})()
-            location = "Desconhecido"
-            bio = "Jogador misterioso..."
-            profile_imagem = None
-            banner = None
-            decks_favoritos = type('Decks', (), {'all': lambda: []})()
+            # Construtor limpo para matar o erro de escopo
+            def __init__(self, nome_buscado):
+                self.nickname = nome_buscado
+                self.user = type('User', (), {'username': nome_buscado, 'pk': 2})()
+                self.location = "Desconhecido"
+                self.bio = "Jogador misterioso..."
+                self.profile_imagem = None
+                self.banner = None
+                self.decks_favoritos = type('Decks', (), {'all': lambda: []})()
             
         context = {
-            'profile': GenericoProfile(),
-            'taxa_vitoria': 50.0,
-            'historico': []
-        }
-
-    return render(request, 'profile_view.html', context)
-
-# ... (suas outras funções home e dashboard estão aqui em cima) ...
-
-# 1. COLE AS CLASSES MOCK AQUI (Elas simulam as tabelas do Banco de Dados)
-class MockDeck:
-    def __init__(self, nome):
-        self.nome = nome
-
-class MockTorneio:
-    def __init__(self, nome, formato, total_jogadores, data):
-        self.nome = nome
-        self.formato = formato
-        self.total_jogadores = total_jogadores
-        self.data = data
-
-class MockHistorico:
-    def __init__(self, torneio, deck, posicao, pontos):
-        self.torneio = torneio
-        self.deck = deck
-        self.posicao = posicao
-        self.pontos = pontos
-
-class MockProfile:
-    class User:
-        pk = 1
-        username = "NissaRevane"
-
-    def __init__(self):
-        self.nickname = "NissaRevane"
-        self.user = self.User()
-        self.location = "Zendikar"
-        self.bio = "Planeswalker focada em magia verde, animando terrenos e invocando elementais poderosos."
-        self.profile_imagem = None 
-        self.banner = None         
-
-    class DecksFavoritos:
-        def all(self):
-            return [MockDeck("Mono-Green Ramp"), MockDeck("Zendikar Elementals")]
-    
-    decks_favoritos = DecksFavoritos()
-
-# 2. COLE A FUNÇÃO DA TELA LOGO ABAIXO DAS CLASSES
-def profile_view(request, nickname):
-    if nickname.lower() == 'nissarevane':
-        context = {
-            'profile': MockProfile(),
-            'taxa_vitoria': 74.5,
-            'variacao_winrate': 2.1,
-            'historico': [
-                MockHistorico(MockTorneio("Zendikar Rising", "Standard", 128, date(2026, 5, 15)), "Mono-Green", 1, 500),
-                MockHistorico(MockTorneio("Liga Kaladesh", "Pioneer", 64, date(2026, 4, 10)), "Golgari", 4, 250),
-            ]
-        }
-    else:
-        # Perfil genérico se não for a Nissa
-        class GenericoProfile:
-            nickname = nickname
-            user = type('User', (), {'username': nickname, 'pk': 2})()
-            location = "Desconhecido"
-            bio = "Jogador misterioso..."
-            profile_imagem = None
-            banner = None
-            decks_favoritos = type('Decks', (), {'all': lambda: []})()
-            
-        context = {
-            'profile': GenericoProfile(),
+            'profile': GenericoProfile(nickname),
             'taxa_vitoria': 50.0,
             'historico': []
         }
