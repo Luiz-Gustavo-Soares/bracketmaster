@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from users.models import Profile
 from users.services.usersServices import ProfileService
-from users.forms import RegisterForm, ProfileForm
+from users.forms import RegisterForm, ProfileForm, LoginForm
 from users.services.exceptions import AltoLikeError
 from tournaments.models import TorneioParticipante
 
@@ -21,10 +21,12 @@ def register_view(request):
             senha = form.cleaned_data["password"]
             username = form.cleaned_data["username"]
             
-            user = User.objects.create(username=username, email=email, password=senha)
+            if not User.objects.filter(email=email).exists():
 
-            login(request, user)
-            return redirect('home')
+                user = User.objects.create(username=username, email=email, password=senha)
+
+                login(request, user)
+                return redirect('home')
 
     else:
         form = RegisterForm()
@@ -110,7 +112,7 @@ def profile(request, username):
     context = {
         'perfil': p,
         'taxa_vitoria': 99,
-        'historicco': ultimas_participacoes,
+        'historico': ultimas_participacoes,
     }
     
     return render(request, 'users/profile.html', context)
