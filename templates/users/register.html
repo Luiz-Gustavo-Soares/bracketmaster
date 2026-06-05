@@ -22,27 +22,18 @@
         {% csrf_token %}
 
         <div class="form-group text-left">
-            <label for="username" class="form-label">USUÁRIO</label>
-            <input type="text" id="username" name="username"
-                   class="form-input"
-                   placeholder="LordCalabreso"
-                   required>
+            <label for="{{ form.username.id_for_label }}" class="form-label">USUÁRIO</label>
+            {{ form.username }}
         </div>
 
         <div class="form-group text-left">
-            <label for="email" class="form-label">E-MAIL</label>
-            <input type="email" id="email" name="email"
-                   class="form-input"
-                   placeholder="lord.calabreso@bracketmaster.gg"
-                   required>
+            <label for="{{ form.email.id_for_label }}" class="form-label">E-MAIL</label>
+            {{ form.email }}
         </div>
 
         <div class="form-group text-left">
-            <label for="password" class="form-label">SENHA</label>
-            <input type="password" id="password" name="password"
-                   class="form-input"
-                   placeholder="••••••••"
-                   required>
+            <label for="{{ form.password.id_for_label }}" class="form-label">SENHA</label>
+            {{ form.password }}
         </div>
 
         <button type="submit" class="btn btn-auth btn-full">CRIAR CONTA</button>
