@@ -30,3 +30,8 @@ class StatusRodada(models.TextChoices):
     ABERTA = 'AB', 'Aberta'
     FINALIZADA = 'FI', 'Finalizada'
     
+
+class StatusInscricao(models.TextChoices):
+    PENDENTE='PE','Pendente'
+    APROVADA='AP','Aprovada'
+    REJEITADA='RE','Rejeitada'

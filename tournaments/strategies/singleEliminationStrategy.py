@@ -13,7 +13,7 @@ class SingleEliminationStrategy(BaseStrategy):
             List[participantes ainda vivos]
             """
 
-        participantes = self.torneio.participantes.all()
+        participantes = self.torneio.participantes.aprovados.all()
 
         vivos = []
 

@@ -1,6 +1,6 @@
 from django.db import models
 import secrets
-from .enums import FormatoJogo, TipoTorneio, FormatoTorneio, StatusTorneio, StatusRodada
+from tournaments.enums import FormatoJogo, TipoTorneio, FormatoTorneio, StatusTorneio, StatusRodada, StatusInscricao
 from django.contrib.auth.models import User
 
 from .strategies.singleEliminationStrategy import SingleEliminationStrategy
@@ -131,6 +131,14 @@ class Torneio(models.Model):
     def __str__(self):
         return self.nome
 
+
+class ParticipanteQuerySet(models.QuerySet):
+    def aprovados(self):
+        return self.filter(
+            status=StatusInscricao.APROVADA
+        )
+
+
 class TorneioParticipante(models.Model):
     """Modelo responsavel de registrar jogadores no torneio"""
 
@@ -145,6 +153,13 @@ class TorneioParticipante(models.Model):
         on_delete=models.CASCADE
     )
 
+    status = models.CharField(
+        max_length=2,
+        choices=StatusInscricao,
+        default=StatusInscricao.PENDENTE
+    )
+
+    objects = ParticipanteQuerySet.as_manager()
 
     pontos = models.IntegerField(default=0)
 

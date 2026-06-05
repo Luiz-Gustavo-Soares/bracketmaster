@@ -17,33 +17,7 @@ class TournamentService:
             torneio: Torneio"""
         
         torneio.state.abrir_inscricoes()
-
-    
-    @classmethod
-    @transaction.atomic
-    def adicionar_jogador(cls, torneio: Torneio, jogador: User, codigo: str = None):
-        """Adiciona um jogador em um torneio
-        Args:
-            torneio: Torneio
-            jogador: User a ser inserido
-            codigo: str contendo o codigo para se inscrever
-        """
-
-        if not torneio.inscricoes_abertas():
-            raise RegistrationClosedError('Fora da etapa de inscrição')
-        
-        if TorneioParticipante.objects.filter(torneio=torneio, jogador=jogador).exists():
-            raise AlreadyRegisteredError('Já inscrito')
-        
-        if TorneioParticipante.objects.count() >= torneio.numero_maximo_participantes:
-            raise ParticipantLimitError('Limte de participantes atingido')
-
-        if not torneio.inscricao_publica:
-            if torneio.codigo_inscricao != codigo:
-                raise InvalidCodeError('Codigo Invalido')
-
-        TorneioParticipante.objects.create(torneio=torneio, jogador=jogador)
-        
+ 
 
     @classmethod
     @transaction.atomic
