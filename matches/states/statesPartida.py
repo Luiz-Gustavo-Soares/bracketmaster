@@ -16,8 +16,10 @@ class StatePartida(ABC):
 class AgendadaState(StatePartida):
     def iniciar_partida(self):
         self.partida.status = StatusPartida.EM_ANDAMENTO
+        self.partida.save()
 
 
 class AndamentoState(StatePartida):
     def encerrar_partida(self):
         self.partida.status = StatusPartida.FINALIZADA
+        self.partida.save()
