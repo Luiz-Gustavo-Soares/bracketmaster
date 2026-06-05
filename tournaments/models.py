@@ -152,6 +152,7 @@ class TorneioParticipante(models.Model):
     derrotas = models.IntegerField(default=0)
     empates = models.IntegerField(default=0)
 
+    posicao = models.PositiveIntegerField(default=0)
 
     data_inscricao = models.DateTimeField(
         auto_now_add=True

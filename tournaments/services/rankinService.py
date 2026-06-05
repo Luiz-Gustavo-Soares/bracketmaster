@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Dict
 from django.db import transaction
 from matches.models import Partida
 from matches.enums import StatusPartida, ResultadoPartida
@@ -17,14 +17,14 @@ class RankingService:
             torneio: torneio a ser recalculado
         """
 
-        participantes = torneio.participantes.all()
+        participantes = cls.calcular_ranking(torneio)
 
-        for p in participantes:
-            cls._atualizar_participante(p)
+        for i, p in enumerate(participantes):
+            cls._atualizar_participante(p['participante'], i)
 
      
     @classmethod
-    def _atualizar_participante(cls, participante: TorneioParticipante):
+    def _atualizar_participante(cls, participante: TorneioParticipante, posicao: int):
 
         partidas = Partida.objects.filter(
             rodada__torneio=participante.torneio,
@@ -59,6 +59,7 @@ class RankingService:
             else:
                 losses += 1
 
+        participante.posicao = posicao
         participante.pontos = pontos
         participante.vitorias = wins
         participante.derrotas = losses
@@ -85,7 +86,7 @@ class RankingService:
 
 
     @classmethod
-    def calcular_ranking(cls, torneio: Torneio) -> List[Tuple[TorneioParticipante, int, float]]:
+    def calcular_ranking(cls, torneio: Torneio) -> List[Dict]:
         """Calcula/ordena o ranking levando em consideracao seus pontos e o OMW%
         Args: 
             torneio: Torneio a ser calculado
