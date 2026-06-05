@@ -15,4 +15,27 @@ urlpatterns = [
     path('<str:username>', profile, name='profile'),
     path('profile/edit', edit_profile, name='edit_profile'),
 
+    path(
+        "senha/",
+        auth_views.PasswordResetView.as_view(),
+        name="password_reset"
+    ),
+
+    path(
+        "senha/enviado/",
+        auth_views.PasswordResetDoneView.as_view(),
+        name="password_reset_done"
+    ),
+
+    path(
+        "senha/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm"
+    ),
+
+    path(
+        "senha/concluido/",
+        auth_views.PasswordResetCompleteView.as_view(),
+        name="password_reset_complete"
+    ),
 ]
