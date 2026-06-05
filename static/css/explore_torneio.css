@@ -161,3 +161,263 @@
 }
 
 
+.featured-tourney-panel {
+    background-color: rgba(9, 9, 11, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 3rem 4rem;
+    margin-bottom: 4rem; /* Afasta esse painel do grid de torneios que vem abaixo */
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Um fio de luz passando por cima do painel para dar acabamento premium */
+.featured-tourney-panel::before {
+    content: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--brand-primary), transparent);
+}
+
+.featured-badge {
+    margin-bottom: 1.5rem;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    background-color: rgba(245, 158, 11, 0.15); /* Fundo amarelado suave */
+    color: #fbd38d; 
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.featured-title {
+    font-family: var(--font-display);
+    font-size: 3.5rem; /* Um título gigante e impactante */
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.6); /* Descola o texto do fundo transparente */
+}
+
+.featured-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.featured-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.featured-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.featured-meta i {
+    color: var(--brand-primary);
+}
+
+.featured-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Responsividade do Painel */
+@media (max-width: 768px) {
+    .featured-tourney-panel {
+        padding: 2rem;
+    }
+    .featured-title {
+        font-size: 2.2rem;
+    }
+    .featured-meta {
+        gap: 1rem;
+        flex-direction: column;
+    }
+}
+
+/* ==========================================
+   PAINEL DE DESTAQUE (DESIGN CLEAN/IMERSIVO)
+   ========================================== */
+
+
+.featured-header-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.badge-success-outline {
+    background: transparent;
+    color: var(--success-color, #10b981);
+    border: 1px solid var(--success-color, #10b981);
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.featured-organizer-clean {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.feat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+.featured-title {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8); /* Sombra forte para leitura sobre imagens claras */
+}
+
+.featured-desc {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    max-width: 750px;
+}
+
+/* Info Rápida (Grid de Ícones) */
+.featured-stats-clean {
+    display: flex;
+    gap: 3.5rem;
+    margin-bottom: 3.5rem;
+    flex-wrap: wrap;
+}
+
+.stat-clean {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-top: 0.2rem;
+}
+
+.stat-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.stat-clean-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-clean-value {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.featured-actions {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Responsividade do Painel */
+@media (max-width: 900px) {
+    .featured-title { font-size: 2.5rem; }
+    .featured-stats-clean { gap: 2rem; flex-direction: column; }
+}
+
+/* ==========================================
+   BOTÃO ANIMADO "INSCREVER-SE"
+   ========================================== */
+
+.btn-anim-subscribe {
+    position: relative;
+    background: transparent; /* Começa sem cor de fundo */
+    border: 1px solid var(--brand-primary); /* Borda na cor da sua marca */
+    color: var(--text-primary);
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    overflow: hidden; /* Esconde tudo que sair de dentro do botão */
+    min-width: 180px; /* Impede que o botão encolha quando a palavra mudar */
+    height: 52px; /* Trava a altura */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+/* Configuração dos textos soltos lá dentro */
+.btn-anim-subscribe span {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+/* O texto principal (posicionado no centro) */
+.btn-anim-subscribe .text-front {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* O texto escondido (empurrado lá pra baixo) */
+.btn-anim-subscribe .text-back {
+    transform: translateY(150%);
+    opacity: 0;
+    color: #ffffff; /* Fica branco para contrastar com o fundo novo */
+}
+
+/* --- O EFEITO DE HOVER MÁGICO --- */
+.btn-anim-subscribe:hover {
+    background-color: var(--brand-primary); /* Preenche a cor da marca */
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); /* Leve brilho neon */
+}
+
+/* Joga o texto velho para cima e apaga */
+.btn-anim-subscribe:hover .text-front {
+    transform: translateY(-150%);
+    opacity: 0;
+}
+
+/* Puxa o texto novo para o centro */
+.btn-anim-subscribe:hover .text-back {
+    transform: translateY(0);
+    opacity: 1;
+}
