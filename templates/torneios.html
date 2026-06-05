@@ -12,6 +12,7 @@
 
 <div class="explore-page">
 
+    <!-- SEÇÃO 1: HERO (IMAGEM + PAINEL DE DESTAQUE-->
     <div class="explore-hero" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}');">
         <div class="explore-hero-overlay"></div>
         
@@ -19,6 +20,7 @@
 
         <div class="container container-explore hero-featured-container">
             
+            <!-- Painel de Destaque -->
             <div class="featured-tourney-panel animate-fade-up" style="animation-delay: 0.1s;">
                 
                 <div class="featured-header-row">
@@ -58,7 +60,7 @@
                     </div>
                 </div>
                 
-                    <div class="featured-actions">
+                <div class="featured-actions">
                     <button class="btn-anim-subscribe">
                         <span class="text-front">Inscrever-se</span>
                         <span class="text-back">Agora!</span>
@@ -70,53 +72,74 @@
         </div>
     </div>
 
+    <!--CORPO (BUSCA + CARDS + CAMPEÕES) -->
     <div class="explore-body-section">
         <div class="container container-explore explore-content">
 
+            <!-- Grid Que Divide a Tela em Duas Colunas -->
             <div class="explore-two-columns">
 
+                <!-- COLUNA ESQUERDA: BUSCA E GRID DE TORNEIOS -->
                 <div class="explore-main-column">
                     
                     <div class="explore-search-section animate-fade-up" style="animation-delay: 0.2s;">
-                        <h2 class="explore-subtitle">Descobrir Torneios</h2>
+                        <h2 class="explore-subtitle">Torneios</h2>
+                        <p class="explore-desc">Encontre eventos competitivos, casuais e lendários em toda a comunidade.</p>
                         
                         <div class="search-input-wrapper">
-                            <input type="text" class="form-input search-input-large" placeholder="Buscar por nome...">
+                            <input type="text" class="form-input search-input-large" placeholder="Buscar torneio por nome...">
                             <i class="fa-solid fa-magnifying-glass search-icon-large"></i>
                         </div>
 
-                        <div class="filters-row">
-                            <div class="filter-group">
-                                <span class="filter-label">Formato</span>
-                                <select class="filter-select">
-                                    <option>Qualquer</option>
-                                    <option>Commander</option>
-                                    <option>Modern</option>
-                                </select>
+                        <div class="filters-chips-row">
+                            <div class="format-chips">
+                                <button class="filter-chip is-active">Todos</button>
+                                <button class="filter-chip">Commander</button>
+                                <button class="filter-chip">Modern</button>
+                                <button class="filter-chip">Pioneer</button>
+                                <button class="filter-chip">Legacy</button>
+                                <button class="filter-chip">Arena</button>
                             </div>
                             
-                            <div class="filter-group">
-                                <span class="filter-label">Data</span>
-                                <div class="filter-date-group">
-                                    <select class="filter-select"><option>DD</option></select>
-                                    <select class="filter-select"><option>MM</option></select>
-                                    <select class="filter-select"><option>YYYY</option></select>
+                            <div class="secondary-chips">
+                                <!-- Container que segura o chip e o menu flutuante -->
+                                <div class="chip-dropdown-wrapper">
+                                    <button class="filter-chip secondary-chip">
+                                        <i class="fa-regular fa-calendar"></i> Data <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
+                                    </button>
+                                    
+                                    <!--  Menu  -->
+                                    <div class="chip-popover">
+                                        <div class="popover-option is-selected">Qualquer Data</div>
+                                        <div class="popover-option">Neste Fim de Semana</div>
+                                        <div class="popover-option">Este Mês</div>
+                                        <hr class="popover-divider">
+                                        <div class="popover-option popover-action"><i class="fa-solid fa-calendar-days"></i> Escolher no Calendário</div>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="filter-group">
-                                <span class="filter-label">Localização</span>
-                                <select class="filter-select">
-                                    <option>Qualquer</option>
-                                    <option>Online</option>
-                                    <option>Presencial</option>
-                                </select>
+
+                                <!-- Local -->
+                                <div class="chip-dropdown-wrapper">
+                                    <button class="filter-chip secondary-chip">
+                                        <i class="fa-solid fa-location-dot"></i> Local <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
+                                    </button>
+                                    
+                                    <!-- NOVO: O Menu de Local que estava faltando -->
+                                    <div class="chip-popover">
+                                        <div class="popover-option is-selected">Qualquer Local</div>
+                                        <div class="popover-option">Online (Arena / MTGO)</div>
+                                        <div class="popover-option">Presencial (Lojas)</div>
+                                        <hr class="popover-divider">
+                                        <div class="popover-option popover-action"><i class="fa-solid fa-map-location-dot"></i> Escolher Região...</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <hr class="explore-divider animate-fade-up" style="animation-delay: 0.3s;">
 
+                    <!-- Os Cards de Torneio (Que haviam sumido) -->
                     <div class="animate-fade-up" style="animation-delay: 0.4s;">
                         <p class="results-count">{{ total_torneios }} torneios encontrados</p>
                         
@@ -143,15 +166,15 @@
                                 <p style="color: var(--text-muted); grid-column: 1 / -1;">Nenhum torneio encontrado com estes filtros.</p>
                             {% endfor %}
                         </div>
-
                     </div>
                     
                 </div> 
                 
+                <!-- COLUNA DIREITA: SIDEBAR DE CAMPEÕES -->
                 <aside class="explore-sidebar animate-fade-up" style="animation-delay: 0.5s;">
                     
                     <div class="champions-header">
-                        <h2 class="champions-title" style="font-size: 1.25rem;">Campeões Recentes</h2>
+                        <h2 class="champions-title">Campeões Recentes</h2>
                         <p class="champions-subtitle">Os heróis dos últimos embates.</p>
                     </div>
 
@@ -172,7 +195,9 @@
                             </div>
                         </div>
                     </div>
-
+                    <a href="#" class="view-all-champions">
+                        Ver Hall da Fama <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </aside> 
 
             </div> 
@@ -180,5 +205,70 @@
     </div>
     
     {% include 'components/footer_minimal.html' %}
-</div> 
+    
+</div>
+{% endblock %} 
+<!-- AQUI ABRIMOS O BLOCK DE JS SEPARADAMENTE -->
+{% block extra_js %}
+<script>
+    // DELEGAÇÃO DE EVENTOS: Um único observador para a página inteira. À prova de falhas.
+    document.addEventListener('click', function(e) {
+        
+        // 1. FORMATOS (Todos, Commander, Modern...)
+        const formatChip = e.target.closest('.format-chips .filter-chip');
+        if (formatChip) {
+            e.preventDefault();
+            const allFormatChips = document.querySelectorAll('.format-chips .filter-chip');
+            allFormatChips.forEach(c => c.classList.remove('is-active'));
+            formatChip.classList.add('is-active');
+        }
+
+        // 2. ABRIR E FECHAR OS POPOVERS (Data e Local)
+        const dropdownBtn = e.target.closest('.chip-dropdown-wrapper > button');
+        if (dropdownBtn) {
+            e.preventDefault();
+            const wrapper = dropdownBtn.closest('.chip-dropdown-wrapper');
+            const isAlreadyOpen = wrapper.classList.contains('is-open');
+            
+            // Fecha absolutamente todos os outros popovers abertos
+            document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
+            
+            // Se o que eu cliquei estava fechado, ele abre agora
+            if (!isAlreadyOpen) {
+                wrapper.classList.add('is-open');
+            }
+            return; // Encerra a função aqui para não cair na regra de "clicar fora"
+        }
+
+        // 3. SELECIONAR UMA OPÇÃO DENTRO DO POPOVER
+        const popoverOption = e.target.closest('.popover-option:not(.popover-action)');
+        if (popoverOption) {
+            const popover = popoverOption.closest('.chip-popover');
+            const allOptions = popover.querySelectorAll('.popover-option:not(.popover-action)');
+            
+            // Troca a cor da opção selecionada
+            allOptions.forEach(opt => opt.classList.remove('is-selected'));
+            popoverOption.classList.add('is-selected');
+            
+            // Fecha o popover após a escolha
+            popoverOption.closest('.chip-dropdown-wrapper').classList.remove('is-open');
+            return;
+        }
+
+        // 4. CLICAR EM AÇÕES (Ex: Escolher Calendário) - Não deve fechar o menu ainda
+        const popoverAction = e.target.closest('.popover-action');
+        if (popoverAction) {
+            // No futuro, aqui vai a lógica para abrir um modal de calendário
+            return;
+        }
+
+        // 5. CLICAR DENTRO DO MENU EM UMA ÁREA VAZIA - Impede de fechar sem querer
+        if (e.target.closest('.chip-popover')) {
+            return;
+        }
+
+        // 6. CLICAR FORA DE TUDO (Reset) - Fecha qualquer popover que esteja aberto
+        document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
+    });
+</script>
 {% endblock %}
