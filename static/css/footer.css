@@ -71,3 +71,31 @@
     color: var(--text-muted);
     margin-bottom: 0.5rem;
 }
+
+/* --- FOOTER MINIMAL (Padrão para Perfil) --- */
+.footer-minimal {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* A mágica do flexbox para jogar pro final! */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer-minimal-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .footer-minimal {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}

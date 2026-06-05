@@ -572,3 +572,66 @@
 .search-item-view-all:hover {
     background-color: rgba(99, 102, 241, 0.1);
 }
+
+/* --- PAGINAÇÃO --- */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0;
+    list-style: none;
+}
+
+.page-item {
+    margin: 0;
+}
+
+.page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    background: transparent;
+    cursor: pointer;
+}
+
+.page-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+/* Estado Ativo (Página Atual) */
+.page-item.active .page-link {
+    background-color: var(--brand-primary);
+    color: #ffffff;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.4); /* Opcional: brilho sutil na cor da marca */
+}
+
+/* Estado Desabilitado (Setas nos limites) */
+.page-item.disabled .page-link {
+    color: var(--text-muted);
+    cursor: not-allowed;
+    background: transparent;
+}
+
+.page-item.disabled .page-link:hover {
+    background: transparent;
+    color: var(--text-muted);
+}

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from datetime import date
+from django.core.paginator import Paginator
 
 def home(request):
     """Pagina inicial da aplicação"""
@@ -68,6 +69,11 @@ class MockDeck:
     def __init__(self, nome):
         self.nome = nome
 
+class MockImage:
+    """Simula um ImageField do Django, que possui o atributo .url"""
+    def __init__(self, url_caminho):
+        self.url = url_caminho
+
 class MockTorneio:
     def __init__(self, nome, formato, total_jogadores, data):
         self.nome = nome
@@ -105,31 +111,26 @@ class MockProfile:
 def profile_view(request, nickname):
     """Renderiza o perfil público de um jogador específico."""
     
-    # Se a busca for pela Nissa, mandamos os dados completos
     if nickname.lower() == 'nissarevane':
+        lista_de_torneios = [
+            MockHistorico(MockTorneio("Torneio 1", "Standard", 128, date(2026, 5, 15)), "Deck 1", 1, 500),
+            MockHistorico(MockTorneio("Torneio 2", "Pioneer", 64, date(2026, 4, 10)), "Deck 2", 4, 250),
+            MockHistorico(MockTorneio("Torneio 3", "Commander", 4, date(2026, 3, 22)), None, 2, 100),
+        ] * 6
+                
+        paginator = Paginator(lista_de_torneios, 5) 
+        numero_da_pagina = request.GET.get('page')
+        page_obj = paginator.get_page(numero_da_pagina)
+
         context = {
             'profile': MockProfile(),
             'taxa_vitoria': 74.5,
             'variacao_winrate': 2.1,
-            'historico': [
-                MockHistorico(
-                    MockTorneio("Zendikar Rising Championship", "Standard", 128, date(2026, 5, 15)), 
-                    "Mono-Green Aggro", 1, 500
-                ),
-                MockHistorico(
-                    MockTorneio("Liga Local de Kaladesh", "Pioneer", 64, date(2026, 4, 10)), 
-                    "Golgari Midrange", 4, 250
-                ),
-                MockHistorico(
-                    MockTorneio("Torneio Casual da Taverna", "Commander", 4, date(2026, 3, 22)), 
-                    None, 2, 100
-                )
-            ]
-        }
+            'historico': page_obj  
+        }    
+        
     else:
-        # Se clicar no Gideon ou qualquer outro
         class GenericoProfile:
-            # Construtor limpo para matar o erro de escopo
             def __init__(self, nome_buscado):
                 self.nickname = nome_buscado
                 self.user = type('User', (), {'username': nome_buscado, 'pk': 2})()

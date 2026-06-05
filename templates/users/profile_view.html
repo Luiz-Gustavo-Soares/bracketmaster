@@ -24,7 +24,7 @@
                 {% if profile.profile_imagem %}
                     <img src="{{ profile.profile_imagem.url }}" alt="{{ profile.nickname }}" class="profile-avatar">
                 {% else %}
-                    <img src="{% static 'media/avatares/Atraxa.png' %}" alt="Avatar padrão" class="profile-avatar">
+                    <img src="{% static 'media/avatares/Atraxa.jpg' %}" alt="Avatar padrão" class="profile-avatar">
                 {% endif %}
 
                 <form method="POST" action="#">
@@ -173,10 +173,10 @@
         </div>
 
     </div>
-
+    {% include 'components/footer_minimal.html' %}
 </div>
 
-{% include 'components/footer_minimal.html' %}
+
 
 {% endblock %}
 
@@ -196,4 +196,4 @@
         });
     });
 </script>
-{% endblock %}
+{% endblock %}  

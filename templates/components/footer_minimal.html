@@ -1,7 +1,9 @@
-<footer class="auth-footer-bottom">
-    <span>© 2026 Bracketmaster. Todos os direitos reservados.</span>
-    <div class="auth-footer-links">
-        <a href="#">TERMOS DE USO</a>
-        <a href="#">PRIVACIDADE</a>
+<footer class="{{ footer_class|default:'footer-minimal' }}"> <!--basicamente verifica se a pagina está enviando uma classe especifica, caso sim. Usa -->
+    <div class="footer-copyright">
+        &copy; 2026 Bracketmaster. Todos os direitos reservados.
+    </div>
+    <div class="footer-minimal-links">
+        <a href="#" class="link-muted">Termos de Uso</a>
+        <a href="#" class="link-muted">Privacidade</a>
     </div>
 </footer>
