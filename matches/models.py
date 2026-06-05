@@ -42,84 +42,11 @@ class Partida(models.Model):
             self.status
         ](self)
     
+
+    def finalizada(self):
+        """Verifica se a partida está finalizada"""
+        return self.status == StatusPartida.FINALIZADA
     
-    def _get_ganhador(self):
-        """
-        Retorna (se ouver) o ganhador da Partida
-        Returns:
-            User: usuario ganhador
-        """
-        if self.status != StatusPartida.FINALIZADA:
-            raise RuntimeError('Partida ainda nao finalizada')
-
-        participacao = self.participacoes.filter(
-            resultado=ResultadoPartida.VITORIA
-        ).first()
-
-        if participacao:
-            return participacao.jogador
-
-        return None
-    
-
-    def get_resultado(self):
-        """
-        Retorna o resultado da partida
-        Returns:
-            Tuple: 
-                (
-                    ResultadoPartida, 
-                    ganhador (se ouver)
-                )
-        """
-        if self.status != StatusPartida.FINALIZADA:
-            return None
-
-        ganhador = self._get_ganhador()
-
-        if ganhador:
-            return ResultadoPartida.VITORIA, ganhador
-
-        return ResultadoPartida.EMPATE, None
-
-
-    
-    def finalizar_partida(self, winner: User = None):
-        """Finaliza a partida
-        Calcula/Peenche o resultado de cada participante
-        Args:
-            winner: User 
-                o ganhador da partida (se ouver). defalt -> None
-        """
-        if self.status == StatusPartida.FINALIZADA:
-            raise RuntimeError('Partida já finalizada')
-        
-        participacoes = self.participacoes.all()
-
-        if winner and not participacoes.filter(jogador=winner).exists():
-            raise RuntimeError('O vencedor nao pertence a partida')
-
-        if self.participacoes.count() < 1:
-            raise RuntimeError('Partida sem participantes suficientes')
-        
-
-        for participante in participacoes:
-
-            if winner and participante.jogador == winner:
-                participante.resultado = ResultadoPartida.VITORIA
-
-            elif winner:
-                participante.resultado = ResultadoPartida.DERROTA
-
-            else:
-                participante.resultado = ResultadoPartida.EMPATE
-
-            participante.save()
-
-        self.status = StatusPartida.FINALIZADA
-        self.save()
-
-
     def __str__(self):
         return f'Partida {self.id}'
     
@@ -137,4 +64,4 @@ class ParticipacaoPartida(models.Model):
     )
 
     def __str__(self):
-        return f'Participacao {self.partida} - {self.jogador}'
+        return f'{self.partida} - {self.jogador}'
