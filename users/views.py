@@ -6,8 +6,9 @@ from django.http import JsonResponse
 from users.models import Profile
 from users.services.usersServices import ProfileService
 from users.forms import RegisterForm, ProfileForm
-
 from users.services.exceptions import AltoLikeError
+from tournaments.models import TorneioParticipante
+
 
 def register_view(request):
     """View criacao de Usuario"""
@@ -93,9 +94,20 @@ def profile(request, username):
     """
 
     p = get_object_or_404(Profile, user__username=username)
+
+    ultimas_participacoes = list(
+        TorneioParticipante.objects
+        .aprovados
+        .filter(
+            jodagor=p.user
+        ).order_by('-data_inscricao')[:10])
+
     context = {
-    'user': p
+        'perfil': p,
+        'taxa_vitoria': 99,
+        'historicco': ultimas_participacoes,
     }
+    
     return render(request, 'users/profile.html', context)
 
 
