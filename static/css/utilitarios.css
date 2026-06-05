@@ -1,0 +1,19 @@
+/*Css utilitario*/
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+
+/* --- Esconder a Barra de Rolagem --- */
+html, body, .dashboard-main, .dashboard-sidebar {
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar, 
+.dashboard-main::-webkit-scrollbar, 
+.dashboard-sidebar::-webkit-scrollbar {
+    display: none;
+}

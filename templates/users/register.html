@@ -1,1 +1,48 @@
 <!--Tela de Cadastro de Usuários-->
+{% extends 'layouts/auth.html' %}
+
+{% block title %}Cadastro — Bracketmaster{% endblock %}
+
+{% block auth_content %}
+<div class="auth-card text-center">
+    <h1 class="auth-title">Cadastro</h1>
+    <p class="auth-subtitle">PREPARE-SE PARA O PRÓXIMO TORNEIO</p>
+
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            {% include 'components/alerts.html' with type="error" message=error %}
+        {% endfor %}
+    {% endif %}
+
+    {% if form.errors and not form.non_field_errors %}
+        {% include 'components/alerts.html' with type="error" message="Por favor, verifique os campos destacados em vermelho e tente novamente." %}
+    {% endif %}
+
+    <form method="POST" action="" class="auth-form">
+        {% csrf_token %}
+
+        <div class="form-group text-left">
+            <label for="{{ form.username.id_for_label }}" class="form-label">USUÁRIO</label>
+            {{ form.username }}
+        </div>
+
+        <div class="form-group text-left">
+            <label for="{{ form.email.id_for_label }}" class="form-label">E-MAIL</label>
+            {{ form.email }}
+        </div>
+
+        <div class="form-group text-left">
+            <label for="{{ form.password.id_for_label }}" class="form-label">SENHA</label>
+            {{ form.password }}
+        </div>
+
+        <button type="submit" class="btn btn-auth btn-full">CRIAR CONTA</button>
+    </form>
+
+    <div class="auth-footer-text">
+        <a href="{% url 'login' %}" class="link-subtle">
+            JÁ TEM UMA CONTA? ENTRE
+        </a>
+    </div>
+</div>
+{% endblock %}

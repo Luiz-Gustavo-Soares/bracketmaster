@@ -1,0 +1,13 @@
+{% if status == 'created' %}
+    <span class="badge badge-primary">CRIADO</span>
+{% elif status == 'open' %}
+    <span class="badge badge-success">ABERTO</span>
+{% elif status == 'closed' %}
+    <span class="badge badge-danger">LOTADO</span>
+{% elif status == 'running' %}
+    <span class="badge badge-warning">JOGANDO</span>
+{% elif status == 'finished' %}
+    <span class="badge badge-muted">ENCERRADO</span>
+{% else %}
+    <span class="badge badge-muted">{{ status|default:"Pendente"|upper }}</span>
+{% endif %}

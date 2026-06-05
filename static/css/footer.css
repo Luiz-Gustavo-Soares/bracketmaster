@@ -1,0 +1,73 @@
+/* footer — visual */
+
+.main-footer {
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-base);
+    color: var(--text-secondary);
+}
+
+.social-links {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+}
+
+.social-icon {
+    color: var(--text-primary);
+    transition: color var(--transition-base);
+}
+
+.social-icon:hover {
+    color: var(--brand-primary);
+}
+
+.brand-disclaimer {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.legal-links {
+    font-size: 0.75rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.legal-links a:hover {
+    color: var(--text-primary);
+}
+
+.footer-col-title {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-base);
+    font-weight: 600;
+}
+
+.footer-col a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color var(--transition-base);
+}
+
+.footer-col a:hover {
+    color: var(--text-primary);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-bottom-content {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.wotc-disclaimer p {
+    font-size: 0.65rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}

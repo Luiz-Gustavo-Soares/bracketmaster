@@ -1,10 +1,41 @@
-<!--Tela de Cadastro de Usuários-->
-<h1>Login</h1>
+{% extends 'layouts/auth.html' %}
 
-<form method="POST">
-    {% csrf_token %}
+{% block title %}Login — Bracketmaster{% endblock %}
 
-    {{ form.as_p }}
+{% block auth_content %}
+<div class="auth-card text-center">
+    <h1 class="auth-title">Login</h1>
+    <p class="auth-subtitle">SENTE-SE À MESA</p>
 
-    <button type="submit">Entrar</button>
-</form>
+    {% if form.errors %}
+        {% if form.errors %}
+            {% include 'components/alerts.html' with type="error" message="Usuário ou senha inválidos." %}
+        {% endif %}
+    {% endif %}
+
+    <form method="POST" action="" class="auth-form">
+        {% csrf_token %}
+
+        <div class="form-group text-left">
+            <label for="{{ form.email.id_for_label }}" class="form-label">E-MAIL</label>
+            {{ form.email }}
+        </div>
+
+        <div class="form-group text-left">
+            <div class="label-row">
+                <label for="{{ form.password.id_for_label }}" class="form-label">SENHA</label>
+                <a href="#" class="link-muted">ESQUECEU?</a>
+            </div>
+            {{ form.password }}
+        </div>
+
+        <button type="submit" class="btn btn-auth btn-full">ENTRAR</button>
+    </form>
+
+    <div class="auth-footer-text">
+        <a href="{% url 'register' %}" class="link-subtle">
+            NOVO POR AQUI? CADASTRE-SE
+        </a>
+    </div>
+</div>
+{% endblock %}
