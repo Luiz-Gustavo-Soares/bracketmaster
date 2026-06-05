@@ -1,10 +1,10 @@
 from django.db import models
-from django.conf import settings
+from django.contrib.auth.models import User
 from users.enums import Avatares
 
 class Profile(models.Model):
     """Perfil do usuario"""
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     
     nickname = models.CharField(max_length=50, default='')
     bio = models.TextField(blank=True, null=True)
@@ -20,3 +20,30 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+
+class ProfileLike(models.Model):
+
+    usuario_que_curtiu = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='likes_feitos'
+    )
+
+    usuario_curtido = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='likes_recebidos'
+    )
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    'usuario_que_curtiu',
+                    'usuario_curtido'
+                ],
+                name='unique_profile_like'
+            )
+        ]

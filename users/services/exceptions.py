@@ -1,0 +1,2 @@
+class AltoLikeError(Exception):
+    pass
