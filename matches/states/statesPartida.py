@@ -1,6 +1,8 @@
 from abc import ABC
 from matches.enums import StatusPartida
-from matches.states.exceptions import InvalidOption, InsufficientParticipants
+from matches.states.exceptions import InsufficientParticipants
+from bracketmaster.exceptions import InvalidOption
+
 
 class StatePartida(ABC):
     def __init__(self, partida):

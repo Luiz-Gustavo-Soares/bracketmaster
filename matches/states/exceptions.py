@@ -1,8 +1,7 @@
-class PartidaStateError(Exception):
-    pass
+from bracketmaster.exceptions import StateError
 
-# Opcao invalida
-class InvalidOption(PartidaStateError):
+
+class PartidaStateError(StateError):
     pass
 
 
