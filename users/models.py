@@ -14,6 +14,10 @@ class Profile(models.Model):
         default=Avatares.AVATAR1
     )
     
+    email_verificado = models.BooleanField(
+        default=False
+    )
+    
     def get_avatar_path(self):
         return f"/static/avatares/{self.avatar}.png"
 
