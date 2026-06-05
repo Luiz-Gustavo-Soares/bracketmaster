@@ -1,10 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from .models import Profile
-from .forms import RegisterForm, ProfileForm
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from users.models import Profile
+from users.services.usersServices import ProfileService
+from users.forms import RegisterForm, ProfileForm
 
+from users.services.exceptions import AltoLikeError
 
 def register_view(request):
     """View criacao de Usuario"""
@@ -51,6 +54,37 @@ def edit_profile(request):
     
     return render(request, 'users/edit_profile.html', context)
 
+
+@login_required
+def like_profile(request, username):
+
+    perfil = get_object_or_404(
+        User,
+        username=username
+    )
+
+    try:
+
+        liked = ProfileService.toggle_like(
+            request.user,
+            perfil
+        )
+
+        return JsonResponse({
+            "liked": liked
+        })
+
+    except AltoLikeError as e:
+
+        return JsonResponse({
+            "error": str(e)
+        }, status=400)
+    
+    except Exception as e:
+        return JsonResponse({
+            "error": 'Erro Interno'
+        }, status=500)
+    
 
 def profile(request, username):
     """View de renderizacao de um usuario em questao
