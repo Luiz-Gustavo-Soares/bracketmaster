@@ -1,11 +1,10 @@
 from django.db import transaction
 from django.contrib.auth.models import User
 from tournaments.enums import StatusTorneio
-from tournaments.models import TorneioParticipante, Torneio
+from tournaments.models import TorneioParticipante, Torneio, Rodada
 from tournaments.services.rodadaService import RodadaService
 from tournaments.services.rankinService import RankingService
-from tournaments.services.exceptions import RegistrationClosedError, AlreadyRegisteredError,\
-                                            ParticipantLimitError, InvalidCodeError
+from bracketmaster.exceptions import PermissionDenied
 
 class TournamentService:
 
@@ -79,3 +78,35 @@ class TournamentService:
             torneio: Torneio"""
         
         torneio.state.finalizar()
+
+
+    @classmethod
+    @transaction.atomic
+    def resetar_torneio(cls, torneio: Torneio, organizador: User):
+        """Reseta um Torneio
+        Define o status para criado
+        Remove todas as rodadas
+        Zera estatisticas dos participantes
+        Args:
+            torneio: Torneio a ser resetado
+            organizador: User organizador do torneio
+        """
+        
+        if torneio.organizador != organizador:
+            raise PermissionDenied("Usuario não é o organizador")
+
+        torneio.state.wipe()
+
+        Rodada.objects.filter(
+            torneio=torneio
+        ).delete()
+
+        TorneioParticipante.objects.filter(
+            torneio=torneio
+        ).update(
+            pontos=0,
+            vitorias=0,
+            derrotas=0,
+            empates=0,
+            posicao=0
+        )

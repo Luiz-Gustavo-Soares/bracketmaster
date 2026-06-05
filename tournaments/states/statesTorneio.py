@@ -18,6 +18,11 @@ class StateTorneio(ABC):
 
     def finalizar(self):
         raise InvalidOptionError("Operação inválida")
+    
+    def wipe(self):
+        """Reseta o status do torneio para criado"""
+        self.torneio.status = StatusTorneio.CRIADO
+        self.torneio.save()
 
 
 class CriadoState(StateTorneio):
