@@ -73,18 +73,23 @@
 }
 
 /* --- FOOTER MINIMAL (Padrão para Perfil) --- */
+/* --- Footer Minimal (Login, Perfil, Explorar) --- */
 .footer-minimal {
-    width: 100%;
-    padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto; /* A mágica do flexbox para jogar pro final! */
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 0.75rem;
+    padding: 1.5rem 3rem;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-base);
+    font-size: 0.7rem;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+}
+
+.footer-minimal-links {
+    display: flex;
+    gap: 1.5rem;
 }
 
 .footer-minimal-links {

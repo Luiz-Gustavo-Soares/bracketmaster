@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Explorar Torneios | Bracketmaster{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/explore_torneio.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="explore-page">
+
+    <div class="explore-hero" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}');">
+        {% include 'components/navbar.html' %}
+        <div class="explore-hero-overlay"></div>
+    </div>
+
+    <div class="container explore-content">
+
+        <div class="explore-two-columns">
+
+            <div class="explore-main-column">
+                
+                <div class="explore-search-section animate-fade-up" style="animation-delay: 0.2s;">
+                    <h2 class="explore-subtitle">Descobrir Torneios</h2>
+                    
+                    <div class="search-input-wrapper">
+                        <input type="text" class="form-input search-input-large" placeholder="Buscar por nome...">
+                        <i class="fa-solid fa-magnifying-glass search-icon-large"></i>
+                    </div>
+
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <span class="filter-label">Formato</span>
+                            <select class="filter-select">
+                                <option>Qualquer</option>
+                                <option>Commander</option>
+                                <option>Modern</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <span class="filter-label">Data</span>
+                            <div class="filter-date-group">
+                                <select class="filter-select"><option>DD</option></select>
+                                <select class="filter-select"><option>MM</option></select>
+                                <select class="filter-select"><option>YYYY</option></select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <span class="filter-label">Localização</span>
+                            <select class="filter-select">
+                                <option>Qualquer</option>
+                                <option>Online</option>
+                                <option>Presencial</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="explore-divider animate-fade-up" style="animation-delay: 0.3s;">
+
+                <div class="animate-fade-up" style="animation-delay: 0.4s;">
+                    <p class="results-count">{{ total_torneios }} torneios encontrados</p>
+                    
+                    <div class="cards-grid">
+                        {% for torneio in torneios %}
+                        <div class="tournament-card">
+                            
+                            <div class="card-image" style="background-image: url('{% static 'media/backgrounds/torneio_bg.jpg' %}');">
+                                <span class="card-format">{{ torneio.formato }}</span>
+                                <span class="card-date"><i class="fa-regular fa-calendar"></i> {{ torneio.data_evento|date:"d/m/y" }}</span>
+                            </div>
+                            
+                            <div class="card-body">
+                                <h3 class="card-title">{{ torneio.nome }}</h3>
+                                <p class="card-desc">Prepare seu melhor deck e venha disputar o topo do pódio neste evento épico.</p>
+                                
+                                <div class="card-footer-info">
+                                    <a href="#" class="card-author-link">
+                                        <img src="{% static 'media/avatares/nissa.png' %}" alt="Organizador" class="author-avatar">
+                                        <span class="author-name">NissaRevane</span>
+                                    </a>
+                                    
+                                    <span class="badge badge-success">ABERTO</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% empty %}
+                            <p style="color: var(--text-muted); grid-column: 1 / -1;">Nenhum torneio encontrado com estes filtros.</p>
+                        {% endfor %}
+                    </div>
+
+                </div>
+                
+            </div> 
+            
+            <aside class="explore-sidebar animate-fade-up" style="animation-delay: 0.5s;">
+                
+                <div class="champions-header">
+                    <h2 class="champions-title" style="font-size: 1.25rem;">Campeões Recentes</h2>
+                    <p class="champions-subtitle">Os heróis dos últimos embates.</p>
+                </div>
+
+                <div class="champions-grid">
+                    <div class="champion-card">
+                        <img src="{% static 'media/avatares/nissa.png' %}" alt="Nissa" class="champion-avatar">
+                        <div class="champion-info">
+                            <span class="champion-name">NissaRevane</span>
+                            <span class="champion-deck"><i class="fa-solid fa-layer-group"></i> Mono-Green Ramp</span>
+                        </div>
+                    </div>
+
+                    <div class="champion-card">
+                        <img src="{% static 'media/avatares/gideon.png' %}" alt="Gideon" class="champion-avatar">
+                        <div class="champion-info">
+                            <span class="champion-name">Gideon Jura</span>
+                            <span class="champion-deck"><i class="fa-solid fa-layer-group"></i> Azorius Control</span>
+                        </div>
+                    </div>
+                </div>
+
+            </aside> 
+        </div> 
+    </div> 
+    
+    {% include 'components/footer_minimal.html' %}
+</div> 
+{% endblock %}

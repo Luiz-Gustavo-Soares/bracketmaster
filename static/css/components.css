@@ -635,3 +635,75 @@
     background: transparent;
     color: var(--text-muted);
 }
+
+
+/*TESTES*/
+
+/* --- CARDS DE CAMPEÕES (Efeito Vidro) --- */
+.champions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.champion-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    
+    /* O Efeito de Vidro (igual ao do perfil) */
+    background-color: rgba(9, 9, 11, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    
+    padding: 1.25rem;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.champion-card:hover {
+    transform: translateY(-4px); /* Levanta um pouco no hover */
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.champion-avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--brand-gold); /* Borda dourada para destacar o vencedor! */
+    box-shadow: 0 0 10px rgba(201, 150, 58, 0.3);
+}
+
+.champion-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Impede que textos muito longos quebrem o layout */
+}
+
+.champion-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.champion-deck {
+    font-size: 0.75rem;
+    color: var(--brand-gold); /* Deck em dourado ou na cor primary */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0.35rem 0;
+    font-weight: 700;
+}
+
+.champion-tourney {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
