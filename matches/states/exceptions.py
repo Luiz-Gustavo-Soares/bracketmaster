@@ -6,5 +6,5 @@ class PartidaStateError(StateError):
 
 
 # Participantes insuficientes
-class InsufficientParticipants(PartidaStateError):
+class InsufficientParticipantsError(PartidaStateError):
     pass

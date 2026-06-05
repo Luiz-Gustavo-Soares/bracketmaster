@@ -1,7 +1,7 @@
 from abc import ABC
 from matches.enums import StatusPartida
-from matches.states.exceptions import InsufficientParticipants
-from bracketmaster.exceptions import InvalidOption
+from matches.states.exceptions import InsufficientParticipantsError
+from bracketmaster.exceptions import InvalidOptionError
 
 
 class StatePartida(ABC):
@@ -9,16 +9,16 @@ class StatePartida(ABC):
         self.partida = partida
 
     def iniciar_partida(self):
-        raise InvalidOption("Operação inválida")
+        raise InvalidOptionError("Operação inválida")
 
     def encerrar_partida(self):
-        raise InvalidOption("Operação inválida")     
+        raise InvalidOptionError("Operação inválida")     
 
 
 class AgendadaState(StatePartida):
     def iniciar_partida(self):
         if self.partida.participacoes.count() < 1:
-            raise InsufficientParticipants('Partida sem participantes suficientes')
+            raise InsufficientParticipantsError('Partida sem participantes suficientes')
         
         self.partida.status = StatusPartida.EM_ANDAMENTO
         self.partida.save()

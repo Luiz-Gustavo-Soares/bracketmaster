@@ -1,7 +1,7 @@
 from django.db import transaction
 from matches.models import Partida, ParticipacaoPartida
 from matches.enums import ResultadoPartida
-from matches.services.exceptions import ParticipatDoesNotInMatch, MatchAlreadyFinished, MatchNotFinished, MultipleWinners
+from matches.services.exceptions import ParticipatDoesNotInMatchError, MatchAlreadyFinishedError, MatchNotFinishedError, MultipleWinnersError
 
 
 class PartidaService:
@@ -42,11 +42,11 @@ class PartidaService:
 
         if participacao_vencedora is not None:
             if participacao_vencedora.partida_id != partida.id:
-                raise ParticipatDoesNotInMatch("Participação não pertence à partida")
+                raise ParticipatDoesNotInMatchError("Participação não pertence à partida")
             
 
         if partida.terminada():
-            raise MatchAlreadyFinished('Partida já finalizada')
+            raise MatchAlreadyFinishedError('Partida já finalizada')
 
           
         participacoes = list(partida.participacoes.all())
@@ -76,14 +76,14 @@ class PartidaService:
             ParticipacaoPartida ou None caso EMPATE
         """
         if not partida.finalizada():
-            raise MatchNotFinished("Partida ainda nao finalizada")
+            raise MatchNotFinishedError("Partida ainda nao finalizada")
         
         vencedores = partida.participacoes.filter(
             resultado=ResultadoPartida.VITORIA
         )
 
         if vencedores.count() > 1:
-            raise MultipleWinners(
+            raise MultipleWinnersError(
                 "Partida possui múltiplos vencedores"
             )
 

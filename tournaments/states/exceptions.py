@@ -7,10 +7,10 @@ class TorneioStateError(StateError):
 
 
 # Participantes insuficientes
-class InsufficientParticipants(TorneioStateError):
+class InsufficientParticipantsError(TorneioStateError):
     pass
 
 
 # Impossivel de finalizar
-class ImpossibleToFinish(TorneioStateError):
+class ImpossibleToFinishError(TorneioStateError):
     pass

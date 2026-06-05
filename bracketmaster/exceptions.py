@@ -2,5 +2,5 @@ class StateError(Exception):
     pass
 
 # Opcao invalida
-class InvalidOption(StateError):
+class InvalidOptionError(StateError):
     pass
