@@ -5,7 +5,6 @@ class StatusPartida(models.TextChoices):
     AGENDADA = "AG", "Agendada"
     EM_ANDAMENTO = "EA", "Em andamento"
     FINALIZADA = "FI", "Finalizada"
-    CANCELADA = "CA", "Cancelada"
 
 
 class ResultadoPartida(models.TextChoices):

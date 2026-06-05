@@ -1,6 +1,8 @@
 from django.db import models
-from .enums import StatusPartida, ResultadoPartida
+from matches.enums import StatusPartida, ResultadoPartida
 from django.contrib.auth.models import User
+from matches.states.statesPartida import StatePartida, AgendadaState, AndamentoState
+
 
 class Partida(models.Model):
     """Model referente a uma unica partida"""
@@ -23,6 +25,23 @@ class Partida(models.Model):
         on_delete=models.SET_NULL,
         related_name='partidas'
     )
+
+    @property
+    def state(self) -> StatePartida:
+        """Garante que a alteracao do status da Partida seja feita da maneira correta"""
+
+        mapping = {
+            StatusPartida.AGENDADA:
+                AgendadaState,
+
+            StatusPartida.EM_ANDAMENTO:
+                AndamentoState,
+        }
+
+        return mapping[
+            self.status
+        ](self)
+    
     
     def _get_ganhador(self):
         """
