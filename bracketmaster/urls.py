@@ -30,6 +30,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('dashboard/', dashboard, name='dashboard'),
     path('users/', include('users.urls')),
+    path('torneios/', include('tournaments.urls')),
     path('perfil/<str:nickname>/', profile_view, name='profile_view'),
 ]
 

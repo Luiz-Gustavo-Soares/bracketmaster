@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.utils import timezone
 from tournaments.models import Torneio
@@ -62,3 +62,16 @@ def busc_torneios(request):
     }
 
     return render(request, 'torneios.html', context)
+
+
+
+def torneio(request, id_torneio):
+    torneio = get_object_or_404(
+        Torneio,
+        pk=id_torneio
+    )
+
+    context = {
+        'torneio': torneio
+    }
+    return render(request, 'torneio.html', context)
