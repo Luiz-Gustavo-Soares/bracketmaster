@@ -26,6 +26,8 @@ class Torneio(models.Model):
 
     numero_maximo_participantes = models.PositiveIntegerField(default=20)
 
+    valor_inscricao = models.DecimalField(max_digits=10, decimal_places=2)
+
     codigo_inscricao = models.CharField(
         max_length=10,
         editable=False
@@ -42,6 +44,8 @@ class Torneio(models.Model):
         null=True,
         blank=True
     )
+
+    local = models.CharField(max_length=150)
 
     tipo = models.CharField(
         max_length=2,
