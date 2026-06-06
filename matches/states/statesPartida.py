@@ -1,7 +1,7 @@
 from abc import ABC
 from matches.enums import StatusPartida
 from matches.states.exceptions import InsufficientParticipantsError
-from bracketmaster.exceptions import InvalidOptionError
+from core.exceptions import InvalidOptionError
 
 
 class StatePartida(ABC):

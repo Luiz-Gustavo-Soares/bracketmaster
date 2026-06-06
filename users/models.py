@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from users.enums import Avatares
+from core.models import Cidade
 
 class Profile(models.Model):
     """Perfil do usuario"""
@@ -17,7 +18,15 @@ class Profile(models.Model):
     email_verificado = models.BooleanField(
         default=False
     )
-    
+
+    cidade = models.ForeignKey(
+        Cidade,
+        on_delete=models.PROTECT,
+        related_name='perfis',
+        null=True,
+        blank=True
+    )
+
     def get_avatar_path(self):
         return f"/static/avatares/{self.avatar}.png"
 

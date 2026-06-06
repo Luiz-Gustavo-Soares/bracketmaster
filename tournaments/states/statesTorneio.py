@@ -1,7 +1,7 @@
 from abc import ABC
 from tournaments.enums import StatusTorneio
 from tournaments.states.exceptions import ImpossibleToFinishError, InsufficientParticipantsError
-from bracketmaster.exceptions import InvalidOptionError
+from core.exceptions import InvalidOptionError
 
 class StateTorneio(ABC):
     def __init__(self, torneio):

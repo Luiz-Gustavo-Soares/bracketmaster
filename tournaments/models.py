@@ -9,6 +9,7 @@ from .strategies.base_strategy import BaseStrategy
 
 from .states.statesTorneio import EncInscricoesState, EmAndamentoState, CriadoState, InscricoesState, StateTorneio
 from matches.models import Partida
+from core.models import Cidade
 
 
 class Torneio(models.Model):
@@ -32,6 +33,14 @@ class Torneio(models.Model):
 
     inscricao_publica = models.BooleanField(
         default=False
+    )
+
+    cidade = models.ForeignKey(
+        Cidade,
+        on_delete=models.PROTECT,
+        related_name='torneios',
+        null=True,
+        blank=True
     )
 
     tipo = models.CharField(

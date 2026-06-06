@@ -1,4 +1,4 @@
-from bracketmaster.exceptions import StateError
+from core.exceptions import StateError
 
 
 

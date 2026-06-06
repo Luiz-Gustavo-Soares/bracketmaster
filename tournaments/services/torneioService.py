@@ -4,7 +4,7 @@ from tournaments.enums import StatusTorneio
 from tournaments.models import TorneioParticipante, Torneio, Rodada
 from tournaments.services.rodadaService import RodadaService
 from tournaments.services.rankinService import RankingService
-from bracketmaster.exceptions import PermissionDenied
+from core.exceptions import PermissionDenied
 
 class TournamentService:
 

@@ -4,7 +4,7 @@ from tournaments.enums import StatusInscricao
 from tournaments.models import TorneioParticipante, Torneio
 from tournaments.services.rodadaService import RodadaService
 from tournaments.services.rankinService import RankingService
-from bracketmaster.exceptions import PermissionDenied
+from core.exceptions import PermissionDenied
 from tournaments.services.exceptions import RegistrationClosedError, AlreadyRegisteredError,\
                                             ParticipantLimitError, InvalidCodeError
 
