@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 from users.enums import Avatares
 from core.models import Cidade
+from users.query_sets import PerfilQuerySet
+
 
 class Profile(models.Model):
     """Perfil do usuario"""
@@ -18,6 +21,8 @@ class Profile(models.Model):
     email_verificado = models.BooleanField(
         default=False
     )
+
+    objects = PerfilQuerySet.as_manager()
 
     cidade = models.ForeignKey(
         Cidade,
