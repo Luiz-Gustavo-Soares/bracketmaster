@@ -1,0 +1,185 @@
+/* EXPLORAR PERFIS — VISUAL ONLY */
+
+/* --- Painel Envolvente de Destaque --- */
+.featured-podium-panel {
+    background-color: rgba(9, 9, 11, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* --- Abas (Tabs) do Pódio --- */
+.podium-categories {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.podium-tab {
+    background: transparent;
+    border: none;
+    color: #a1a1aa; 
+    padding: 0.8rem 2.5rem; 
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.podium-tab:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.podium-tab.is-active {
+    background: var(--brand-primary);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+
+/* --- Cards do Pódio Interno --- */
+.podium-card {
+    background-color: rgba(255, 255, 255, 0.03); 
+    border-color: rgba(255, 255, 255, 0.05);
+    transition: transform var(--transition-base), background-color var(--transition-base), border-color var(--transition-base);
+}
+
+.podium-card:hover {
+    transform: translateY(-10px);
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.podium-center {
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+/* --- Tipografia e Elementos do Pódio --- */
+.podium-rank {
+    background: var(--bg-base);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+.podium-avatar {
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+.podium-crown {
+    color: var(--elo-challenger, #ef4444);
+    font-size: 2rem;
+    filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
+}
+
+.podium-name {
+    font-size: 1.3rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.podium-points {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+}
+
+/* --- Injeção das Variáveis de Elo no Pódio --- */
+.elo-challenger { border-top-color: var(--elo-challenger, #ef4444); }
+.elo-master { border-top-color: var(--elo-master, #f472b6); }
+.elo-diamond { border-top-color: var(--elo-diamond, #a78bfa); }
+
+/* Badges de Elo (Tags do Pódio) */
+.elo-badge {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+}
+.badge-challenger { background-color: rgba(239, 68, 68, 0.15); color: var(--elo-challenger, #ef4444); border: 1px solid rgba(239, 68, 68, 0.3); }
+.badge-master { background-color: rgba(244, 114, 182, 0.15); color: var(--elo-master, #f472b6); border: 1px solid rgba(244, 114, 182, 0.3); }
+.badge-diamond { background-color: rgba(167, 139, 250, 0.15); color: var(--elo-diamond, #a78bfa); border: 1px solid rgba(167, 139, 250, 0.3); }
+
+/* LISTA HORIZONTAL DE PERFIS */
+.profile-list-card {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.05);
+    transition: all var(--transition-base);
+}
+
+.profile-list-card:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.list-avatar {
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.list-name {
+    font-size: 1.5rem;
+    color: #ffffff; 
+    margin: 0;
+}
+
+/* Tag de Elo   */
+.elo-tag {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid;
+    font-weight: 700;
+}
+.tag-challenger { border-color: var(--elo-challenger, #ef4444); color: var(--elo-challenger, #ef4444); background: rgba(239, 68, 68, 0.1); }
+.tag-master { border-color: var(--elo-master, #f472b6); color: var(--elo-master, #f472b6); background: rgba(244, 114, 182, 0.1); }
+
+.list-meta {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.list-bio {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    line-height: 1.5;
+}
+
+/* Tipografia de Status e Botões */
+.stat-num {
+    font-size: 1.75rem;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.stat-lbl {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.list-btn {
+    padding: 0.8rem 2rem;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.list-btn:hover {
+    background-color: #ffffff;
+    color: var(--bg-base);
+}

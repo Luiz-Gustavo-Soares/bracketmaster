@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Explorar Perfis | Bracketmaster{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/explore_torneio.css' %}">
+<link rel="stylesheet" href="{% static 'css/explore_profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="explore-page">
+
+    <div class="explore-hero" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}'); min-height: 70vh;">
+        <div class="explore-hero-overlay"></div>
+        
+        {% include 'components/navbar.html' %}
+
+        <div class="container container-explore hero-profiles-container">
+            
+            <div class="hero-profiles-text animate-fade-up">
+                <h1 class="featured-title" style="font-size: 4rem; text-shadow: 0 4px 20px rgba(0,0,0,0.8); color: #ffffff;">Explorar Perfis</h1>
+                <p class="featured-desc" style="color: #e4e4e7; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">Conecte-se com outros jogadores da comunidade, acompanhe o metagame e suba no ranking global.</p>
+            </div>
+
+            <div class="featured-podium-panel animate-fade-up" style="animation-delay: 0.1s;">
+                
+                <div class="podium-categories">
+                    <button class="podium-tab is-active"><i class="fa-solid fa-trophy"></i> Top Elo</button>
+                    <button class="podium-tab"><i class="fa-solid fa-heart"></i> Mais Populares</button>
+                    <button class="podium-tab"><i class="fa-solid fa-fire"></i> Em Ascensão</button>
+                </div>
+
+                <div class="featured-profiles-podium">
+                    
+                    <div class="podium-card elo-master">
+                        <div class="podium-rank">#2</div>
+                        <img src="{% static 'media/avatares/nissa.png' %}" alt="Laysa" class="podium-avatar">
+                        <h3 class="podium-name">LaysaMagic</h3>
+                        <span class="elo-badge badge-master">Mestre</span>
+                        <p class="podium-points"><i class="fa-solid fa-star"></i> 7.120 Pts</p>
+                    </div>
+
+                    <div class="podium-card podium-center elo-challenger">
+                        <div class="podium-rank">#1</div>
+                        <i class="fa-solid fa-crown podium-crown"></i>
+                        <img src="{% static 'media/avatares/gideon.png' %}" alt="LordCalabreso" class="podium-avatar">
+                        <h3 class="podium-name">LordCalabreso</h3>
+                        <span class="elo-badge badge-challenger">Challenger</span>
+                        <p class="podium-points" style="font-size: 1rem; color: var(--elo-challenger); font-weight: 700;"><i class="fa-solid fa-star"></i> 8.450 Pontos</p>
+                    </div>
+
+                    <div class="podium-card elo-diamond">
+                        <div class="podium-rank">#3</div>
+                        <img src="{% static 'media/avatares/lilia.png' %}" alt="Juaocigam" class="podium-avatar">
+                        <h3 class="podium-name">Juaocigam</h3>
+                        <span class="elo-badge badge-diamond">Diamante</span>
+                        <p class="podium-points"><i class="fa-solid fa-star"></i> 6.890 Pts</p>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <div class="explore-body-section">
+        <div class="container container-explore">
+
+            <div class="explore-search-section animate-fade-up" style="animation-delay: 0.3s;">
+                <div class="search-input-wrapper" style="margin-bottom: 1.5rem;">
+                    <input type="text" class="form-input search-input-large" placeholder="Buscar por nome ou tag...">
+                    <i class="fa-solid fa-magnifying-glass search-icon-large"></i>
+                </div>
+
+                <div class="filters-chips-row">
+                    <div class="format-chips">
+                        <button type="button" class="filter-chip is-active">Todos</button>
+                        <button type="button" class="filter-chip">Profissionais</button>
+                        <button type="button" class="filter-chip">Casuais</button>
+                    </div>
+                    
+                    <div class="secondary-chips">
+                        <div class="chip-dropdown-wrapper">
+                            <button type="button" class="filter-chip secondary-chip">
+                                <i class="fa-solid fa-location-dot"></i> Localização <i class="fa-solid fa-chevron-down" style="font-size: 0.7em;"></i>
+                            </button>
+                        </div>
+                        <div class="chip-dropdown-wrapper">
+                            <button type="button" class="filter-chip secondary-chip">
+                                <i class="fa-solid fa-trophy"></i> Ranking (Elo) <i class="fa-solid fa-chevron-down" style="font-size: 0.7em;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="explore-divider animate-fade-up" style="animation-delay: 0.4s;">
+
+            <div class="profiles-list-container animate-fade-up" style="animation-delay: 0.5s;">
+                
+                <div class="profile-list-card">
+                    <div class="profile-card-left">
+                        <img src="{% static 'media/avatares/gideon.png' %}" alt="Avatar" class="list-avatar">
+                        <div class="list-info">
+                            <div class="list-title-row">
+                                <h3 class="list-name">LordCalabreso</h3>
+                                <span class="elo-tag tag-challenger">CHALLENGER</span>
+                            </div>
+                            <div class="list-meta">
+                                <span><i class="fa-solid fa-location-dot"></i> Diamantina, MG</span>
+                            </div>
+                            <p class="list-bio">Jogador ativo na comunidade, com interesse em competições e desenvolvimento constante dentro do jogo.</p>
+                        </div>
+                    </div>
+                    <div class="profile-card-right">
+                        <div class="list-stats">
+                            <div class="stat-col"><span class="stat-num">72%</span><span class="stat-lbl">WIN RATE</span></div>
+                            <div class="stat-col"><span class="stat-num">30</span><span class="stat-lbl">TORNEIOS</span></div>
+                            <div class="stat-col"><span class="stat-num">#1</span><span class="stat-lbl">RANK</span></div>
+                        </div>
+                        <button class="btn btn-outline list-btn">Ver Perfil</button>
+                    </div>
+                </div>
+
+                <div class="profile-list-card">
+                    <div class="profile-card-left">
+                        <img src="{% static 'media/avatares/nissa.png' %}" alt="Avatar" class="list-avatar">
+                        <div class="list-info">
+                            <div class="list-title-row">
+                                <h3 class="list-name">LaysaMagic</h3>
+                                <span class="elo-tag tag-master">MESTRE</span>
+                            </div>
+                            <div class="list-meta">
+                                <span><i class="fa-solid fa-location-dot"></i> Belo Horizonte, MG</span>
+                            </div>
+                            <p class="list-bio">Gosto de experimentar diferentes estratégias, acompanhar o metagame e participar de eventos da comunidade.</p>
+                        </div>
+                    </div>
+                    <div class="profile-card-right">
+                        <div class="list-stats">
+                            <div class="stat-col"><span class="stat-num">68%</span><span class="stat-lbl">WIN RATE</span></div>
+                            <div class="stat-col"><span class="stat-num">25</span><span class="stat-lbl">TORNEIOS</span></div>
+                            <div class="stat-col"><span class="stat-num">#2</span><span class="stat-lbl">RANK</span></div>
+                        </div>
+                        <button class="btn btn-outline list-btn">Ver Perfil</button>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div> 
+    </div>
+    
+    {% include 'components/footer_minimal.html' %}
+    
+</div>
+{% endblock %}

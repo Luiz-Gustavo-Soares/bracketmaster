@@ -347,6 +347,13 @@
 /* 6. NAVEGAÇÃO — navbar, busca */
 
 /* --- Navbar --- */
+
+/* Garante que a Navbar seja intocável em qualquer página */
+nav, .navbar, header {
+    position: relative;
+    z-index: 999999 !important;
+}
+
 .logo-text {
     font-family: var(--font-display);
     font-size: 2rem;

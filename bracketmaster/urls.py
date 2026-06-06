@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 from .views.index import home, profile_view
 from .views.dashboard import dashboard
 from .views.torneios import torneios_view
+from .views.explore_profile import explore_profile
 
 from . import views
 
@@ -33,6 +34,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('perfil/<str:nickname>/', profile_view, name='profile_view'),
     path('torneios/', torneios_view , name='torneios'),
+    path('perfis/', explore_profile, name='explore_profile')
 ]
 
 if settings.DEBUG:

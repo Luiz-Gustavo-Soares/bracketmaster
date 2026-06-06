@@ -212,6 +212,9 @@
 /* COMPORTAMENTO DA COLUNA E DOS CARDS */
 
 .explore-main-column {
+    position: relative; 
+    z-index: 10;        /* A coluna de busca agora tem prioridade máxima! */
+    
     width: 100%;
     min-width: 0; 
 }
@@ -235,7 +238,7 @@
 }
 
 
-/*PAINEL DE DESTAQUE (DESIGN IMERSIVO)*/
+/*PAINEL DE DESTAQUE */
 
 .featured-tourney-panel {
     background-color: rgba(9, 9, 11, 0.45);
@@ -526,4 +529,54 @@
 
 .view-all-champions:hover i {
     transform: translateX(4px); /* A setinha empurra para a direita */
+}
+
+/*CUSTOMIZAÇÃO DO CALENDÁRIO FLATPICKR */
+
+/* Substitui o fundo cinza sólido pelo nosso "Vidro Fosco" */
+.flatpickr-calendar {
+    background: rgba(24, 24, 27, 0.95) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 10px !important;
+}
+
+/* Remove a setinha nativa do calendário que fica sobrando */
+.flatpickr-calendar::before, 
+.flatpickr-calendar::after {
+    display: none !important;
+}
+
+/* Textos e dias da semana com a nossa cor de texto */
+.flatpickr-months .flatpickr-month,
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+span.flatpickr-weekday,
+.flatpickr-day {
+    color: var(--text-primary) !important;
+}
+
+/* Deixa os dias que não são do mês atual mais apagados */
+.flatpickr-day.prevMonthDay, 
+.flatpickr-day.nextMonthDay {
+    color: var(--text-muted) !important;
+}
+
+/* O Efeito de Passar o Mouse nos dias */
+.flatpickr-day:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: transparent !important;
+}
+
+/* A COR DO DIA SELECIONADO  */
+.flatpickr-day.selected, 
+.flatpickr-day.selected:hover,
+.flatpickr-day.selected:focus {
+    background: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5) !important; /* Brilho neon suave */
 }

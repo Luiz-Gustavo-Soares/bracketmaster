@@ -6,6 +6,8 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/explore_torneio.css' %}">
 <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
 {% endblock %}
 
 {% block content %}
@@ -102,33 +104,36 @@
                             </div>
                             
                             <div class="secondary-chips">
-                                <!-- Container que segura o chip e o menu flutuante -->
                                 <div class="chip-dropdown-wrapper">
-                                    <button class="filter-chip secondary-chip">
-                                        <i class="fa-regular fa-calendar"></i> Data <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
+                                    <button class="filter-chip secondary-chip" id="btn-filtro-data">
+                                        <i class="fa-regular fa-calendar"></i> 
+                                        <span class="chip-text-value">Data</span> 
+                                        <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
                                     </button>
                                     
-                                    <!--  Menu  -->
+                                    <input type="text" id="flatpickr-anchor" style="position: absolute; opacity: 0; width: 1px; height: 1px; top: 0; left: 0; pointer-events: none;" readonly>
+                                    
                                     <div class="chip-popover">
                                         <div class="popover-option is-selected">Qualquer Data</div>
                                         <div class="popover-option">Neste Fim de Semana</div>
                                         <div class="popover-option">Este Mês</div>
                                         <hr class="popover-divider">
-                                        <div class="popover-option popover-action"><i class="fa-solid fa-calendar-days"></i> Escolher no Calendário</div>
+                                        <div class="popover-option popover-action" id="abrir-calendario-real">
+                                            <i class="fa-solid fa-calendar-days"></i> Escolher no Calendário
+                                        </div>
                                     </div>
                                 </div>
-
-                                <!-- Local -->
                                 <div class="chip-dropdown-wrapper">
-                                    <button class="filter-chip secondary-chip">
-                                        <i class="fa-solid fa-location-dot"></i> Local <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
+                                    <button class="filter-chip secondary-chip" id="btn-filtro-local">
+                                        <i class="fa-solid fa-location-dot"></i> 
+                                        <span class="chip-text-value">Local</span> 
+                                        <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
                                     </button>
                                     
-                                    <!-- NOVO: O Menu de Local que estava faltando -->
                                     <div class="chip-popover">
                                         <div class="popover-option is-selected">Qualquer Local</div>
                                         <div class="popover-option">Online (Arena / MTGO)</div>
-                                        <div class="popover-option">Presencial (Lojas)</div>
+                                        <div class="popover-option">Presencial</div>
                                         <hr class="popover-divider">
                                         <div class="popover-option popover-action"><i class="fa-solid fa-map-location-dot"></i> Escolher Região...</div>
                                     </div>
@@ -210,65 +215,124 @@
 {% endblock %} 
 <!-- AQUI ABRIMOS O BLOCK DE JS SEPARADAMENTE -->
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+
 <script>
-    // DELEGAÇÃO DE EVENTOS: Um único observador para a página inteira. À prova de falhas.
-    document.addEventListener('click', function(e) {
+    document.addEventListener('DOMContentLoaded', function() {
         
-        // 1. FORMATOS (Todos, Commander, Modern...)
-        const formatChip = e.target.closest('.format-chips .filter-chip');
-        if (formatChip) {
-            e.preventDefault();
-            const allFormatChips = document.querySelectorAll('.format-chips .filter-chip');
-            allFormatChips.forEach(c => c.classList.remove('is-active'));
-            formatChip.classList.add('is-active');
-        }
+        // ==========================================
+        // 1. INICIALIZAÇÃO DO CALENDÁRIO
+        // ==========================================
+        const dataBtn = document.getElementById('btn-filtro-data');
+        const dataText = dataBtn ? dataBtn.querySelector('.chip-text-value') : null;
+        
+        // Inicializa o Flatpickr atrelado ao input oculto, mas posicionado no botão
+        const calendario = flatpickr("#flatpickr-anchor", {
+            positionElement: dataBtn,
+            locale: "pt",
+            dateFormat: "d/m/Y",
+            minDate: "today",
+            clickOpens: false,
 
-        // 2. ABRIR E FECHAR OS POPOVERS (Data e Local)
-        const dropdownBtn = e.target.closest('.chip-dropdown-wrapper > button');
-        if (dropdownBtn) {
-            e.preventDefault();
-            const wrapper = dropdownBtn.closest('.chip-dropdown-wrapper');
-            const isAlreadyOpen = wrapper.classList.contains('is-open');
-            
-            // Fecha absolutamente todos os outros popovers abertos
-            document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
-            
-            // Se o que eu cliquei estava fechado, ele abre agora
-            if (!isAlreadyOpen) {
-                wrapper.classList.add('is-open');
+            onChange: function(selectedDates, dateStr, instance) {
+
+                // Se o calendário foi limpo, não faz nada
+                if (!dateStr) return;
+
+                if(dataText) {
+                    dataText.textContent = dateStr;
+                    dataBtn.classList.add('is-active');
+                    dataBtn.style.borderColor = "var(--brand-primary)";
+                    
+                    const popover = dataBtn.closest('.chip-dropdown-wrapper').querySelector('.chip-popover');
+                    popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
+                }
             }
-            return; // Encerra a função aqui para não cair na regra de "clicar fora"
-        }
-
-        // 3. SELECIONAR UMA OPÇÃO DENTRO DO POPOVER
-        const popoverOption = e.target.closest('.popover-option:not(.popover-action)');
-        if (popoverOption) {
-            const popover = popoverOption.closest('.chip-popover');
-            const allOptions = popover.querySelectorAll('.popover-option:not(.popover-action)');
+        });
+        // ==========================================
+        // 2. DELEGAÇÃO DE EVENTOS (O CÉREBRO DA PÁGINA)
+        // ==========================================
+        document.addEventListener('click', function(e) {
             
-            // Troca a cor da opção selecionada
-            allOptions.forEach(opt => opt.classList.remove('is-selected'));
-            popoverOption.classList.add('is-selected');
-            
-            // Fecha o popover após a escolha
-            popoverOption.closest('.chip-dropdown-wrapper').classList.remove('is-open');
-            return;
-        }
+            // FORMATOS (Visual dos Chips)
+            const formatChip = e.target.closest('.format-chips .filter-chip');
+            if (formatChip) {
+                e.preventDefault();
+                document.querySelectorAll('.format-chips .filter-chip').forEach(c => c.classList.remove('is-active'));
+                formatChip.classList.add('is-active');
+                return;
+            }
 
-        // 4. CLICAR EM AÇÕES (Ex: Escolher Calendário) - Não deve fechar o menu ainda
-        const popoverAction = e.target.closest('.popover-action');
-        if (popoverAction) {
-            // No futuro, aqui vai a lógica para abrir um modal de calendário
-            return;
-        }
+            // ABRIR/FECHAR POPOVERS (Data e Local)
+            const dropdownBtn = e.target.closest('.chip-dropdown-wrapper > button');
+            if (dropdownBtn) {
+                e.preventDefault();
+                const wrapper = dropdownBtn.closest('.chip-dropdown-wrapper');
+                const isAlreadyOpen = wrapper.classList.contains('is-open');
+                
+                document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
+                
+                if (!isAlreadyOpen) {
+                    wrapper.classList.add('is-open');
+                }
+                return;
+            }
 
-        // 5. CLICAR DENTRO DO MENU EM UMA ÁREA VAZIA - Impede de fechar sem querer
-        if (e.target.closest('.chip-popover')) {
-            return;
-        }
+            // SELECIONAR OPÇÃO DO POPOVER E SINCRONIZAR BOTÃO
+            const popoverOption = e.target.closest('.popover-option:not(.popover-action)');
+            if (popoverOption) {
+                const wrapper = popoverOption.closest('.chip-dropdown-wrapper');
+                const popover = popoverOption.closest('.chip-popover');
+                const btn = wrapper.querySelector('button');
+                const textSpan = btn.querySelector('.chip-text-value');
+                const textoEscolhido = popoverOption.textContent.trim();
+                const nomesExibicao = {
+                    "Neste Fim de Semana": "Fim de Semana",
+                    "Este Mês": "Mês",
+                    "Online (Arena / MTGO)": "Online",
+                    "Presencial (Lojas)": "Presencial",
+                    "Qualquer Data": "Data",
+                    "Qualquer Local": "Local"
+                };
+                
+                // Atualiza visual
+                popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
+                popoverOption.classList.add('is-selected');
+                
+                // Atualiza texto e estilo do botão
+                if (textoEscolhido.startsWith('Qualquer')) {
+                    textSpan.textContent = btn.id === 'btn-filtro-data' ? "Data" : "Local";
+                    btn.classList.remove('is-active');
+                    btn.style.borderColor = "";
+                    if(btn.id === 'btn-filtro-data') calendario.clear();
+                } else {
+                    textSpan.textContent = nomesExibicao[textoEscolhido] || textoEscolhido;
+                    btn.classList.add('is-active');
+                    btn.style.borderColor = "var(--brand-primary)";
+                    if(btn.id === 'btn-filtro-data') calendario.clear();
+                }
+                
+                wrapper.classList.remove('is-open');
+                return;
+            }
 
-        // 6. CLICAR FORA DE TUDO (Reset) - Fecha qualquer popover que esteja aberto
-        document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
+            // AÇÕES (Abrir Calendário)
+            const popoverAction = e.target.closest('.popover-action');
+            if (popoverAction && popoverAction.id === 'abrir-calendario-real') {
+                e.preventDefault();
+                document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
+                setTimeout(() => calendario.open(), 10);
+                return;
+            }
+
+            // FECHAR AO CLICAR FORA (Logica Mestra)
+            document.querySelectorAll('.chip-dropdown-wrapper.is-open').forEach(wrapper => {
+                if (!e.target.closest('.flatpickr-calendar') && !wrapper.contains(e.target)) {
+                    wrapper.classList.remove('is-open');
+                }
+            });
+        });
     });
 </script>
 {% endblock %}

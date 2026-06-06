@@ -33,6 +33,15 @@
     --transition-fast: 0.15s ease;
     --transition-base: 0.2s ease;
     --navbar-height: 90px;
+
+    /*cores dos elos*/
+    --elo-bronze: #cd7f32;
+    --elo-silver: #c0c0c0;
+    --elo-gold: #ffd700;
+    --elo-platinum: #38bdf8;
+    --elo-diamond: #a78bfa;
+    --elo-master: #f472b6;
+    --elo-challenger: #ef4444; 
 }
 
 /* Reset */
