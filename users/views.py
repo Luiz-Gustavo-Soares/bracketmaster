@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 from users.models import Profile
 from users.services.usersServices import ProfileService
 from users.forms import RegisterForm, ProfileForm, LoginForm
@@ -142,3 +143,32 @@ def login_view(request):
         request, "users/login.html", {"form": form}
     )
 
+
+def busc_profile(request):
+    nome = request.GET.get('nome', None)
+    cidade = request.GET.get('cidade', None)
+    page = request.GET.get('page', 1)
+
+
+    perfis = Profile.objects.com_taxa_vitoria.select_related('cidade').all()
+
+    if nome:
+        perfis.filter(
+            nickname__icontains=nome
+        )
+
+    if cidade:
+        perfis.filter(
+            cidade__nome__icontains=cidade
+        )
+
+    perfis_paginator = Paginator(perfis, 20)
+    perfis_page = perfis_paginator.get_page(page)
+
+    context = {
+        'perfis': perfis_page
+    }
+
+    return render(
+        request, 'users/perfis.html', context
+    )
