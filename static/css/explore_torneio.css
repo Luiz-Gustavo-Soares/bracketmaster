@@ -7,7 +7,6 @@
     z-index: 1;
 }
 
-/* BUSCA E FILTROS */
 .explore-search-section {
     padding: 2rem 0 3rem 0;
     position: relative; 
@@ -29,97 +28,6 @@
     margin-bottom: 2.5rem;
 }
 
-.search-input-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.search-icon-large {
-    position: absolute;
-    right: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-}
-
-.search-input-large {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-    width: 100%;
-    color: var(--text-primary);
-    border-radius: var(--radius-md);
-    outline: none;
-    transition: border-color var(--transition-base);
-}
-
-.search-input-large:focus {
-    border-color: var(--brand-primary);
-}
-
-/* --- Container e Estilo dos Chips --- */
-.filters-chips-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.format-chips, .secondary-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.filter-chip {
-    background: transparent;
-    color: var(--text-secondary);
-    padding: 0.6rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.filter-chip:hover {
-    background-color: rgba(255, 255, 255, 0.08); 
-    border-color: rgba(255, 255, 255, 0.3);
-    color: var(--text-primary);
-    transform: translateY(-2px); 
-}
-
-/* Chip Ativado (Clicado) */
-.filter-chip.is-active {
-    background-color: var(--text-primary);
-    border-color: var(--text-primary);
-    color: var(--bg-base); 
-    font-weight: 600;
-}
-
-.filter-chip:active {
-    transform: translateY(0); 
-    background-color: rgba(255, 255, 255, 0.12);
-}
-
-/* Chips Secundários (Data e Local) */
-.secondary-chip {
-    background-color: rgba(255, 255, 255, 0.03);
-}
-
-.secondary-chip i {
-    color: var(--brand-primary);
-}
-
-
 /* --- Divisor e Textos --- */
 .explore-divider {
     border: 0;
@@ -133,8 +41,7 @@
     margin-bottom: 1.5rem;
 }
 
-
-/*SIDEBAR DE CAMPEÕES RECENTES*/
+/* SIDEBAR DE CAMPEÕES RECENTES */
 .champions-header {
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 1rem;
@@ -159,7 +66,6 @@
     gap: 1rem;
 }
 
-/* Cards sem caixas pesadas */
 .champion-card {
     display: flex;
     align-items: center;
@@ -208,38 +114,7 @@
     gap: 0.4rem;
 }
 
-
-/* COMPORTAMENTO DA COLUNA E DOS CARDS */
-
-.explore-main-column {
-    position: relative; 
-    z-index: 10;        /* A coluna de busca agora tem prioridade máxima! */
-    
-    width: 100%;
-    min-width: 0; 
-}
-
-.explore-main-column .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 1.5rem;
-}
-
-@media (max-width: 1200px) {
-    .explore-main-column .cards-grid {
-        grid-template-columns: repeat(2, 1fr); 
-    }
-}
-
-@media (max-width: 768px) {
-    .explore-main-column .cards-grid {
-        grid-template-columns: 1fr; 
-    }
-}
-
-
-/*PAINEL DE DESTAQUE */
-
+/* PAINEL DE DESTAQUE */
 .featured-tourney-panel {
     background-color: rgba(9, 9, 11, 0.45);
     backdrop-filter: blur(16px);
@@ -253,11 +128,8 @@
     margin: 0 auto;
 }
 
-/* Responsividade do Painel  */
 @media (max-width: 768px) {
-    .featured-tourney-panel {
-        padding: 2rem;
-    }
+    .featured-tourney-panel { padding: 2rem; }
 }
 
 .featured-header-row {
@@ -314,7 +186,6 @@
     max-width: 750px;
 }
 
-/* Info Rápida (Grid de Ícones) */
 .featured-stats-clean {
     display: flex;
     gap: 3.5rem;
@@ -364,9 +235,7 @@
     .featured-stats-clean { gap: 2rem; flex-direction: column; }
 }
 
-
 /* BOTÃO ANIMADO "INSCREVER-SE" */
-
 .btn-anim-subscribe {
     position: relative;
     background: transparent; 
@@ -419,86 +288,7 @@
     opacity: 1;
 }
 
-/* ==========================================
-   POPOVERS (MENUS FLUTUANTES DOS CHIPS)
-   ========================================== */
-.chip-dropdown-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-/* ESTADO INICIAL: O Menu escondido */
-.chip-popover {
-    position: absolute;
-    top: calc(100% + 8px); 
-    left: 0;
-    width: 240px;
-    background-color: rgba(24, 24, 27, 0.95);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: var(--radius-md);
-    padding: 0.5rem;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    
-    /* AS TRAVAS DE SEGURANÇA ESTÃO AQUI: */
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none; /* Impede o mouse de esbarrar nele invisível */
-    transform: translateY(10px);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 999; /* Força ele a ficar por cima dos cards de torneio */
-}
-
-/* ESTADO ABERTO: O JS vai injetar essa classe ao clicar! */
-.chip-dropdown-wrapper.is-open .chip-popover {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto; /* Acorda o menu para receber cliques */
-    transform: translateY(0);
-}
-
-.popover-option {
-    padding: 0.6rem 1rem;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-}
-
-.popover-option:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: var(--text-primary);
-}
-
-.popover-option.is-selected {
-    color: var(--brand-primary);
-    font-weight: 500;
-}
-
-.popover-divider {
-    border: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin: 0.4rem 0;
-}
-
-/* Botões de ação dentro do popover (ex: Abrir calendário) */
-.popover-action {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-primary);
-}
-.popover-action i {
-    color: var(--brand-primary);
-}
-
-
-
-/* ==========================================
-   LINK HALL DA FAMA (BARRA LATERAL)
-   ========================================== */
+/* LINK HALL DA FAMA */
 .view-all-champions {
     display: flex;
     align-items: center;
@@ -528,55 +318,31 @@
 }
 
 .view-all-champions:hover i {
-    transform: translateX(4px); /* A setinha empurra para a direita */
+    transform: translateX(4px); 
 }
 
-/*CUSTOMIZAÇÃO DO CALENDÁRIO FLATPICKR */
-
-/* Substitui o fundo cinza sólido pelo nosso "Vidro Fosco" */
-.flatpickr-calendar {
-    background: rgba(24, 24, 27, 0.95) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
-    border-radius: var(--radius-md) !important;
-    padding: 10px !important;
+/* COMPORTAMENTO DA COLUNA E DOS CARDS */
+.explore-main-column {
+    position: relative; 
+    z-index: 10;        
+    width: 100%;
+    min-width: 0; 
 }
 
-/* Remove a setinha nativa do calendário que fica sobrando */
-.flatpickr-calendar::before, 
-.flatpickr-calendar::after {
-    display: none !important;
+.explore-main-column .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 1.5rem;
 }
 
-/* Textos e dias da semana com a nossa cor de texto */
-.flatpickr-months .flatpickr-month,
-.flatpickr-current-month .flatpickr-monthDropdown-months,
-span.flatpickr-weekday,
-.flatpickr-day {
-    color: var(--text-primary) !important;
+@media (max-width: 1200px) {
+    .explore-main-column .cards-grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
 }
 
-/* Deixa os dias que não são do mês atual mais apagados */
-.flatpickr-day.prevMonthDay, 
-.flatpickr-day.nextMonthDay {
-    color: var(--text-muted) !important;
-}
-
-/* O Efeito de Passar o Mouse nos dias */
-.flatpickr-day:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-color: transparent !important;
-}
-
-/* A COR DO DIA SELECIONADO  */
-.flatpickr-day.selected, 
-.flatpickr-day.selected:hover,
-.flatpickr-day.selected:focus {
-    background: var(--brand-primary) !important;
-    border-color: var(--brand-primary) !important;
-    color: #ffffff !important;
-    font-weight: bold;
-    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5) !important; /* Brilho neon suave */
+@media (max-width: 768px) {
+    .explore-main-column .cards-grid {
+        grid-template-columns: 1fr; 
+    }
 }

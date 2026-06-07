@@ -40,6 +40,20 @@
     border: 1px solid var(--border-color);
     color: var(--text-primary);
 }
+
+/* Botão Translúcido (Vidro) para fundos escuros e imagens */
+.btn-outline-light {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--text-primary);
+}
+
+.btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+}
+
 .btn-outline:hover { background-color: var(--bg-surface-hover); }
 
 .btn-danger {
@@ -643,74 +657,267 @@ nav, .navbar, header {
     color: var(--text-muted);
 }
 
-
-/*TESTES*/
-
-/* --- CARDS DE CAMPEÕES (Efeito Vidro) --- */
-.champions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+/* ==========================================
+   7. BUSCA AVANÇADA E FILTROS (CHIPS)
+   ========================================== */
+/* Wrapper e Input de Busca */
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
 }
 
-.champion-card {
+.search-icon-large {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.search-input-large {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    width: 100%;
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: border-color var(--transition-base);
+}
+
+.search-input-large:focus {
+    border-color: var(--brand-primary);
+}
+
+/* Container de Chips */
+.filters-chips-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.format-chips, .secondary-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* O Chip (Botão de Filtro) */
+.filter-chip {
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 0.6rem 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    
-    /* O Efeito de Vidro (igual ao do perfil) */
-    background-color: rgba(9, 9, 11, 0.45);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-md);
-    
-    padding: 1.25rem;
-    transition: transform var(--transition-fast), border-color var(--transition-fast);
+    gap: 0.5rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.champion-card:hover {
-    transform: translateY(-4px); /* Levanta um pouco no hover */
-    border-color: rgba(255, 255, 255, 0.15);
-}
-
-.champion-avatar {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--brand-gold); /* Borda dourada para destacar o vencedor! */
-    box-shadow: 0 0 10px rgba(201, 150, 58, 0.3);
-}
-
-.champion-info {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Impede que textos muito longos quebrem o layout */
-}
-
-.champion-name {
-    font-size: 1.1rem;
-    font-weight: 700;
+.filter-chip:hover {
+    background-color: rgba(255, 255, 255, 0.08); 
+    border-color: rgba(255, 255, 255, 0.3);
     color: var(--text-primary);
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    transform: translateY(-2px); 
 }
 
-.champion-deck {
+.filter-chip.is-active {
+    background-color: var(--text-primary);
+    border-color: var(--text-primary);
+    color: var(--bg-base); 
+    font-weight: 600;
+}
+
+.filter-chip:active {
+    transform: translateY(0); 
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Chips Secundários (Com dropdown) */
+.secondary-chip {
+    background-color: rgba(255, 255, 255, 0.03);
+    max-width: 180px; 
+}
+
+.secondary-chip i {
+    color: var(--brand-primary);
+}
+
+.secondary-chip .chip-text-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ==========================================
+   8. POPOVERS (MENUS FLUTUANTES DOS CHIPS)
+   ========================================== */
+.chip-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.chip-popover {
+    position: absolute;
+    top: calc(100% + 8px); 
+    left: 0;
+    width: 240px;
+    background-color: rgba(24, 24, 27, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; 
+    transform: translateY(10px);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 999; 
+}
+
+.chip-dropdown-wrapper.is-open .chip-popover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; 
+    transform: translateY(0);
+}
+
+.popover-option {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.popover-option:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+.popover-option.is-selected {
+    color: var(--brand-primary);
+    font-weight: 500;
+}
+
+.popover-divider {
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0.4rem 0;
+}
+
+.popover-action {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+}
+.popover-action i {
+    color: var(--brand-primary);
+}
+
+/* ==========================================
+   9. CALENDÁRIO FLATPICKR CUSTOMIZADO
+   ========================================== */
+.flatpickr-calendar {
+    background: rgba(24, 24, 27, 0.95) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 10px !important;
+}
+
+.flatpickr-calendar::before, 
+.flatpickr-calendar::after {
+    display: none !important;
+}
+
+.flatpickr-months .flatpickr-month,
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+span.flatpickr-weekday,
+.flatpickr-day {
+    color: var(--text-primary) !important;
+}
+
+.flatpickr-day.prevMonthDay, 
+.flatpickr-day.nextMonthDay {
+    color: var(--text-muted) !important;
+}
+
+.flatpickr-day:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: transparent !important;
+}
+
+.flatpickr-day.selected, 
+.flatpickr-day.selected:hover,
+.flatpickr-day.selected:focus {
+    background: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5) !important; 
+}
+
+/* ==========================================
+   10. TAGS DE ELO E GAMIFICAÇÃO
+   ========================================== */
+
+/* Bordas de Destaque (Para os Cards e Pódios) */
+.elo-bronze { border-top-color: var(--elo-bronze); }
+.elo-silver { border-top-color: var(--elo-silver); }
+.elo-gold { border-top-color: var(--elo-gold); }
+.elo-platinum { border-top-color: var(--elo-platinum); }
+.elo-diamond { border-top-color: var(--elo-diamond, #a78bfa); }
+.elo-master { border-top-color: var(--elo-master, #f472b6); }
+.elo-challenger { border-top-color: var(--elo-challenger, #ef4444); }
+
+/* Badges Maiores (Usados em Pódios ou Cabeçalhos de Perfil) */
+.elo-badge {
     font-size: 0.75rem;
-    color: var(--brand-gold); /* Deck em dourado ou na cor primary */
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin: 0.35rem 0;
-    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
 }
+.badge-bronze { background-color: rgba(205, 127, 50, 0.15); color: var(--elo-bronze); border: 1px solid rgba(205, 127, 50, 0.3); }
+.badge-silver { background-color: rgba(192, 192, 192, 0.15); color: var(--elo-silver); border: 1px solid rgba(192, 192, 192, 0.3); }
+.badge-gold { background-color: rgba(255, 215, 0, 0.15); color: var(--elo-gold); border: 1px solid rgba(255, 215, 0, 0.3); }
+.badge-platinum { background-color: rgba(56, 189, 248, 0.15); color: var(--elo-platinum); border: 1px solid rgba(56, 189, 248, 0.3); }
+.badge-diamond { background-color: rgba(167, 139, 250, 0.15); color: var(--elo-diamond, #a78bfa); border: 1px solid rgba(167, 139, 250, 0.3); }
+.badge-master { background-color: rgba(244, 114, 182, 0.15); color: var(--elo-master, #f472b6); border: 1px solid rgba(244, 114, 182, 0.3); }
+.badge-challenger { background-color: rgba(239, 68, 68, 0.15); color: var(--elo-challenger, #ef4444); border: 1px solid rgba(239, 68, 68, 0.3); }
 
-.champion-tourney {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+/* Tags Menores (Usadas em Listas, Buscas e Tabelas) */
+.elo-tag {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
     white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
+.tag-bronze { border-color: var(--elo-bronze); color: var(--elo-bronze); background: rgba(205, 127, 50, 0.1); }
+.tag-silver { border-color: var(--elo-silver); color: var(--elo-silver); background: rgba(192, 192, 192, 0.1); }
+.tag-gold { border-color: var(--elo-gold); color: var(--elo-gold); background: rgba(255, 215, 0, 0.1); }
+.tag-platinum { border-color: var(--elo-platinum); color: var(--elo-platinum); background: rgba(56, 189, 248, 0.1); }
+.tag-diamond { border-color: var(--elo-diamond, #a78bfa); color: var(--elo-diamond, #a78bfa); background: rgba(167, 139, 250, 0.1); }
+.tag-master { border-color: var(--elo-master, #f472b6); color: var(--elo-master, #f472b6); background: rgba(244, 114, 182, 0.1); }
+.tag-challenger { border-color: var(--elo-challenger, #ef4444); color: var(--elo-challenger, #ef4444); background: rgba(239, 68, 68, 0.1); }

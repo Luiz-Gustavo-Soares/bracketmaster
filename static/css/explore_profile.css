@@ -95,23 +95,6 @@
     margin-top: 0.75rem;
 }
 
-/* --- Injeção das Variáveis de Elo no Pódio --- */
-.elo-challenger { border-top-color: var(--elo-challenger, #ef4444); }
-.elo-master { border-top-color: var(--elo-master, #f472b6); }
-.elo-diamond { border-top-color: var(--elo-diamond, #a78bfa); }
-
-/* Badges de Elo (Tags do Pódio) */
-.elo-badge {
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 0.3rem 0.8rem;
-    border-radius: 4px;
-}
-.badge-challenger { background-color: rgba(239, 68, 68, 0.15); color: var(--elo-challenger, #ef4444); border: 1px solid rgba(239, 68, 68, 0.3); }
-.badge-master { background-color: rgba(244, 114, 182, 0.15); color: var(--elo-master, #f472b6); border: 1px solid rgba(244, 114, 182, 0.3); }
-.badge-diamond { background-color: rgba(167, 139, 250, 0.15); color: var(--elo-diamond, #a78bfa); border: 1px solid rgba(167, 139, 250, 0.3); }
 
 /* LISTA HORIZONTAL DE PERFIS */
 .profile-list-card {
@@ -135,29 +118,6 @@
     margin: 0;
 }
 
-/* Tag de Elo   */
-.elo-tag {
-    font-size: 0.65rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    border: 1px solid;
-    font-weight: 700;
-}
-.tag-challenger { border-color: var(--elo-challenger, #ef4444); color: var(--elo-challenger, #ef4444); background: rgba(239, 68, 68, 0.1); }
-.tag-master { border-color: var(--elo-master, #f472b6); color: var(--elo-master, #f472b6); background: rgba(244, 114, 182, 0.1); }
-
-.list-meta {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
-
-.list-bio {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-top: 0.5rem;
-    line-height: 1.5;
-}
-
 /* Tipografia de Status e Botões */
 .stat-num {
     font-size: 1.75rem;
@@ -174,12 +134,5 @@
 
 .list-btn {
     padding: 0.8rem 2rem;
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
     white-space: nowrap;
-}
-
-.list-btn:hover {
-    background-color: #ffffff;
-    color: var(--bg-base);
 }
