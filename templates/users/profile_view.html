@@ -41,6 +41,7 @@
 
                 <div class="profile-info__header">
                     <h1 class="profile-name">{{ profile.nickname|default:profile.user.username }}</h1>
+                    <span class="elo-badge badge-platinum" style="margin-top: 0.5rem; display: inline-block;">Platina</span>
                     {# TODO: adicionar localização ao modelo Profile #}
                     {% if profile.location %}
                         <span class="profile-location">
