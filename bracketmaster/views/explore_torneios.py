@@ -4,7 +4,7 @@ from datetime import date
 # 1. Importamos a sua classe MockTorneio que já existe no index.py
 from .index import MockTorneio 
 
-def torneios_view(request):
+def explore_torneios(request):
     
     # 2. Criamos uma base de torneios (usando os mesmos dados do seu print)
     torneio_1 = MockTorneio("Mix Diamantina Dia D de Dado", "Commander", 128, date(2026, 6, 14))
@@ -21,4 +21,4 @@ def torneios_view(request):
         'total_torneios': len(lista_torneios) # Vai enviar o número 8 dinamicamente
     }
 
-    return render(request, 'torneios.html', context)
+    return render(request, 'explore_torneios.html', context)
