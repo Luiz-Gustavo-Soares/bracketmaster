@@ -56,4 +56,31 @@
 
 .dash-main {
     background: linear-gradient(to right, rgba(9, 9, 11, 0.75) 0%, rgba(9, 9, 11, 0.97) 30%);
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 2.5rem;
 }
+
+.dash-body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    padding-top: var(--navbar-height);
+}
+
+.dash-wrapper {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.dash-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+}
+

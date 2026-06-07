@@ -84,3 +84,26 @@
     transition: width 0.1s ease-out;
     box-shadow: 0 0 8px var(--brand-primary);
 }
+
+.hero-section {
+    position: relative;
+    height: 80vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: top center;
+    padding-top: var(--navbar-height);
+}
+
+.benefits-section {
+    padding: 4rem 0 6rem 0;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}

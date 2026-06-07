@@ -12,10 +12,11 @@
 
 <div class="explore-page">
 
+     {% include 'components/navbar.html' %}
+
     <div class="explore-hero" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}'); min-height: 70vh;">
         <div class="explore-hero-overlay"></div>
-        
-        {% include 'components/navbar.html' %}
+
 
         <div class="container container-explore hero-profiles-container">
             
@@ -143,7 +144,7 @@
                             <div class="stat-col"><span class="stat-num">25</span><span class="stat-lbl">TORNEIOS</span></div>
                             <div class="stat-col"><span class="stat-num">#2</span><span class="stat-lbl">RANK</span></div>
                         </div>
-                        <button class="btn btn-outline list-btn">Ver Perfil</button>
+                        <button class="btn btn-outline-light list-btn">Ver Perfil</button>
                     </div>
                 </div>
 

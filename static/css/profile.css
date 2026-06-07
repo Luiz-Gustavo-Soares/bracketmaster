@@ -10,6 +10,10 @@
 
 .profile-body-content {
     background-color: var(--bg-base);
+    flex: 1;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .profile-hero__overlay {
@@ -227,4 +231,27 @@
     .profile-bio { margin: 0 auto; }
     .profile-tags, .profile-winrate { justify-content: center; }
     .profile-name { font-size: 2rem; }
+}
+
+.profile-page {
+    padding-top: var(--navbar-height);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-hero {
+    position: relative;
+    min-height: 420px;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 3rem;
+}
+
+.profile-hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 22rem;
 }
