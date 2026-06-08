@@ -47,6 +47,8 @@ class Torneio(models.Model):
 
     local = models.CharField(max_length=150)
 
+    premiacoes = models.TextField(blank=True, null=True)
+
     tipo = models.CharField(
         max_length=2,
         choices=TipoTorneio.choices,
@@ -123,6 +125,12 @@ class Torneio(models.Model):
         """Gera um token de 6 digitos hexadecimal"""
         codigo = secrets.token_hex(3).upper()
         return codigo
+    
+
+    def get_premiacoes_list(self) -> list:
+        """Retorna uma lista contendo as premiacoes divididas em: 1°, 2°, 3° outro...
+        """
+        return self.premiacoes.strip().split('\n', 3)
 
 
     def inscricoes_abertas(self):
