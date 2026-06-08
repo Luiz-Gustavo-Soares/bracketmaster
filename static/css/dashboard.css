@@ -1,8 +1,6 @@
 .dash-body .main-navbar {
     background-color: rgba(0, 0, 0, 0.75);
     backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
 }
 
 .dash-sidebar__inner {
@@ -53,32 +51,26 @@
 }
 
 .dash-main {
-    background: linear-gradient(to right, rgba(9, 9, 11, 0.75) 0%, rgba(9, 9, 11, 0.97) 30%);
     flex: 1;
     overflow-y: auto;
+    background: linear-gradient(to right, rgba(9,9,11,0.75) 0%,rgba(9,9,11,0.97) 30%);
     padding: 2rem 2.5rem;
 }
 
 .dash-body {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
     background-size: cover;
     background-position: center;
     padding-top: var(--navbar-height);
+    min-height: 100vh;
 }
 
-.dash-wrapper {
+.dash-layout {
     display: flex;
-    flex: 1;
-    overflow: hidden;
+    height: calc(100vh - var(--navbar-height));
 }
 
 .dash-sidebar {
-    width: 200px;
+    width: 220px;
     flex-shrink: 0;
-    background-size: cover;
-    background-position: center;
+    background-color: rgba(0, 0, 0, 0.75);
 }
-
