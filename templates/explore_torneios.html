@@ -14,15 +14,13 @@
 
 <div class="explore-page">
 
-    <!-- SEÇÃO 1: HERO (IMAGEM + PAINEL DE DESTAQUE-->
-    <div class="explore-hero" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}');">
+    <div class="explore-hero" style="background-image: url('{% if featured_tournament.imagem_capa %}{{ featured_tournament.imagem_capa.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
         <div class="explore-hero-overlay"></div>
         
         {% include 'components/navbar.html' %}
 
         <div class="container container-explore hero-featured-container">
             
-            <!-- Painel de Destaque -->
             <div class="featured-tourney-panel animate-fade-up" style="animation-delay: 0.1s;">
                 
                 <div class="featured-header-row">
@@ -30,69 +28,80 @@
                         <i class="fa-solid fa-star"></i> Evento Principal
                     </span>
                     <div class="featured-organizer-clean">
-                        <img src="{% static 'media/avatares/nissa.png' %}" alt="Organizador" class="feat-avatar">
-                        <span>Criado por <strong>Liliana Vess</strong></span>
+                        <img src="{% if featured_tournament.organizer.profile.profile_imagem %}{{ featured_tournament.organizer.profile.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Organizador" class="feat-avatar">
+                        <span>Criado por <strong>{{ featured_tournament.organizer.username }}</strong></span>
                     </div>
                 </div>
                 
-                <h1 class="featured-title">Redraft Gótico de Innistrad Muito Goth</h1>
-                <p class="featured-desc">O evento mais aguardado da temporada chegou. Prepare seu melhor deck, reúna sua guilda e venha disputar o topo do pódio por prêmios lendários.</p>
+                <h1 class="featured-title">{{ featured_tournament.name }}</h1>
+                <p class="featured-desc">{{ featured_tournament.description }}</p>
                 
                 <div class="featured-stats-clean">
                     <div class="stat-clean">
                         <i class="fa-regular fa-calendar stat-icon"></i>
                         <div class="stat-text">
                             <span class="stat-clean-label">Data e Hora</span>
-                            <span class="stat-clean-value">21/06/2026 às 10:00</span>
+                            <span class="stat-clean-value">{{ featured_tournament.date|date:"d/m/Y" }} às {{ featured_tournament.time }}</span>
                         </div>
                     </div>
                     <div class="stat-clean">
                         <i class="fa-solid fa-location-dot stat-icon"></i>
                         <div class="stat-text">
                             <span class="stat-clean-label">Localização</span>
-                            <span class="stat-clean-value">Diamantina (MG)</span>
+                            <span class="stat-clean-value">{{ featured_tournament.address }}</span>
                         </div>
                     </div>
                     <div class="stat-clean">
-                        <i class="fa-solid fa-trophy stat-icon" style="color: var(--brand-gold);"></i>
+                        <i class="fa-solid fa-users stat-icon" style="color: var(--brand-gold);"></i>
                         <div class="stat-text">
-                            <span class="stat-clean-label">Premiação Total</span>
-                            <span class="stat-clean-value" style="color: var(--brand-gold);">18 Play Boosters</span>
+                            <span class="stat-clean-label">Vagas</span>
+                            <span class="stat-clean-value" style="color: var(--brand-gold);">{{ featured_tournament.player_count }} / {{ featured_tournament.max_players }}</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="featured-actions">
-                    <button class="btn-anim-subscribe">
-                        <span class="text-front">Inscrever-se</span>
-                        <span class="text-back">Agora!</span>
-                    </button>
-                    <a href="{% url 'torneio_view' %}" class="btn btn-outline-light" style="padding: 1rem 2rem; font-size: 1.1rem;">Ver Detalhes do Evento</a>
+                    {% if user.is_authenticated %}
+                        <form method="POST" action="{% if featured_tournament %}{% url 'tournaments:tournament_detail' featured_tournament.pk %}{% else %}#{% endif %}" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-anim-subscribe">
+                                <span class="text-front">Inscrever-se</span>
+                                <span class="text-back">Agora!</span>
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" style="text-decoration: none;">
+                            <button type="button" class="btn-anim-subscribe">
+                                <span class="text-front">Fazer Login</span>
+                                <span class="text-back">Para Jogar!</span>
+                            </button>
+                        </a>
+                    {% endif %}
+                    
+                    <a href="{% if featured_tournament %}{% url 'tournaments:tournament_detail' featured_tournament.pk %}{% else %}#{% endif %}" class="btn btn-outline-light" style="height: 54px; padding: 0 2rem; font-size: 1.05rem; display: inline-flex; align-items: center;">Ver Detalhes do Evento</a> <!--se existe um torneio em destaque me de a url dele, se não, taca um # não quebra a page e fica dinamico, só mudar o bd-->   
                 </div>
                 
             </div>
         </div>
     </div>
 
-    <!--CORPO (BUSCA + CARDS + CAMPEÕES) -->
     <div class="explore-body-section">
         <div class="container container-explore explore-content">
 
-            <!-- Grid Que Divide a Tela em Duas Colunas -->
-            <div class="explore-two-columns">
+<div class="explore-two-columns">
 
-                <!-- COLUNA ESQUERDA: BUSCA E GRID DE TORNEIOS -->
                 <div class="explore-main-column">
                     
                     <div class="explore-search-section animate-fade-up" style="animation-delay: 0.2s;">
                         <h2 class="explore-subtitle">Torneios</h2>
                         <p class="explore-desc">Encontre eventos competitivos, casuais e lendários em toda a comunidade.</p>
                         
-                        <div class="search-input-wrapper">
-                            <input type="text" class="form-input search-input-large" placeholder="Buscar torneio por nome...">
-                            <i class="fa-solid fa-magnifying-glass search-icon-large"></i>
-                        </div>
-
+                        <form method="GET" action="" class="search-input-wrapper">
+                            <input type="text" name="q" class="form-input search-input-large" placeholder="Buscar torneio por nome..." value="{{ request.GET.q }}">
+                            <button type="submit" class="search-submit-btn">
+                                <i class="fa-solid fa-magnifying-glass search-icon-large"></i>
+                            </button>
+                        </form>
                         <div class="filters-chips-row">
                             <div class="format-chips">
                                 <button class="filter-chip is-active">Todos</button>
@@ -110,7 +119,6 @@
                                         <span class="chip-text-value">Data</span> 
                                         <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
                                     </button>
-                                    
                                     <input type="text" id="flatpickr-anchor" style="position: absolute; opacity: 0; width: 1px; height: 1px; top: 0; left: 0; pointer-events: none;" readonly>
                                     
                                     <div class="chip-popover">
@@ -130,53 +138,67 @@
                                         <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
                                     </button>
                                     
-                                    <div class="chip-popover">
-                                        <div class="popover-option is-selected">Qualquer Local</div>
+                                    <div class="chip-popover" style="width: 260px;"> <div class="popover-option is-selected">Qualquer Local</div>
                                         <div class="popover-option">Online (Arena / MTGO)</div>
                                         <div class="popover-option">Presencial</div>
+                                        
                                         <hr class="popover-divider">
-                                        <div class="popover-option popover-action"><i class="fa-solid fa-map-location-dot"></i> Escolher Região...</div>
+                                        
+                                        <div class="popover-custom-input">
+                                            <input type="text" id="input-cidade-filtro" placeholder="Ex: Belo Horizonte, MG" autocomplete="off">
+                                            <button type="button" id="btn-aplicar-cidade" class="btn-aplicar"><i class="fa-solid fa-arrow-right"></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> <hr class="explore-divider animate-fade-up" style="animation-delay: 0.3s;">
 
-                    <hr class="explore-divider animate-fade-up" style="animation-delay: 0.3s;">
-
-                    <!-- Os Cards de Torneio (Que haviam sumido) -->
                     <div class="animate-fade-up" style="animation-delay: 0.4s;">
                         <p class="results-count">{{ total_torneios }} torneios encontrados</p>
                         
                         <div class="cards-grid">
                             {% for torneio in torneios %}
                             <div class="tournament-card">
-                                <div class="card-image" style="background-image: url('{% static 'media/backgrounds/torneio_bg.jpg' %}');">
-                                    <span class="card-format">{{ torneio.formato }}</span>
-                                    <span class="card-date"><i class="fa-regular fa-calendar"></i> {{ torneio.data_evento|date:"d/m/y" }}</span>
-                                </div>
+                                
+                                <a href="{#}" style="text-decoration: none; color: inherit; display: block;"> 
+                                    <div class="card-image" style="background-image: url('{% if torneio.imagem_capa %}{{ torneio.imagem_capa.url }}{% else %}{% static 'media/backgrounds/torneio_bg.jpg' %}{% endif %}');">
+                                        <span class="card-format">{{ torneio.format }}</span>
+                                        <span class="card-date"><i class="fa-regular fa-calendar"></i> {{ torneio.date|date:"d/m/y" }}</span>
+                                    </div>
+                                </a>
+
                                 <div class="card-body">
-                                    <h3 class="card-title">{{ torneio.nome }}</h3>
-                                    <p class="card-desc">Prepare seu melhor deck e venha disputar o topo do pódio neste evento épico.</p>
+                                    <a href="{}" style="text-decoration: none; color: inherit; display: block;"> 
+                                        <h3 class="card-title">{{ torneio.name }}</h3>
+                                        <p class="card-desc">{{ torneio.description|truncatewords:15 }}</p>
+                                    </a>
+
                                     <div class="card-footer-info">
                                         <a href="#" class="card-author-link">
-                                            <img src="{% static 'media/avatares/nissa.png' %}" alt="Organizador" class="author-avatar">
-                                            <span class="author-name">NissaRevane</span>
+                                            <img src="{% if torneio.organizer.profile.profile_imagem %}{{ torneio.organizer.profile.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Organizador" class="author-avatar">
+                                            <span class="author-name">{{ torneio.organizer.username }}</span>
                                         </a>
-                                        <span class="badge badge-success">ABERTO</span>
+                                        
+                                        {% if torneio.status == 'active' %}
+                                            <span class="badge badge-primary">ANDAMENTO</span>
+                                        {% elif torneio.status == 'finished' %}
+                                            <span class="badge badge-muted">ENCERRADO</span>
+                                        {% else %}
+                                            <span class="badge badge-success">ABERTO</span>
+                                        {% endif %}
                                     </div>
                                 </div>
+
                             </div>
+                            
                             {% empty %}
-                                <p style="color: var(--text-muted); grid-column: 1 / -1;">Nenhum torneio encontrado com estes filtros.</p>
+                                <p style="color: var(--text-muted); grid-column: 1 / -1; padding: 2rem 0;">Nenhum torneio encontrado com os critérios de busca.</p>
                             {% endfor %}
                         </div>
                     </div>
                     
-                </div> 
-                
-                <!-- COLUNA DIREITA: SIDEBAR DE CAMPEÕES -->
-                <aside class="explore-sidebar animate-fade-up" style="animation-delay: 0.5s;">
+                </div> <aside class="explore-sidebar animate-fade-up" style="animation-delay: 0.5s;">
                     
                     <div class="champions-header">
                         <h2 class="champions-title">Campeões Recentes</h2>
@@ -184,28 +206,26 @@
                     </div>
 
                     <div class="champions-grid">
+                        {% for champion in recent_champions|slice:":5" %}
                         <div class="champion-card">
-                            <img src="{% static 'media/avatares/nissa.png' %}" alt="Nissa" class="champion-avatar">
+                            <img src="{% if champion.user.profile.profile_imagem %}{{ champion.user.profile.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Avatar" class="champion-avatar">
                             <div class="champion-info">
-                                <span class="champion-name">NissaRevane</span>
-                                <span class="champion-deck"><i class="fa-solid fa-layer-group"></i> Mono-Green Ramp</span>
+                                <span class="champion-name">{{ champion.user.username }}</span>
+                                <span class="champion-deck"><i class="fa-solid fa-layer-group"></i> {{ champion.deck_name }}</span>
                             </div>
                         </div>
-
-                        <div class="champion-card">
-                            <img src="{% static 'media/avatares/gideon.png' %}" alt="Gideon" class="champion-avatar">
-                            <div class="champion-info">
-                                <span class="champion-name">Gideon Jura</span>
-                                <span class="champion-deck"><i class="fa-solid fa-layer-group"></i> Azorius Control</span>
-                            </div>
-                        </div>
+                        
+                        {% empty %}
+                        <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 1rem;">O Hall da Fama ainda está aguardando seus primeiros campeões.</p>
+                        {% endfor %}
                     </div>
+                    
                     <a href="#" class="view-all-champions">
                         Ver Hall da Fama <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </aside> 
 
-            </div> 
+            </div>
         </div> 
     </div>
     
@@ -213,7 +233,7 @@
     
 </div>
 {% endblock %} 
-<!-- AQUI ABRIMOS O BLOCK DE JS SEPARADAMENTE -->
+
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
@@ -227,35 +247,29 @@
         const dataBtn = document.getElementById('btn-filtro-data');
         const dataText = dataBtn ? dataBtn.querySelector('.chip-text-value') : null;
         
-        // Inicializa o Flatpickr atrelado ao input oculto, mas posicionado no botão
         const calendario = flatpickr("#flatpickr-anchor", {
             positionElement: dataBtn,
             locale: "pt",
             dateFormat: "d/m/Y",
             minDate: "today",
             clickOpens: false,
-
             onChange: function(selectedDates, dateStr, instance) {
-
-                // Se o calendário foi limpo, não faz nada
                 if (!dateStr) return;
-
                 if(dataText) {
                     dataText.textContent = dateStr;
                     dataBtn.classList.add('is-active');
                     dataBtn.style.borderColor = "var(--brand-primary)";
-                    
                     const popover = dataBtn.closest('.chip-dropdown-wrapper').querySelector('.chip-popover');
                     popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
                 }
             }
         });
+        
         // ==========================================
-        // 2. DELEGAÇÃO DE EVENTOS (O CÉREBRO DA PÁGINA)
+        // 2. DELEGAÇÃO DE EVENTOS
         // ==========================================
         document.addEventListener('click', function(e) {
             
-            // FORMATOS (Visual dos Chips)
             const formatChip = e.target.closest('.format-chips .filter-chip');
             if (formatChip) {
                 e.preventDefault();
@@ -264,22 +278,16 @@
                 return;
             }
 
-            // ABRIR/FECHAR POPOVERS (Data e Local)
             const dropdownBtn = e.target.closest('.chip-dropdown-wrapper > button');
             if (dropdownBtn) {
                 e.preventDefault();
                 const wrapper = dropdownBtn.closest('.chip-dropdown-wrapper');
                 const isAlreadyOpen = wrapper.classList.contains('is-open');
-                
                 document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
-                
-                if (!isAlreadyOpen) {
-                    wrapper.classList.add('is-open');
-                }
+                if (!isAlreadyOpen) wrapper.classList.add('is-open');
                 return;
             }
 
-            // SELECIONAR OPÇÃO DO POPOVER E SINCRONIZAR BOTÃO
             const popoverOption = e.target.closest('.popover-option:not(.popover-action)');
             if (popoverOption) {
                 const wrapper = popoverOption.closest('.chip-dropdown-wrapper');
@@ -296,11 +304,9 @@
                     "Qualquer Local": "Local"
                 };
                 
-                // Atualiza visual
                 popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
                 popoverOption.classList.add('is-selected');
                 
-                // Atualiza texto e estilo do botão
                 if (textoEscolhido.startsWith('Qualquer')) {
                     textSpan.textContent = btn.id === 'btn-filtro-data' ? "Data" : "Local";
                     btn.classList.remove('is-active');
@@ -317,7 +323,39 @@
                 return;
             }
 
-            // AÇÕES (Abrir Calendário)
+    
+            // APLICAR CIDADE DIGITADA
+            const btnAplicarCidade = e.target.closest('#btn-aplicar-cidade');
+            if (btnAplicarCidade) {
+                e.preventDefault();
+                const wrapper = btnAplicarCidade.closest('.chip-dropdown-wrapper');
+                const popover = wrapper.querySelector('.chip-popover');
+                const input = document.getElementById('input-cidade-filtro');
+                const btn = wrapper.querySelector('button');
+                const textSpan = btn.querySelector('.chip-text-value');
+                
+                const cidade = input.value.trim();
+                
+                if (cidade) {
+                    // Coloca a cidade digitada no botão
+                    textSpan.textContent = cidade;
+                    btn.classList.add('is-active');
+                    btn.style.borderColor = "var(--brand-primary)";
+                    
+                    // Remove a seleção das outras opções (Online, Presencial, etc)
+                    popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
+                    
+                    // Fecha o popover
+                    wrapper.classList.remove('is-open');
+                }
+                return;
+            }
+
+            // Impede que o popover feche acidentalmente enquanto o usuário digita
+            if (e.target.closest('.popover-custom-input')) {
+                return; 
+            }
+
             const popoverAction = e.target.closest('.popover-action');
             if (popoverAction && popoverAction.id === 'abrir-calendario-real') {
                 e.preventDefault();
@@ -326,7 +364,6 @@
                 return;
             }
 
-            // FECHAR AO CLICAR FORA (Logica Mestra)
             document.querySelectorAll('.chip-dropdown-wrapper.is-open').forEach(wrapper => {
                 if (!e.target.closest('.flatpickr-calendar') && !wrapper.contains(e.target)) {
                     wrapper.classList.remove('is-open');

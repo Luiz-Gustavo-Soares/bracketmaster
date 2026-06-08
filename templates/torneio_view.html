@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Redraft Gótico de Innistrad | Bracketmaster{% endblock %}
+{% block title %}{{ tournament.name }} | Bracketmaster{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/torneio_view.css' %}">
@@ -13,26 +13,45 @@
 
     {% include 'components/navbar.html' %}
 
-    <div class="tournament-hero" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}');">
+    <div class="tournament-hero" style="background-image: url('{% if tournament.imagem_capa %}{{ tournament.imagem_capa.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
         <div class="tournament-hero-overlay"></div>
         
         <div class="container tournament-hero-container">
             <div class="tournament-hero-content animate-fade-up">
                 
                 <div class="tournament-status-row">
-                    <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Inscrições Abertas</span>
-                    <span class="badge badge-muted"><i class="fa-regular fa-clock"></i> 8 Dias Restantes</span>
+                    {% if tournament.status == 'open' %}
+                        <span class="badge badge-success">
+                            <i class="fa-solid fa-circle-check"></i> Inscrições Abertas
+                        </span>
+                    {% elif tournament.status == 'active' %}
+                        <span class="badge badge-primary">
+                            <i class="fa-solid fa-play"></i> Jogando
+                        </span>
+                    {% elif tournament.status == 'finished' %}
+                        <span class="badge badge-muted">
+                            <i class="fa-solid fa-flag-checkered"></i> Finalizado
+                        </span>
+                    {% endif %}
+                    
+                    {% if tournament.days_remaining > 0 %}
+                        <span class="badge badge-muted">
+                            <i class="fa-regular fa-clock"></i> {{ tournament.days_remaining }} Dias Restantes
+                        </span>
+                    {% endif %}
                 </div>
                 
-                <h1 class="tournament-main-title">Redraft Gótico de Innistrad</h1>
-                <p class="tournament-hero-subtitle">Prepare seu melhor deck, reúna sua guilda e venha disputar o topo do pódio por prêmios lendários em Innistrad.</p>
+                <h1 class="tournament-main-title">{{ tournament.name }}</h1>
+                <p class="tournament-hero-subtitle">{{ tournament.description }}</p>
                 
                 <div class="tournament-tags-row">
-                    <span class="tourney-tag">Draft</span>
-                    <span class="tourney-tag">Suíço</span>
-                    <span class="tourney-tag">3 Rodadas</span>
-                    <span class="tourney-tag">Presencial</span>
-                    <span class="tourney-tag">Decklist Obrigatória</span>
+                    <span class="tourney-tag">{{ tournament.format }}</span>
+                    <span class="tourney-tag">{{ tournament.structure }}</span>
+                    <span class="tourney-tag">{{ tournament.rounds }} Rodadas</span>
+                    <span class="tourney-tag">{{ tournament.modality }}</span>
+                    {% if tournament.decklist_required %}
+                        <span class="tourney-tag">Decklist Obrigatória</span>
+                    {% endif %}
                 </div>
 
             </div>
@@ -47,31 +66,39 @@
                     
                     <section class="content-block">
                         <h2 class="block-title">Sobre o Evento</h2>
-                        <p class="block-text">O evento mais aguardado da temporada chegou. O plano das sombras abre suas portas para um torneio de Draft imersivo. Os jogadores se enfrentarão em rodadas de formato Suíço clássico. Traga seus protetores de cartas mais sombrios e prepare-se para o combate!</p>
+                        <p class="block-text">{{ tournament.description }}</p>
                     </section>
-
+                    {% if tournament.prizes or not tournament %}
                     <section class="content-block">
-                        <h2 class="block-title">Premiação Especial</h2>
+                        <h2 class="block-title">Premiação</h2>
                         <div class="prizes-grid">
-                            <div class="prize-card prize-first">
-                                <div class="prize-rank"><i class="fa-solid fa-crown"></i> 1º Lugar</div>
-                                <div class="prize-reward">9 Play Boosters</div>
+                            
+                    {% if premiacoes %}
+                                {% for premio in premiacoes %}
+                                <div class="prize-card {% if forloop.first %}prize-first{% endif %}">
+                                    <div class="prize-rank">
+                                        {% if forloop.first %}<i class="fa-solid fa-crown"></i>{% endif %}
+                                        {{ forloop.counter }}º Lugar
+                                    </div>
+                                    <div class="prize-reward">{{ premio }}</div>
+                                </div>
+                                {% endfor %}
+                        {% else %}
+                            <div style="background-color: rgba(255,255,255,0.01);border: 1px dashed rgba(255,255,255,0.15);
+                                border-radius: var(--radius-md);min-height: 220px;display: flex;flex-direction: column;justify-content: center;align-items: center;gap: 1rem;">
+                                <i class="fa-solid fa-box-open"style="font-size: 2rem; color: var(--text-muted); opacity: .5;"></i>
+                                <p style="margin: 0;max-width: 280px;text-align: center;color: var(--text-secondary);">Nenhuma premiação foi cadastrada para este evento.</p>
                             </div>
-                            <div class="prize-card">
-                                <div class="prize-rank">2º Lugar</div>
-                                <div class="prize-reward">6 Play Boosters</div>
-                            </div>
-                            <div class="prize-card">
-                                <div class="prize-rank">3º Lugar</div>
-                                <div class="prize-reward">3 Play Boosters</div>
-                            </div>
+                        {% endif %}
+
                         </div>
                     </section>
+                    {% endif %}
 
                     <section class="content-block">
                         <div class="block-header-row">
                             <h2 class="block-title">Classificação Atual</h2>
-                            <span class="results-count">4 Jogadores Registrados</span>
+                            <span class="results-count">{{ tournament.player_count }} Jogadores Registrados</span>
                         </div>
                         
                         <div class="table-container">
@@ -87,50 +114,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for entry in standings %}
                                     <tr>
-                                        <td style="text-align: center; font-weight: 700; color: var(--brand-gold);">1º</td>
-                                        <td class="table-player-cell">
-                                            <img src="{% static 'media/avatares/gideon.png' %}" alt="Avatar" class="table-player-avatar">
-                                            <span class="player-name">IagoMagic</span>
+                                        <td style="text-align: center; font-weight: 700;
+                                            {% if forloop.first %}color: var(--brand-gold);
+                                            {% elif forloop.counter == 2 %}color: var(--text-secondary);
+                                            {% elif forloop.counter == 3 %}color: #cd7f32;
+                                            {% else %}color: var(--text-muted);{% endif %}">
+                                            {{ forloop.counter }}º
                                         </td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center; font-weight: 700;">0</td>
+                                        
+                                        <td class="table-player-cell">
+                                            <img src="{% static 'media/avatares/Atraxa.jpg' %}" class="table-player-avatar" alt="Avatar">
+                                            <span class="player-name">{{ entry.player.username }}</span>
+                                        </td>
+                                        <td style="text-align: center;">{{ entry.wins|default:"—" }}</td>
+                                        <td style="text-align: center;">{{ entry.losses|default:"—" }}</td>
+                                        <td style="text-align: center;">{{ entry.draws|default:"—" }}</td>
+                                        <td style="text-align: center; font-weight: 700;">{{ entry.points|default:"—" }}</td>
                                     </tr>
+                                    {% empty %}
                                     <tr>
-                                        <td style="text-align: center; font-weight: 700; color: var(--text-secondary);">2º</td>
-                                        <td class="table-player-cell">
-                                            <img src="{% static 'media/avatares/jace.png' %}" alt="Avatar" class="table-player-avatar">
-                                            <span class="player-name">ItaloFelipe</span>
+                                        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                            Nenhum resultado ainda. O torneio ainda não começou ou os dados não foram lançados.
                                         </td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center; font-weight: 700;">0</td>
                                     </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: 700; color: #cd7f32;">3º</td>
-                                        <td class="table-player-cell">
-                                            <img src="{% static 'media/avatares/nissa.png' %}" alt="Avatar" class="table-player-avatar">
-                                            <span class="player-name">LuizGustavo</span>
-                                        </td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center; font-weight: 700;">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; color: var(--text-muted);">4º</td>
-                                        <td class="table-player-cell">
-                                            <img src="{% static 'media/avatares/lilia.png' %}" alt="Avatar" class="table-player-avatar">
-                                            <span class="player-name">TaynaVess</span>
-                                        </td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center;">0</td>
-                                        <td style="text-align: center; font-weight: 700;">0</td>
-                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -143,7 +152,9 @@
                         
                         <div class="ticket-price-row">
                             <span class="ticket-label">Inscrição</span>
-                            <span class="ticket-price">R$ 50,00</span>
+                            <span class="ticket-price">
+                                {% if tournament.entry_fee %}R$ {{ tournament.entry_fee }}{% else %}Gratuito{% endif %}
+                            </span>
                         </div>
 
                         <hr class="ticket-divider">
@@ -153,17 +164,16 @@
                                 <i class="fa-regular fa-calendar-days"></i>
                                 <div class="info-text">
                                     <span class="info-label">Data do Evento</span>
-                                    <span class="info-val">21/06/2026 às 10:00</span>
+                                    <span class="info-val">{{ tournament.date|date:"d/m/Y" }} às {{ tournament.time }}</span>
                                 </div>
                             </div>
 
                             <div class="ticket-info-item">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <div class="info-text">
-                                    <span class="info-label">Local (Presencial)</span>
+                                    <span class="info-label">Local ({{ tournament.modality }})</span>
                                     <span class="info-val" style="line-height: 1.4;">
-                                        Lugano Doceria, Beco da Tecla, nº 48, Loja A<br>
-                                        <small style="color: var(--text-muted); font-size: 0.8rem;">Diamantina, MG</small>
+                                        {{ tournament.address }}
                                     </span>
                                 </div>
                             </div>
@@ -172,24 +182,63 @@
                                 <i class="fa-solid fa-users"></i>
                                 <div class="info-text">
                                     <span class="info-label">Vagas Disponíveis</span>
-                                    <span class="info-val">4 de 8 preenchidas</span>
+                                    <span class="info-val">{{ tournament.player_count }} de {{ tournament.max_players }} preenchidas</span>
                                 </div>
                             </div>
                         </div>
 
-                        <button class="btn btn-primary btn-full ticket-action-btn">
-                            <i class="fa-solid fa-right-to-bracket"></i> GARANTIR MINHA VAGA
-                        </button>
+                        {% if user.is_authenticated %}
+
+                            {% if tournament.status == 'aberto' %} <!--colocar os status corretos com base no bd-->
+
+                                <form method="POST" action="{}"> <!--Colocar uma ação depois-->
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-full ticket-action-btn">
+                                        <i class="fa-solid fa-right-to-bracket"></i>
+                                        GARANTIR MINHA VAGA
+                                    </button>
+                                </form>
+
+                            {% elif tournament.status == 'ativo' %}
+
+                                <div class="tournament-live-banner">
+                                    <i class="fa-solid fa-circle-play"></i>
+                                    <span>Torneio em andamento</span>
+                                </div>
+
+                                <a href="{}" 
+                                class="btn btn-full ticket-action-btn ticket-play-btn"> <!--colocar o link de do botão jogar depois-->
+                                    <i class="fa-solid fa-gamepad"></i>
+                                    JOGAR AGORA
+                                </a>
+
+                            {% elif tournament.status == 'finished' %}
+
+                                <button class="btn btn-full ticket-action-btn ticket-disabled-btn" disabled>
+                                    <i class="fa-solid fa-flag-checkered"></i>
+                                    TORNEIO ENCERRADO
+                                </button>
+
+                            {% endif %}
+
+                        {% else %}
+
+                            <a href="{% url 'login' %}" class="btn btn-primary btn-full ticket-action-btn">
+                                <i class="fa-solid fa-user-lock"></i>
+                                ENTRAR PARA INSCREVER
+                            </a>
+
+                        {% endif %}
 
                         <hr class="ticket-divider">
 
                         <div class="sidebar-organizer-info">
                             <span class="profile-block-label">ORGANIZADOR</span>
                             <div class="organizer-profile-row">
-                                <img src="{% static 'media/avatares/lilia.png' %}" alt="Organizador" class="organizer-avatar">
+                                <img src="{% if tournament.organizer.profile.profile_imagem %}{{ tournament.organizer.profile.profile_imagem.url }}{% else %}{% static 'media/avatares/lilia.png' %}{% endif %}" alt="Organizador" class="organizer-avatar">
                                 <div class="organizer-meta">
-                                    <span class="organizer-name">Liliana Vess</span>
-                                    <span class="organizer-title">Lojista Oficial</span>
+                                    <span class="organizer-name">{{ tournament.organizer.username }}</span>
+                                    <span class="organizer-title">Organizador Oficial</span>
                                 </div>
                             </div>
                         </div>
