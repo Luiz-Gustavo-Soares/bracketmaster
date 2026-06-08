@@ -53,3 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 });
+
+// --- MENU MOBILE ---
+const hamburger = document.getElementById('navHamburger');
+const mobileMenu = document.getElementById('navMobileMenu');
+
+if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('is-active');
+        mobileMenu.classList.toggle('is-open');
+    });
+
+    // Fecha ao clicar em um link
+    mobileMenu.querySelectorAll('.nav-mobile-link').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('is-active');
+            mobileMenu.classList.remove('is-open');
+        });
+    });
+}
