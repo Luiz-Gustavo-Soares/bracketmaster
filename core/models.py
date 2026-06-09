@@ -10,6 +10,9 @@ class Cidade(models.Model):
 
         super().save(*args, **kwargs)
 
+    @property
+    def str_city(self):
+        return f'{self.nome}, {self.estado.upper()}'
     
     @staticmethod
     def _normalizar(palavra: str) -> str:
