@@ -44,6 +44,11 @@
     --elo-challenger: #ef4444; 
 }
 
+html {
+    scrollbar-gutter: stable; 
+    overflow-x: hidden;       
+}
+
 /* Reset */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -81,6 +86,9 @@ body {
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
     overflow-x: clip;
+    width: 100%;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 h1, h2, h3 {
@@ -126,7 +134,7 @@ a {
     z-index: 99999; /* Fica acima de tudo, inclusive da navbar */
     display: flex; flex-direction: column;
     transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+    box-shadow: none !important;
 }
 
 .mobile-menu-sidebar.is-open { right: 0; }
