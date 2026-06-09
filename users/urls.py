@@ -4,16 +4,15 @@ from .views import register_view, profile, edit_profile, login_view, like_profil
 
 
 urlpatterns = [
-    path('login/', login_view, name='login'),
-
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    path('login/', login_view, name='login'),
 
     path('register/', register_view, name='register'),
 
-    path('<str:username>', profile, name='users/profile_view.html'),
     path('profile/edit', edit_profile, name='edit_profile'),
     
-
+    
     path('profile/like/<str:username>', like_profile, name='like_profile'),
 
     path(
@@ -39,4 +38,5 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(),
         name="password_reset_complete"
     ),
+    path('<str:username>', profile, name='users/profile_view.html'),
 ]
