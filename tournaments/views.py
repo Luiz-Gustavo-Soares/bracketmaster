@@ -1,9 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.utils import timezone
-from tournaments.models import Torneio
-from tournaments.enums import StatusTorneio, FormatoJogo
 from django.utils.dateparse import parse_date
+from tournaments.models import Torneio
+from tournaments.forms import TorneioForm
+from tournaments.enums import StatusTorneio, FormatoJogo
+from core.models import Cidade
+
 
 def busc_torneios(request):
 
@@ -75,3 +79,53 @@ def torneio(request, id_torneio):
         'torneio': torneio
     }
     return render(request, 'torneio.html', context)
+
+
+@login_required
+def edit_torneio(request, id_torneio):
+    torneio = get_object_or_404(
+        Torneio,
+        pk=id_torneio,
+        organizador=request.user
+    )
+
+    if request.method == 'POST':
+        form = TorneioForm(request.POST, instance=torneio)
+        if form.is_valid():
+            torneio: Torneio = form.save(commit=False)
+            cidade = form.cleaned_data('cidade')
+            estado = form.cleaned_data('estado')
+
+            torneio.adicionar_cidade(cidade, estado)
+            
+            return redirect('dash')
+    else:
+        form = TorneioForm(instance=torneio)
+
+    context = {
+        'form': form
+    }
+    return render(request, 'torneio-edit.html', context)
+
+
+@login_required
+def criar_torneio(request):
+    if request.method == 'POST':
+        form = TorneioForm(request.POST)
+        if form.is_valid():
+            torneio: Torneio = form.save(commit=False)
+            cidade = form.cleaned_data('cidade')
+            estado = form.cleaned_data('estado')
+
+            torneio.adicionar_cidade(cidade, estado)
+            torneio.organizador = request.user
+
+            torneio.save()
+            return redirect('dash')
+    else:
+        form = TorneioForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'torneio-edit.html', context)
