@@ -34,7 +34,7 @@ class Torneio(models.Model):
     )
 
     inscricao_publica = models.BooleanField(
-        default=False
+        default=True
     )
 
     cidade = models.ForeignKey(
