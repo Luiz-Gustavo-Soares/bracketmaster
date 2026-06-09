@@ -4,7 +4,7 @@ from django.db.models import ExpressionWrapper, Case, When, Value
 
 from matches.enums import ResultadoPartida
 
-
+    
 class PerfilQuerySet(models.QuerySet):
 
     def com_taxa_vitoria(self):
@@ -12,16 +12,18 @@ class PerfilQuerySet(models.QuerySet):
         return self.annotate(
 
             total_partidas=Count(
-                'participacaopartida'
+                'user__participacoes'
             ),
+
             total_vitorias=Count(
-                'participacaopartida',
+                'user__participacoes',
                 filter=Q(
-                    participacaopartida__resultado=ResultadoPartida.VITORIA
+                    user__participacoes__resultado=ResultadoPartida.VITORIA
                 )
             )
 
         ).annotate(
+
             taxa_vitoria=Case(
 
                 When(
@@ -31,9 +33,11 @@ class PerfilQuerySet(models.QuerySet):
 
                 default=ExpressionWrapper(
 
-                    F('total_vitorias') * 100.0 / F('total_partidas'),
+                    F('total_vitorias') * 100.0 /
+                    F('total_partidas'),
 
                     output_field=FloatField()
+
                 ),
 
                 output_field=FloatField()

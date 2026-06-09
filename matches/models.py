@@ -53,7 +53,7 @@ class Partida(models.Model):
 
 
 class ParticipacaoPartida(models.Model):
-    jogador = models.ForeignKey(User, on_delete=models.CASCADE)
+    jogador = models.ForeignKey(User, on_delete=models.CASCADE, related_name='participacoes')
     partida = models.ForeignKey(Partida, on_delete=models.CASCADE, related_name='participacoes')
 
     resultado = models.CharField(
