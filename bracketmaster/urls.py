@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views.index import home, profile_view, toggle_like_view
-from .views.dashboard import dashboard, meus_torneios_view
+from .views.dashboard import dashboard, meus_torneios_view, inbox_view, decks_view
 from .views.explore_torneios import explore_torneios
 from .views.explore_profile import explore_profile
 from .views.torneios_view import torneios_view
@@ -37,8 +37,9 @@ urlpatterns = [
     path('explore_torneios/', explore_torneios , name='explore_torneios'),
     path('explore_perfis/', explore_profile, name='explore_profile'),
     path('torneios_view/', torneios_view, name='torneio_view'),
-    path('dashboard/torneios/', meus_torneios_view, name='meus_torneios')
-
+    path('dashboard/torneios/', meus_torneios_view, name='meus_torneios'),
+    path('dashboard/inbox/', inbox_view, name='dashboard_inbox'),
+    path('dashboard/decks/', decks_view, name='dashboard_decks')
 ]
 
 if settings.DEBUG:
