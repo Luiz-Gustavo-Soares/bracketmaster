@@ -20,8 +20,8 @@
         <div class="profile-hero__content container">
 
             <div class="profile-avatar-wrap">
-                {% if profile.profile_imagem %}
-                    <img src="{{ profile.profile_imagem.url }}" alt="{{ profile.nickname }}" class="profile-avatar">
+                {% if profile.avatar %}
+                    <img src="{{ profile.get_avatar_path }}" alt="{{ profile.avatar }}" class="profile-avatar">
                 {% else %}
                     <img src="{% static 'media/avatares/Atraxa.jpg' %}" alt="Avatar padrão" class="profile-avatar">
                 {% endif %}
@@ -40,12 +40,12 @@
 
                 <div class="profile-info__header">
                     <h1 class="profile-name">{{ profile.nickname|default:profile.user.username }}</h1>
-                    <span class="elo-badge badge-platinum" style="margin-top: 0.5rem; display: inline-block;">Platina</span>
+                    {% comment %} <span class="elo-badge badge-platinum" style="margin-top: 0.5rem; display: inline-block;">Platina</span> {% endcomment %}
                     {# TODO: adicionar localização ao modelo Profile #}
-                    {% if profile.location %}
+                    {% if profile.cidade %}
                         <span class="profile-location">
                             <i class="fa-solid fa-location-dot"></i>
-                            {{ profile.location }}
+                            {{  profile.cidade.str_city }}
                         </span>
                     {% endif %}
                 </div>
@@ -120,7 +120,6 @@
                             <tr>
                                 <th>Torneio</th>
                                 <th>Data</th>
-                                <th>Deck</th>
                                 <th>Resultado</th>
                                 <th>Pontos</th>
                             </tr>
@@ -133,13 +132,7 @@
                                     <div class="table-tournament-meta">{{ entrada.torneio.formato }} / {{ entrada.torneio.total_jogadores }} players</div>
                                 </td>
                                 <td>{{ entrada.torneio.data|date:"d M, Y" }}</td>
-                                <td>
-                                    {% if entrada.deck %}
-                                        <span class="badge badge-muted">{{ entrada.deck }}</span>
-                                    {% else %}
-                                        <span class="text-muted">—</span>
-                                    {% endif %}
-                                </td>
+   
                                 <td>
                                     <span class="profile-result {% if entrada.posicao == 1 %}profile-result--gold{% elif entrada.posicao <= 4 %}profile-result--silver{% else %}profile-result--muted{% endif %}">
                                         ● {{ entrada.posicao }}º Lugar

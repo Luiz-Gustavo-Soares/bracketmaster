@@ -3,7 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.core.paginator import Paginator
 from users.models import Profile
 from users.services.usersServices import ProfileService
@@ -102,22 +102,32 @@ def profile(request, username):
         username (str): username referente a um User
     """
 
-    p = get_object_or_404(Profile, user__username=username)
+    try:
+        p = Profile.objects.com_taxa_vitoria().get(
+            user__username=username
+        )
 
-    ultimas_participacoes = list(
-        TorneioParticipante.objects
-        .aprovados
-        .filter(
-            jodagor=p.user
-        ).order_by('-data_inscricao')[:10])
+    except Profile.DoesNotExist:
+        raise Http404("Article not found.")
+    
+    page_number = request.GET.get('page', 1)
 
+    participacoes = TorneioParticipante.objects.aprovados().filter(
+        jogador=p.user
+        ).order_by(
+            '-data_inscricao'
+        )
+
+    torneios_paginator = Paginator(participacoes, 5)
+    torneios_page = torneios_paginator.get_page(page_number)
+    
     context = {
-        'perfil': p,
-        'taxa_vitoria': 99,
-        'historico': ultimas_participacoes,
+        'profile': p,
+        'taxa_vitoria': p.taxa_vitoria,
+        'historico': torneios_page,
     }
     
-    return render(request, 'users/profile.html', context)
+    return render(request, 'users/profile_view.html', context)
 
 
 def login_view(request):
