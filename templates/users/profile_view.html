@@ -27,7 +27,7 @@
                 {% endif %}
                 <button type="button" 
                         id="btn-like" 
-                        class="btn btn-outline-light btn-follow" 
+                        class="btn btn-outline-light btn-like" 
                         data-username="{{ profile.user.username }}">
                     <i class="{% if is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart" id="heart-icon"></i>
                     <span id="btn-text">{% if is_liked %}Curtido{% else %}Curtir jogador{% endif %}</span>

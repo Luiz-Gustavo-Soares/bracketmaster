@@ -610,3 +610,11 @@
 .popover-custom-input .btn-aplicar:hover {
     background-color: #4f46e5;
 }
+
+.btn-like {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-like:active {
+    transform: scale(0.95); /* Dá um pequeno "encolhimento" ao clicar */
+}
