@@ -9,6 +9,7 @@ from tournaments.models import Torneio, TorneioParticipante
 from tournaments.forms import TorneioForm
 from tournaments.enums import StatusTorneio, FormatoJogo
 from tournaments.services.registroService import TournamentRegistrationService
+from tournaments.services.rankinService import RankingService
 
 from tournaments.services.exceptions import RegistrationError
 from core.exceptions import PermissionDenied
@@ -81,9 +82,14 @@ def torneio(request, id_torneio):
         pk=id_torneio
     )
 
+    rank = RankingService.calcular_ranking(torneio)
+
     context = {
-        'torneio': torneio
+        'tournament': torneio,
+        'standings': rank,
+        'premiacoes': torneio.get_premiacoes_list()
     }
+
     return render(request, 'torneio.html', context)
 
 
