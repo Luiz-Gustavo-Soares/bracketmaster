@@ -13,6 +13,10 @@ class FormatoJogo(models.TextChoices):
     DRAFT = "DR", "Draft"
 
 
+class Fundos(models.TextChoices):
+    Fundo1='dinos', 'Dissa'
+
+
 class StatusTorneio(models.TextChoices):
     CRIADO = 'CRIADO', 'Criado'
     INSCRICOES = 'ABERTA', "Aberto"

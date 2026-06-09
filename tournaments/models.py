@@ -1,6 +1,7 @@
 from django.db import models
 import secrets
-from tournaments.enums import FormatoJogo, TipoTorneio, FormatoTorneio, StatusTorneio, StatusRodada, StatusInscricao
+from random import choice
+from tournaments.enums import FormatoJogo, TipoTorneio, FormatoTorneio, StatusTorneio, StatusRodada, StatusInscricao, Fundos
 from django.contrib.auth.models import User
 
 from .strategies.singleEliminationStrategy import SingleEliminationStrategy
@@ -22,6 +23,11 @@ class Torneio(models.Model):
         User,
         on_delete=models.PROTECT,
         related_name='torneios_criados'
+    )
+    
+    imagem_fundo = models.CharField(
+        max_length=20,
+        choices=Fundos
     )
 
     numero_maximo_participantes = models.PositiveIntegerField(default=20)
@@ -153,12 +159,20 @@ class Torneio(models.Model):
         
         self.cidade = cidade
 
+
+    def get_fundo_path(self):
+        return f"/static/media/capas_campeonato/{self.avatar}.jpg"
+
+
     def save(self, *args, **kwargs):
 
         if not self.codigo_inscricao:
             self.codigo_inscricao = (
                 self.gerar_codigo()
             )
+
+        if not self.imagem_fundo:
+            self.imagem_fundo = choice(Fundos.values)
 
         super().save(*args, **kwargs)
 
