@@ -1102,7 +1102,7 @@ span.flatpickr-weekday,
 
 html,
 body {
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 .nav-mobile-search {

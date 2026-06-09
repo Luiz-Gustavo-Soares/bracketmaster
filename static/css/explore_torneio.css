@@ -400,9 +400,13 @@
 
 /* --- Busca e Filtros --- */
 .explore-subtitle {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+    font-family: var(--font-display);
+    font-size: 2.25rem !important;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: none !important;
+    letter-spacing: normal;
 }
 
 .search-input-wrapper {
@@ -411,11 +415,9 @@
 }
 
 .search-icon-large {
-    position: absolute;
-    right: 1.5rem; 
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
+    position: static !important; /* Tira o posicionamento duplicado */
+    transform: none !important;  /* Tira o empurrão duplicado */
+    font-size: 1.25rem;
 }
 
 .search-input-large {
@@ -454,6 +456,27 @@
 .filter-label {
     font-size: 0.75rem;
     color: var(--text-secondary);
+}
+
+/* O botão invisível que alinha a lupa no centro do formulário */
+.search-submit-btn {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-base);
+}
+
+.search-submit-btn:hover {
+    color: var(--brand-primary);
 }
 
 /* Remove o estilo nativo do select */
