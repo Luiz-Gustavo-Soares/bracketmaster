@@ -62,6 +62,5 @@ def profile(request, username):
     context = {
     'profile': p
     }
-    return render(request, 'users/profile.html', context)
-
+    return render(request, 'users/profile_view.html', context)
 

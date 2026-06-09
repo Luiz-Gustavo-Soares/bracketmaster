@@ -566,6 +566,11 @@
     transition: border-color var(--transition-fast);
 }
 
+.chip-popover {
+    background-color: #121214; 
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
 .popover-custom-input:focus-within {
     border-color: var(--brand-primary);
 }
