@@ -48,7 +48,7 @@ class Profile(models.Model):
         self.cidade = cidade
 
     def get_avatar_path(self):
-        return f"/static/avatares/{self.avatar}.png"
+        return f"/static/media/avatares/{self.avatar}.png"
 
     def __str__(self):
         return self.user.username
