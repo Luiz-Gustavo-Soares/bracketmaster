@@ -25,14 +25,13 @@
                 {% else %}
                     <img src="{% static 'media/avatares/Atraxa.jpg' %}" alt="Avatar padrão" class="profile-avatar">
                 {% endif %}
-
-                <form method="POST" action="#"> <!--colocar ação-->
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-light btn-follow">
-                        <i class="fa-regular fa-heart"></i>
-                        Curtir jogador
-                    </button>
-                </form>
+                <button type="button" 
+                        id="btn-like" 
+                        class="btn btn-outline-light btn-follow" 
+                        data-username="{{ profile.user.username }}">
+                    <i class="{% if is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart" id="heart-icon"></i>
+                    <span id="btn-text">{% if is_liked %}Curtido{% else %}Curtir jogador{% endif %}</span>
+                </button>
             </div>
 
             
@@ -196,6 +195,38 @@
             tab.classList.add('is-active');
             document.getElementById('panel-' + tab.dataset.tab).classList.add('is-active');
         });
+    });
+</script>
+
+<script>
+    document.getElementById('btn-like').addEventListener('click', function() {
+        const username = this.getAttribute('data-username');
+        const heartIcon = document.getElementById('heart-icon');
+        const btnText = document.getElementById('btn-text');
+
+        fetch(`/perfil/${username}/like/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Alterna visual do ícone
+                if (data.is_liked) {
+                    heartIcon.classList.remove('fa-regular');
+                    heartIcon.classList.add('fa-solid');
+                    btnText.textContent = "Curtido";
+                } else {
+                    heartIcon.classList.remove('fa-solid');
+                    heartIcon.classList.add('fa-regular');
+                    btnText.textContent = "Curtir jogador";
+                }
+            }
+        })
+        .catch(error => console.error('Erro:', error));
     });
 </script>
 {% endblock %}  
