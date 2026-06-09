@@ -161,25 +161,22 @@ def busc_profile(request):
     page = request.GET.get('page', 1)
 
 
-    perfis = Profile.objects.com_taxa_vitoria.select_related('cidade').all()
+    perfis = Profile.objects.com_taxa_vitoria().select_related('cidade').all().order_by('user__likes_recebidos')
+    top_profiles = perfis[:3]
 
     if nome:
-        perfis.filter(
+        perfis = perfis.filter(
             nickname__icontains=nome
-        )
-
-    if cidade:
-        perfis.filter(
-            cidade__nome__icontains=cidade
         )
 
     perfis_paginator = Paginator(perfis, 20)
     perfis_page = perfis_paginator.get_page(page)
-
+    
     context = {
-        'perfis': perfis_page
+        'perfis': perfis_page,
+        'top_profiles': top_profiles,
     }
 
     return render(
-        request, 'users/perfis.html', context
+        request, 'explore_profile.html', context
     )

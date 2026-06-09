@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import register_view, profile, edit_profile, login_view, like_profile
+from .views import register_view, profile, edit_profile, login_view, like_profile, busc_profile
 
 
 urlpatterns = [
@@ -36,7 +36,7 @@ urlpatterns = [
 
     path('perfil/edit', edit_profile, name='edit_profile'),
 
+    path('explorarperfis/', busc_profile, name='explore_profile'),
     path('perfil/<str:username>/like/', like_profile, name='like_profile'),
     path('perfil/<str:username>/', profile, name='profile_view'),
-    
 ]
