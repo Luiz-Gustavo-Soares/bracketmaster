@@ -25,10 +25,10 @@
             <div class="featured-podium-panel animate-fade-up" style="animation-delay: 0.1s;">
                 
                 <div class="podium-categories">
-                    <a href="?tab=top_elo" class="podium-tab {% if request.GET.tab == 'top_elo' or not request.GET.tab %}is-active{% endif %}">
+                    <a href="?tab=top_elo" class="podium-tab {% if request.GET.tab == 'top_elo' %}is-active{% endif %}">
                         <i class="fa-solid fa-trophy"></i> Top Elo
                     </a>
-                    <a href="?tab=populares" class="podium-tab {% if request.GET.tab == 'populares' %}is-active{% endif %}">
+                    <a href="?tab=populares" class="podium-tab {% if request.GET.tab == 'populares' or not request.GET.tab %}is-active{% endif %}">
                         <i class="fa-solid fa-heart"></i> Mais Populares
                     </a>
                     <a href="?tab=ascensao" class="podium-tab {% if request.GET.tab == 'ascensao' %}is-active{% endif %}">
@@ -36,8 +36,25 @@
                     </a>
                 </div>
                 <div class="featured-profiles-podium">
+
+                    {% if request.GET.tab == 'populares' or not request.GET.tab %}
+                        {% if top_profiles.1 %}
+                            {% endif %}
+                        
+                        {% if top_profiles.0 %}
+                            {% endif %}
+
+                        {% if top_profiles.2 %}
+                            {% endif %}
+                        {% else %}
+                        <div style="text-align: center; padding: 2rem; color: var(--text-muted); width: 100%;">
+                            <i class="fa-solid fa-hammer" style="font-size: 3rem; margin-bottom: 1rem; color: var(--brand-primary); opacity: 0.5;"></i>
+                            <h3 style="color: #ffffff; font-size: 1.5rem; margin-bottom: 0.5rem;">Ranking em Forja</h3>
+                            <p>Os magos ainda estão preparando esta categoria de ranking. Fique de olho nas próximas atualizações!</p>
+                        </div>
+                    {% endif %}
                     
-                    {% if top_profiles.1 %}
+                <!--    {% if top_profiles.1 %}
                     <div class="podium-card elo-{{ top_profiles.1.elo_classe|default:'platinum'|lower }}">
                         <div class="podium-rank">#2</div>
                         <img src="{% if top_profiles.1.profile_imagem %}{{ top_profiles.1.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
@@ -67,7 +84,7 @@
                         <p class="podium-points"><i class="fa-solid fa-star"></i> {{ top_profiles.2.pontos|default:"0" }} Pts</p>
                     </div>
                     {% endif %}
-
+                    -->
                 </div>
             </div>
         </div>
@@ -132,6 +149,44 @@
 
             <div class="profiles-list-container animate-fade-up" style="animation-delay: 0.5s;">
                 
+                {% if request.GET.tab == 'populares' or not request.GET.tab %}
+                    
+                    {% for perfil in perfis %}
+                    <div class="profile-list-card">
+                        </div>
+                    
+                    {% empty %}
+                    <div class="profile-list-card" style="opacity: 0.6;">
+                        <div class="profile-card-left">
+                            <img src="{% static 'media/avatares/gideon.png' %}" alt="Avatar" class="list-avatar">
+                            <div class="list-info">
+                                <div class="list-title-row">
+                                    <h3 class="list-name">Nenhum Perfil Encontrado</h3>
+                                </div>
+                                <p class="list-bio">Os perfis dos jogadores aparecerão aqui quando a plataforma receber cadastros.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                {% else %}
+                    <div class="profile-list-card" style="justify-content: center; text-align: center; padding: 4rem 2rem; flex-direction: column;">
+                        <i class="fa-solid fa-lock" style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                        <h3 style="color: #ffffff; font-size: 1.25rem; margin-bottom: 0.5rem;">Lista Bloqueada</h3>
+                        <p style="color: var(--text-muted);">Esta funcionalidade estará disponível no futuro. Por enquanto, explore a aba "Mais Populares" para encontrar novos adversários e aliados!</p>
+                    </div>
+                {% endif %}
+
+            </div> 
+            
+            {% if request.GET.tab == 'populares' or not request.GET.tab %}
+                {% if perfis.has_other_pages %}
+                    <div style="margin-top: 3rem; width: 100%; display: flex; justify-content: center;">
+                        {% include 'components/pagination.html' with page_obj=perfis %}
+                    </div>
+                {% endif %}
+            {% endif %}
+                <!--
                 {% for perfil in perfis %}
                 <div class="profile-list-card">
                     <div class="profile-card-left">
@@ -170,9 +225,13 @@
                     </div>
                 </div>
                 {% endfor %}
-
-            </div>
-            
+                
+                </div> {% if perfis.has_other_pages %}
+                    <div style="margin-top: 3rem; width: 100%; display: flex; justify-content: center;">
+                        {% include 'components/pagination.html' with page_obj=perfis %}
+                    </div>
+                {% endif %}
+                -->
         </div> 
     </div>
     
