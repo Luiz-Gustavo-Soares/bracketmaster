@@ -19,6 +19,38 @@ class TorneioForm(forms.ModelForm):
         )
     )
 
+    numero = forms.CharField(
+        widget = forms.TextInput(
+            attrs={
+                
+            }
+        )
+    )
+
+    bairro = forms.CharField(
+        widget = forms.TextInput(
+            attrs={
+                
+            }
+        )
+    )
+
+    lagradouro = forms.CharField(
+        widget = forms.TextInput(
+            attrs={
+                
+            }
+        )
+    )
+
+    complemento = forms.CharField(
+        widget = forms.TextInput(
+            attrs={
+                
+            }
+        )
+    )
+
     class Meta:
 
         model = Torneio
@@ -28,11 +60,9 @@ class TorneioForm(forms.ModelForm):
             'descricao',
             'numero_maximo_participantes',
             'valor_inscricao',
-            'local',
             'premiacoes',
             'tipo',
             'formato_torneio',
-            'status',
             'formato_jogo',
             'numero_rodadas',
             'data_inicio'
@@ -67,11 +97,6 @@ class TorneioForm(forms.ModelForm):
                 }
             ),
 
-            'local': forms.TextInput(
-                attrs={
-                }
-            ),
-
             'premiacoes': forms.Textarea(
                 attrs={
                 }
@@ -87,10 +112,6 @@ class TorneioForm(forms.ModelForm):
                 }
             ),
 
-            'status': forms.Select(
-                attrs={
-                }
-            ),
 
             'formato_jogo': forms.Select(
                 attrs={

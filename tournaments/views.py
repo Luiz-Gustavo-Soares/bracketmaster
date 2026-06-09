@@ -17,6 +17,7 @@ from tournaments.services.torneioService import TournamentService
 
 from tournaments.services.exceptions import RegistrationError
 from core.exceptions import PermissionDenied
+from core.models import Cidade
 
 
 
@@ -111,7 +112,17 @@ def edit_torneio(request, id_torneio):
             torneio: Torneio = form.save(commit=False)
             cidade = form.cleaned_data('cidade')
             estado = form.cleaned_data('estado')
+            
+            endereco_list = [
+                    form.cleaned_data('lagradouro'),
+                    form.cleaned_data('numero'),
+                    form.cleaned_data('bairro'),
+                    form.cleaned_data('complemento'),
+                ]
 
+            endereco_list = [Cidade._normalizar(end) for end in endereco_list]
+            
+            torneio.local = ', '.join(endereco_list)
             torneio.adicionar_cidade(cidade, estado)
             
             return redirect('dash')
@@ -133,6 +144,16 @@ def criar_torneio(request):
             cidade = form.cleaned_data('cidade')
             estado = form.cleaned_data('estado')
 
+            endereco_list = [
+                    form.cleaned_data('lagradouro'),
+                    form.cleaned_data('numero'),
+                    form.cleaned_data('bairro'),
+                    form.cleaned_data('complemento'),
+                ]
+
+            endereco_list = [Cidade._normalizar(end) for end in endereco_list]
+            
+            torneio.local = ', '.join(endereco_list)
             torneio.adicionar_cidade(cidade, estado)
             torneio.organizador = request.user
 
