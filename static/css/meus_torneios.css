@@ -8,6 +8,7 @@
     max-width: 1140px;
     margin: 0 auto;
     width: 100%;
+    overflow-x: hidden; 
 }
 
 .section-title {
@@ -317,20 +318,48 @@ textarea.form-control {
     display: flex;
     gap: 0.5rem;
     justify-content: flex-end;
+    align-items: center;
 }
 
-.btn-accept {
+/* Base do botão menor para caber na linha da tabela */
+.table-actions-container .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; 
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Botão Aceitar (Verde) */
+.table-actions-container .btn-accept {
     color: var(--success, #10b981);
 }
-.btn-accept:hover {
-    background: rgba(16, 185, 129, 0.1) !important;
+
+.table-actions-container .btn-accept:hover {
+    background: var(--success, #10b981) !important;
+    color: #000000; /* Ícone preto para dar contraste no verde */
+    border-color: var(--success, #10b981);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transform: translateY(-2px);
 }
 
-.btn-reject {
+/* Botão Recusar/Remover (Vermelho) */
+.table-actions-container .btn-reject {
     color: var(--danger, #ef4444);
 }
-.btn-reject:hover {
-    background: rgba(239, 68, 68, 0.1) !important;
+
+.table-actions-container .btn-reject:hover {
+    background: var(--danger, #ef4444) !important;
+    color: #ffffff;
+    border-color: var(--danger, #ef4444);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
 }
 
 /* ==========================================================================

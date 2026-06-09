@@ -187,41 +187,55 @@
                             </div>
                         </div>
 
-                        {% if user.is_authenticated %}
+                        <div class="tournament-action-container" style="margin-top: 1.5rem;">
+                            
+                            {% if user.is_authenticated %}
+                                
+                                {% if is_registered %}
+                                    {% if tournament.status == 'ativo' %}
+                                        <div class="tournament-live-banner" style="margin-bottom: 1rem; color: var(--success); font-weight: 600; text-align: center; font-size: 0.9rem;">
+                                            <i class="fa-solid fa-circle-play"></i> Torneio em andamento
+                                        </div>
+                                        <a href="{}" class="btn-block btn-play-active" style="text-decoration: none;"> 
+                                            <i class="fa-solid fa-gamepad"></i> JOGAR AGORA
+                                        </a>
+                                    {% elif tournament.status == 'aberto' %}
+                                        <button class="btn-block btn-disabled" disabled title="O torneio ainda não começou.">
+                                            <i class="fa-solid fa-lock"></i> JOGAR 
+                                            <span style="font-size: 0.75rem; display: block; font-weight: normal; margin-top: 0.2rem;">(Aguardando início)</span>
+                                        </button>
+                                    {% elif tournament.status == 'finished' %}
+                                        <button class="btn-block btn-disabled" disabled>
+                                            <i class="fa-solid fa-flag-checkered"></i> TORNEIO ENCERRADO
+                                        </button>
+                                    {% endif %}
 
-                            {% if tournament.status == 'aberto' %} <!--colocar os status corretos com base no bd-->
+                                {% else %}
+                                    {% if tournament.status == 'aberto' %}
+                                        <form method="POST" action="{}"> 
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn-block btn-primary-purple">
+                                                <i class="fa-solid fa-right-to-bracket"></i> GARANTIR MINHA VAGA
+                                            </button>
+                                        </form>
+                                    {% elif tournament.status == 'ativo' %}
+                                        <button class="btn-block btn-disabled" disabled>
+                                            <i class="fa-solid fa-lock"></i> INSCRIÇÕES ENCERRADAS
+                                        </button>
+                                    {% elif tournament.status == 'finished' %}
+                                        <button class="btn-block btn-disabled" disabled>
+                                            <i class="fa-solid fa-flag-checkered"></i> TORNEIO ENCERRADO
+                                        </button>
+                                    {% endif %}
+                                {% endif %}
 
-                                <form method="POST" action="{}"> <!--Colocar uma ação depois-->
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary btn-full ticket-action-btn">
-                                        <i class="fa-solid fa-right-to-bracket"></i>
-                                        GARANTIR MINHA VAGA
-                                    </button>
-                                </form>
-
-                            {% elif tournament.status == 'ativo' %}
-
-                                <div class="tournament-live-banner">
-                                    <i class="fa-solid fa-circle-play"></i>
-                                    <span>Torneio em andamento</span>
-                                </div>
-
-                                <a href="{}" 
-                                class="btn btn-full ticket-action-btn ticket-play-btn"> <!--colocar o link de do botão jogar depois-->
-                                    <i class="fa-solid fa-gamepad"></i>
-                                    JOGAR AGORA
+                            {% else %}
+                                <a href="{% url 'login' %}" class="btn-block btn-primary-purple" style="text-decoration: none;">
+                                    <i class="fa-solid fa-user-lock"></i> ENTRAR PARA INSCREVER
                                 </a>
-
-                            {% elif tournament.status == 'finished' %}
-
-                                <button class="btn btn-full ticket-action-btn ticket-disabled-btn" disabled>
-                                    <i class="fa-solid fa-flag-checkered"></i>
-                                    TORNEIO ENCERRADO
-                                </button>
-
                             {% endif %}
 
-                        {% else %}
+                        </div>
 
                             <a href="{% url 'login' %}" class="btn btn-primary btn-full ticket-action-btn">
                                 <i class="fa-solid fa-user-lock"></i>
