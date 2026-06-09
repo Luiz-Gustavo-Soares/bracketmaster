@@ -441,3 +441,70 @@
     cursor: not-allowed;
     border: 1px solid var(--border-color);
 }
+
+/* ==========================================================================
+   BOTÕES DE AÇÃO DO CARTÃO DO TORNEIO (Premium UI)
+   ========================================================================== */
+
+.btn-block {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: var(--font-family, 'Inter', sans-serif);
+    border-radius: var(--radius-md, 8px);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-align: center;
+}
+
+.btn-block i {
+    font-size: 1.25rem;
+}
+
+/* Estado 1: Botão Roxo (Garantir Vaga / Entrar) */
+.btn-primary-purple {
+    background: #4f46e5; 
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    flex-direction: row; /* Ícone ao lado do texto */
+}
+
+.btn-primary-purple:hover {
+    background: #4338ca;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+    color: #ffffff;
+}
+
+/* Estado 2: Bloqueado (Aguardando / Encerrado) */
+.btn-disabled {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-muted, #71717a);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Estado 3: Ativo para Jogar (Verde Neon) */
+.btn-play-active {
+    background: var(--success, #10b981);
+    color: #000000; 
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+    flex-direction: row;
+}
+
+.btn-play-active:hover {
+    background: #059669; 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(16, 185, 129, 0.7);
+    color: #ffffff;
+}
