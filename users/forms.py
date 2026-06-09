@@ -31,11 +31,6 @@ class RegisterForm(forms.Form):
         )
     )
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['nickname', 'bio']
-
 
 class LoginForm(forms.Form):
 
@@ -56,3 +51,44 @@ class LoginForm(forms.Form):
             }
         )
     )
+
+
+class ProfileForm(forms.ModelForm):
+
+    cidade = forms.CharField(
+        widget = forms.TextInput(
+            attrs={
+
+            }
+        )
+    )
+
+    estado = forms.CharField(
+        widget = forms.TextInput(
+            attrs={
+                
+            }
+        )
+    )
+
+    class Meta:
+        model = Profile
+        fields = ['nickname', 'bio', 'avatar']
+        widgets = {
+            'nickname': forms.TextInput(
+                attrs={
+
+                }
+            ),
+
+            'bio': forms.Textarea(
+                attrs={
+                }
+            ),
+
+            'avatar': forms.Select(
+                attrs={
+                    
+                }
+            )
+        }
