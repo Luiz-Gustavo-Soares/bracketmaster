@@ -20,7 +20,7 @@ class RankingService:
         participantes = cls.calcular_ranking(torneio)
 
         for i, p in enumerate(participantes):
-            cls._atualizar_participante(p['participante'], i)
+            cls._atualizar_participante(p['participante'], i+1)
 
      
     @classmethod
