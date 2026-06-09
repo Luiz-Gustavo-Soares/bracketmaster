@@ -5,6 +5,8 @@ from users.enums import Avatares
 from core.models import Cidade
 from users.query_sets import PerfilQuerySet
 
+from tournaments.models import TorneioParticipante
+from tournaments.enums import StatusInscricao
 
 class Profile(models.Model):
     """Perfil do usuario"""
@@ -46,6 +48,15 @@ class Profile(models.Model):
             )
         
         self.cidade = cidade
+
+    def count_likes_recebidos(self):
+        return self.user.likes_recebidos.count()
+
+    def count_part_torneio(self):
+        return TorneioParticipante.objects.filter(
+            jogador=self.user,
+            status=StatusInscricao.APROVADA
+        ).count()
 
     def get_avatar_path(self):
         return f"/static/media/avatares/{self.avatar}.png"
