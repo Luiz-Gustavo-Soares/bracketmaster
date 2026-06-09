@@ -1,15 +1,19 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.http import require_POST
 from django.contrib import messages
+from django.http import Http404
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.utils.dateparse import parse_date
+from django.core.exceptions import PermissionDenied as PermissionDeniedDjango
 
 from tournaments.models import Torneio, TorneioParticipante
 from tournaments.forms import TorneioForm
 from tournaments.enums import StatusTorneio, FormatoJogo
 from tournaments.services.registroService import TournamentRegistrationService
 from tournaments.services.rankinService import RankingService
+from tournaments.services.torneioService import TournamentService
 
 from tournaments.services.exceptions import RegistrationError
 from core.exceptions import PermissionDenied
@@ -233,3 +237,58 @@ def inscrever_torneio(request, torneio_id):
     return redirect('torneio', torneio_id=torneio_id)
 
 
+
+@login_required
+@require_POST
+def alter_status_torneio(request, torneio_id, new_status):
+
+    torneio = get_object_or_404(
+        Torneio,
+        torneio_id=torneio_id
+    )
+
+    if torneio.organizador != request.user:
+        raise PermissionDeniedDjango()
+
+    actions = {
+        'abrir_inscricoes': TournamentService.abrir_inscricoes,
+        'encerrar_inscricoes': TournamentService.encerrar_inscricoes,
+        'iniciar': TournamentService.iniciar,
+        'proxima_rodada': TournamentService.proxima_rodada,
+    }
+
+    action = actions.get(new_status)
+
+    if action is None:
+        raise Http404()
+
+    try:
+        action(torneio)
+        messages.success(request, 'Status alterado com sucesso.')
+
+    except Exception as e:
+        messages.error(request, 'Erro ao alterar status')
+
+    return redirect('torneio', torneio_id=torneio_id)
+
+
+@login_required
+@require_POST
+def resetar_torneio(request, torneio_id):
+    torneio = get_object_or_404(
+        Torneio,
+        torneio_id=torneio_id
+    )
+
+    if torneio.organizador != request.user:
+        raise PermissionDeniedDjango()
+    
+    
+    try:
+        TournamentService.resetar_torneio(torneio, request.user)
+        messages.success(request, 'Board Wipe nao foi anulado')
+
+    except Exception as e:
+        messages.error(request, 'Anularam...')
+
+    return redirect('torneio', torneio_id=torneio_id)
