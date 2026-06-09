@@ -11,6 +11,7 @@ class Cidade(models.Model):
         super().save(*args, **kwargs)
 
     
+    @staticmethod
     def _normalizar(palavra: str) -> str:
         return palavra.strip().title()
 

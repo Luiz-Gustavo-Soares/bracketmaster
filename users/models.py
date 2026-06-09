@@ -32,6 +32,21 @@ class Profile(models.Model):
         blank=True
     )
 
+    def adicionar_cidade(self, cidade_text: str, estado_text: str):
+        """Adicionar uma relacao para o campo cidade
+        Obs. Não salva, somente atribui
+
+        Args: 
+            cidade_text: nome da cidade
+            estado_text: estado da cidade
+        """
+        cidade, _ = Cidade.objects.get_or_create(
+                nome=Cidade._normalizar(cidade_text),
+                estado=Cidade._normalizar(estado_text)
+            )
+        
+        self.cidade = cidade
+
     def get_avatar_path(self):
         return f"/static/avatares/{self.avatar}.png"
 
