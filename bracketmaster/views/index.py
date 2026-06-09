@@ -1,6 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from datetime import date
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+
+
+
 
 def home(request):
     """Pagina inicial da aplicação"""
@@ -147,3 +151,21 @@ def profile_view(request, nickname):
         }
 
     return render(request, 'users/profile_view.html', context)
+
+
+def toggle_like_view(request, nickname):
+    """View para processar o like sem recarregar a página"""
+    if request.method == "POST":
+        # Aqui você buscaria o perfil real no banco:
+        # target_profile = get_object_or_404(Profile, user__username=nickname)
+        
+        # Como estamos no Mock, vamos apenas simular a resposta de sucesso
+        # Quando tiver o banco real, você colocará a lógica de .add() e .remove() aqui
+        liked = True 
+        
+        return JsonResponse({
+            'status': 'success',
+            'is_liked': liked,
+            'msg': 'Like processado com sucesso'
+        })
+    return JsonResponse({'status': 'error'}, status=400)

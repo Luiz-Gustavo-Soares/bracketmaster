@@ -19,55 +19,60 @@
             
             <div class="hero-profiles-text animate-fade-up">
                 <h1 class="featured-title" style="font-size: 4rem; text-shadow: 0 4px 20px rgba(0,0,0,0.8); color: #ffffff;">Explorar Perfis</h1>
-                <p class="featured-desc" style="color: #e4e4e7; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">Conecte-se com outros jogadores da comunidade, acompanhe o metagame e suba no ranking global.</p>
+                <p class="featured-desc" style="color: #e4e4e7; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">Conecte-se com outros jogadores da comunidade, acompanhe o metagame e compartilhe conquistas.</p>
             </div>
 
             <div class="featured-podium-panel animate-fade-up" style="animation-delay: 0.1s;">
                 
                 <div class="podium-categories">
-                    <a href="?tab=top_elo" class="podium-tab {% if request.GET.tab == 'top_elo' or not request.GET.tab %}is-active{% endif %}">
-                        <i class="fa-solid fa-trophy"></i> Top Elo
+                    <a href="?tab=top_elo" class="podium-tab {% if request.GET.tab == 'top_elo' %}is-active{% endif %}">
+                        <i class="fa-solid fa-trophy"></i> Campeonatos
                     </a>
-                    <a href="?tab=populares" class="podium-tab {% if request.GET.tab == 'populares' %}is-active{% endif %}">
+                    <a href="?tab=populares" class="podium-tab {% if request.GET.tab == 'populares' or not request.GET.tab %}is-active{% endif %}">
                         <i class="fa-solid fa-heart"></i> Mais Populares
                     </a>
                     <a href="?tab=ascensao" class="podium-tab {% if request.GET.tab == 'ascensao' %}is-active{% endif %}">
                         <i class="fa-solid fa-fire"></i> Em Ascensão
                     </a>
                 </div>
+                
                 <div class="featured-profiles-podium">
-                    
-                    {% if top_profiles.1 %}
-                    <div class="podium-card elo-{{ top_profiles.1.elo_classe|default:'platinum'|lower }}">
-                        <div class="podium-rank">#2</div>
-                        <img src="{% if top_profiles.1.profile_imagem %}{{ top_profiles.1.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
-                        <h3 class="podium-name">{{ top_profiles.1.nickname|default:top_profiles.1.user.username }}</h3>
-                        <span class="elo-badge badge-{{ top_profiles.1.elo_classe|default:'platinum'|lower }}">{{ top_profiles.1.elo_nome|default:"Platina" }}</span>
-                        <p class="podium-points"><i class="fa-solid fa-star"></i> {{ top_profiles.1.pontos|default:"0" }} Pts</p>
-                    </div>
-                    {% endif %}
 
-                    {% if top_profiles.0 %}
-                    <div class="podium-card podium-center elo-{{ top_profiles.0.elo_classe|default:'challenger'|lower }}">
-                        <div class="podium-rank">#1</div>
-                        <i class="fa-solid fa-crown podium-crown"></i>
-                        <img src="{% if top_profiles.0.profile_imagem %}{{ top_profiles.0.profile_imagem.url }}{% else %}{% static 'media/avatares/gideon.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
-                        <h3 class="podium-name">{{ top_profiles.0.nickname|default:top_profiles.0.user.username }}</h3>
-                        <span class="elo-badge badge-{{ top_profiles.0.elo_classe|default:'challenger'|lower }}">{{ top_profiles.0.elo_nome|default:"Challenger" }}</span>
-                        <p class="podium-points" style="font-size: 1rem; color: var(--elo-{{ top_profiles.0.elo_classe|default:'challenger'|lower }}); font-weight: 700;"><i class="fa-solid fa-star"></i> {{ top_profiles.0.pontos|default:"0" }} Pts</p>
-                    </div>
-                    {% endif %}
+                    {% if request.GET.tab == 'populares' or not request.GET.tab %}
+                        
+                        {% if top_profiles.1 %}
+                        <div class="podium-card">
+                            <img src="{% if top_profiles.1.profile_imagem %}{{ top_profiles.1.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
+                            <h3 class="podium-name">{{ top_profiles.1.nickname|default:top_profiles.1.user.username }}</h3>
+                            <p class="podium-points"><i class="fa-solid fa-heart" style="color: var(--brand-primary);"></i> {{ top_profiles.1.pontos|default:"0" }} Likes</p>
+                        </div>
+                        {% endif %}
 
-                    {% if top_profiles.2 %}
-                    <div class="podium-card elo-{{ top_profiles.2.elo_classe|default:'diamond'|lower }}">
-                        <div class="podium-rank">#3</div>
-                        <img src="{% if top_profiles.2.profile_imagem %}{{ top_profiles.2.profile_imagem.url }}{% else %}{% static 'media/avatares/lilia.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
-                        <h3 class="podium-name">{{ top_profiles.2.nickname|default:top_profiles.2.user.username }}</h3>
-                        <span class="elo-badge badge-{{ top_profiles.2.elo_classe|default:'diamond'|lower }}">{{ top_profiles.2.elo_nome|default:"Diamante" }}</span>
-                        <p class="podium-points"><i class="fa-solid fa-star"></i> {{ top_profiles.2.pontos|default:"0" }} Pts</p>
-                    </div>
-                    {% endif %}
+                        {% if top_profiles.0 %}
+                        <div class="podium-card podium-center">
+                            <i class="fa-solid fa-crown podium-crown" style="color: #fbbf24; filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5));"></i>
+                            <img src="{% if top_profiles.0.profile_imagem %}{{ top_profiles.0.profile_imagem.url }}{% else %}{% static 'media/avatares/gideon.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
+                            <h3 class="podium-name">{{ top_profiles.0.nickname|default:top_profiles.0.user.username }}</h3>
+                            <p class="podium-points" style="font-size: 1rem; color: var(--brand-primary); font-weight: 700;"><i class="fa-solid fa-heart"></i> {{ top_profiles.0.pontos|default:"0" }} Likes</p>
+                        </div>
+                        {% endif %}
 
+                        {% if top_profiles.2 %}
+                        <div class="podium-card">
+                            <img src="{% if top_profiles.2.profile_imagem %}{{ top_profiles.2.profile_imagem.url }}{% else %}{% static 'media/avatares/lilia.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
+                            <h3 class="podium-name">{{ top_profiles.2.nickname|default:top_profiles.2.user.username }}</h3>
+                            <p class="podium-points"><i class="fa-solid fa-heart" style="color: var(--brand-primary);"></i> {{ top_profiles.2.pontos|default:"0" }} Likes</p>
+                        </div>
+                        {% endif %}
+
+                    {% else %}
+                        <div style="text-align: center; padding: 2rem; color: var(--text-muted); width: 100%;">
+                            <i class="fa-solid fa-hammer" style="font-size: 3rem; margin-bottom: 1rem; color: var(--brand-primary); opacity: 0.5;"></i>
+                            <h3 style="color: #ffffff; font-size: 1.5rem; margin-bottom: 0.5rem;">Conteúdo em Forja</h3>
+                            <p>Os magos estão preparando esta seção. Fique de olho nas próximas atualizações!</p>
+                        </div>
+                    {% endif %}
+                
                 </div>
             </div>
         </div>
@@ -85,6 +90,312 @@
                     </button>
                 </form>
 
+
+                {%comment%}
+
+                <div class="filters-chips-row">
+                    <div class="format-chips">
+                        <button type="button" class="filter-chip is-active">Todos</button>
+                        <button type="button" class="filter-chip">Profissionais</button>
+                        <button type="button" class="filter-chip">Casuais</button>
+                    </div>
+                    
+                    
+                    <div class="secondary-chips">
+                        
+                        <div class="chip-dropdown-wrapper">
+                            <button type="button" class="filter-chip secondary-chip" id="btn-filtro-local">
+                                <i class="fa-solid fa-location-dot"></i> 
+                                <span class="chip-text-value">Local</span> 
+                                <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
+                            </button>
+                            <div class="chip-popover" style="width: 260px;">
+                                <div class="popover-option is-selected">Qualquer Local</div>
+                                <hr class="popover-divider">
+                                <div class="popover-custom-input">
+                                    <input type="text" id="input-cidade-filtro" placeholder="Ex: Belo Horizonte, MG" autocomplete="off">
+                                    <button type="button" id="btn-aplicar-cidade" class="btn-aplicar"><i class="fa-solid fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {%endcomment%}
+            </div>
+
+            <hr class="explore-divider animate-fade-up" style="animation-delay: 0.4s;">
+
+            <div class="profiles-list-container animate-fade-up" style="animation-delay: 0.5s;">
+                
+                {% if request.GET.tab == 'populares' or not request.GET.tab %}
+                    
+                    {% for perfil in perfis %}
+                    <div class="profile-list-card">
+                        <div class="profile-card-left">
+                            <img src="{% if perfil.profile_imagem %}{{ perfil.profile_imagem.url }}{% else %}{% static 'media/avatares/gideon.png' %}{% endif %}" alt="Avatar" class="list-avatar">
+                            <div class="list-info">
+                                <div class="list-title-row">
+                                    <h3 class="list-name">{{ perfil.nickname|default:perfil.user.username }}</h3>
+                                </div>
+                                <div class="list-meta">
+                                    <span><i class="fa-solid fa-location-dot"></i> {{ perfil.location|default:"Sem localização" }}</span>
+                                </div>
+                                <p class="list-bio">{{ perfil.bio|default:"Este jogador ainda não escreveu uma biografia." }}</p>
+                            </div>
+                        </div>
+                        <div class="profile-card-right">
+                            <div class="list-stats">
+                                <div class="stat-col"><span class="stat-num">{{ perfil.winrate|default:"0" }}%</span><span class="stat-lbl">WIN RATE</span></div>
+                                <div class="stat-col"><span class="stat-num">{{ perfil.total_torneios|default:"0" }}</span><span class="stat-lbl">TORNEIOS</span></div>
+                            </div>
+                            <a href="{% url 'profile_view' username=perfil.user.username %}" class="btn btn-outline-light list-btn">Ver Perfil</a>
+                        </div>
+                    </div>
+                    
+                    {% empty %}
+                    <div class="profile-list-card" style="opacity: 0.6;">
+                        <div class="profile-card-left">
+                            <img src="{% static 'media/avatares/gideon.png' %}" alt="Avatar" class="list-avatar">
+                            <div class="list-info">
+                                <div class="list-title-row">
+                                    <h3 class="list-name">Nenhum Perfil Encontrado</h3>
+                                </div>
+                                <p class="list-bio">Os perfis dos jogadores aparecerão aqui quando a plataforma receber cadastros.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                {% else %}
+                    <div class="profile-list-card" style="justify-content: center; text-align: center; padding: 4rem 2rem; flex-direction: column;">
+                        <i class="fa-solid fa-lock" style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                        <h3 style="color: #ffffff; font-size: 1.25rem; margin-bottom: 0.5rem;">Lista Bloqueada</h3>
+                        <p style="color: var(--text-muted);">Esta funcionalidade estará disponível no futuro. Por enquanto, explore a aba "Mais Populares" para encontrar novos adversários e aliados!</p>
+                    </div>
+                {% endif %}
+
+            </div> 
+            
+            {% if request.GET.tab == 'populares' or not request.GET.tab %}
+                {% if perfis.has_other_pages %}
+                    <div style="margin-top: 3rem; width: 100%; display: flex; justify-content: center;">
+                        {% include 'components/pagination.html' with page_obj=perfis %}
+                    </div>
+                {% endif %}
+            {% endif %}
+
+        </div> 
+    </div>
+    
+    {% include 'components/footer_minimal.html' %}
+    
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        document.addEventListener('click', function(e) {
+            
+            // 1. FORMATOS (Chips normais)
+            const formatChip = e.target.closest('.format-chips .filter-chip');
+            if (formatChip) {
+                e.preventDefault();
+                document.querySelectorAll('.format-chips .filter-chip').forEach(c => c.classList.remove('is-active'));
+                formatChip.classList.add('is-active');
+                return;
+            }
+
+            // 2. ABRIR/FECHAR POPOVERS (Local)
+            const dropdownBtn = e.target.closest('.chip-dropdown-wrapper > button');
+            if (dropdownBtn) {
+                e.preventDefault();
+                const wrapper = dropdownBtn.closest('.chip-dropdown-wrapper');
+                const isAlreadyOpen = wrapper.classList.contains('is-open');
+                
+                document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
+                if (!isAlreadyOpen) {
+                    wrapper.classList.add('is-open');
+                }
+                return;
+            }
+
+            // 3. SELECIONAR OPÇÃO DO POPOVER (Normal)
+            const popoverOption = e.target.closest('.popover-option');
+            if (popoverOption) {
+                const wrapper = popoverOption.closest('.chip-dropdown-wrapper');
+                const popover = popoverOption.closest('.chip-popover');
+                const btn = wrapper.querySelector('button');
+                const textSpan = btn.querySelector('.chip-text-value');
+                const textoEscolhido = popoverOption.textContent.trim();
+                
+                popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
+                popoverOption.classList.add('is-selected');
+                
+                if (textoEscolhido.startsWith('Qualquer') || textoEscolhido.startsWith('Todos')) {
+                    textSpan.textContent = "Local";
+                    btn.classList.remove('is-active');
+                    btn.style.borderColor = "";
+                } else {
+                    textSpan.textContent = textoEscolhido.split('/')[0].trim();
+                    btn.classList.add('is-active');
+                    btn.style.borderColor = "var(--brand-primary)";
+                }
+                
+                wrapper.classList.remove('is-open');
+                return;
+            }
+
+            // 4. APLICAR CIDADE DIGITADA (Campo customizado)
+            const btnAplicarCidade = e.target.closest('#btn-aplicar-cidade');
+            if (btnAplicarCidade) {
+                e.preventDefault();
+                const wrapper = btnAplicarCidade.closest('.chip-dropdown-wrapper');
+                const popover = wrapper.querySelector('.chip-popover');
+                const input = document.getElementById('input-cidade-filtro');
+                const btn = wrapper.querySelector('button');
+                const textSpan = btn.querySelector('.chip-text-value');
+                
+                const cidade = input.value.trim();
+                
+                if (cidade) {
+                    textSpan.textContent = cidade;
+                    btn.classList.add('is-active');
+                    btn.style.borderColor = "var(--brand-primary)";
+                    popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
+                    wrapper.classList.remove('is-open');
+                }
+                return;
+            }
+
+            if (e.target.closest('.popover-custom-input')) {
+                return; 
+            }
+
+            // 5. FECHAR AO CLICAR FORA
+            document.querySelectorAll('.chip-dropdown-wrapper.is-open').forEach(wrapper => {
+                if (!wrapper.contains(e.target)) {
+                    wrapper.classList.remove('is-open');
+                }
+            });
+        });
+
+        // Enter no campo da cidade
+        const inputCidade = document.getElementById('input-cidade-filtro');
+        if (inputCidade) {
+            inputCidade.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('btn-aplicar-cidade').click();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+
+
+{% comment %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Explorar Perfis | Bracketmaster{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/explore_profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="explore-page">
+
+    <div class="explore-hero" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}'); min-height: 90vh;">
+        <div class="explore-hero-overlay"></div>
+
+        <div class="container container-explore hero-profiles-container">
+            
+            <div class="hero-profiles-text animate-fade-up">
+                <h1 class="featured-title" style="font-size: 4rem; text-shadow: 0 4px 20px rgba(0,0,0,0.8); color: #ffffff;">Explorar Perfis</h1>
+                <p class="featured-desc" style="color: #e4e4e7; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">Conecte-se com outros jogadores da comunidade, acompanhe o metagame e suba no ranking global.</p>
+            </div>
+
+            <div class="featured-podium-panel animate-fade-up" style="animation-delay: 0.1s;">
+                
+                <div class="podium-categories">
+                    <a href="?tab=top_elo" class="podium-tab {% if request.GET.tab == 'top_elo' %}is-active{% endif %}">
+                        <i class="fa-solid fa-trophy"></i> Top Elo
+                    </a>
+                    <a href="?tab=populares" class="podium-tab {% if request.GET.tab == 'populares' or not request.GET.tab %}is-active{% endif %}">
+                        <i class="fa-solid fa-heart"></i> Mais Populares
+                    </a>
+                    <a href="?tab=ascensao" class="podium-tab {% if request.GET.tab == 'ascensao' %}is-active{% endif %}">
+                        <i class="fa-solid fa-fire"></i> Em Ascensão
+                    </a>
+                </div>
+                
+                <div class="featured-profiles-podium">
+
+                    {% if request.GET.tab == 'populares' or not request.GET.tab %}
+                        
+                        {% if top_profiles.1 %}
+                        <div class="podium-card elo-{{ top_profiles.1.elo_classe|default:'platinum'|lower }}">
+                            <div class="podium-rank">#2</div>
+                            <img src="{% if top_profiles.1.profile_imagem %}{{ top_profiles.1.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
+                            <h3 class="podium-name">{{ top_profiles.1.nickname|default:top_profiles.1.user.username }}</h3>
+                            <span class="elo-badge badge-{{ top_profiles.1.elo_classe|default:'platinum'|lower }}">{{ top_profiles.1.elo_nome|default:"Platina" }}</span>
+                            <p class="podium-points"><i class="fa-solid fa-star"></i> {{ top_profiles.1.pontos|default:"0" }} Pts</p>
+                        </div>
+                        {% endif %}
+
+                        {% if top_profiles.0 %}
+                        <div class="podium-card podium-center elo-{{ top_profiles.0.elo_classe|default:'challenger'|lower }}">
+                            <div class="podium-rank">#1</div>
+                            <i class="fa-solid fa-crown podium-crown"></i>
+                            <img src="{% if top_profiles.0.profile_imagem %}{{ top_profiles.0.profile_imagem.url }}{% else %}{% static 'media/avatares/gideon.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
+                            <h3 class="podium-name">{{ top_profiles.0.nickname|default:top_profiles.0.user.username }}</h3>
+                            <span class="elo-badge badge-{{ top_profiles.0.elo_classe|default:'challenger'|lower }}">{{ top_profiles.0.elo_nome|default:"Challenger" }}</span>
+                            <p class="podium-points" style="font-size: 1rem; color: var(--elo-{{ top_profiles.0.elo_classe|default:'challenger'|lower }}); font-weight: 700;"><i class="fa-solid fa-star"></i> {{ top_profiles.0.pontos|default:"0" }} Pts</p>
+                        </div>
+                        {% endif %}
+
+                        {% if top_profiles.2 %}
+                        <div class="podium-card elo-{{ top_profiles.2.elo_classe|default:'diamond'|lower }}">
+                            <div class="podium-rank">#3</div>
+                            <img src="{% if top_profiles.2.profile_imagem %}{{ top_profiles.2.profile_imagem.url }}{% else %}{% static 'media/avatares/lilia.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
+                            <h3 class="podium-name">{{ top_profiles.2.nickname|default:top_profiles.2.user.username }}</h3>
+                            <span class="elo-badge badge-{{ top_profiles.2.elo_classe|default:'diamond'|lower }}">{{ top_profiles.2.elo_nome|default:"Diamante" }}</span>
+                            <p class="podium-points"><i class="fa-solid fa-star"></i> {{ top_profiles.2.pontos|default:"0" }} Pts</p>
+                        </div>
+                        {% endif %}
+
+                    {% else %}
+                        <div style="text-align: center; padding: 2rem; color: var(--text-muted); width: 100%;">
+                            <i class="fa-solid fa-hammer" style="font-size: 3rem; margin-bottom: 1rem; color: var(--brand-primary); opacity: 0.5;"></i>
+                            <h3 style="color: #ffffff; font-size: 1.5rem; margin-bottom: 0.5rem;">Ranking em Forja</h3>
+                            <p>Os magos ainda estão preparando esta categoria de ranking. Fique de olho nas próximas atualizações!</p>
+                        </div>
+                    {% endif %}
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="explore-body-section">
+        <div class="container container-explore">
+
+            <div class="explore-search-section animate-fade-up" style="animation-delay: 0.3s;">
+                
+                <form method="GET" action="" class="search-input-wrapper" style="margin-bottom: 1.5rem;">
+                    <input type="text" name="q" class="form-input search-input-large" placeholder="Buscar por nome ou tag..." value="{{ request.GET.q|default:'' }}">
+                    <button type="submit" class="search-submit-btn" style="position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 0; color: var(--text-muted); cursor: pointer; font-size: 1.25rem;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+                
                 <div class="filters-chips-row">
                     <div class="format-chips">
                         <button type="button" class="filter-chip is-active">Todos</button>
@@ -132,47 +443,64 @@
 
             <div class="profiles-list-container animate-fade-up" style="animation-delay: 0.5s;">
                 
-                {% for perfil in perfis %}
-                <div class="profile-list-card">
-                    <div class="profile-card-left">
-                        <img src="{% if perfil.profile_imagem %}{{ perfil.profile_imagem.url }}{% else %}{% static 'media/avatares/gideon.png' %}{% endif %}" alt="Avatar" class="list-avatar">
-                        <div class="list-info">
-                            <div class="list-title-row">
-                                <h3 class="list-name">{{ perfil.nickname|default:perfil.user.username }}</h3>
-                                <span class="elo-tag tag-{{ perfil.elo_classe|default:'gold'|lower }}">{{ perfil.elo_nome|default:'OURO'|upper }}</span>
+                {% if request.GET.tab == 'populares' or not request.GET.tab %}
+                    
+                    {% for perfil in perfis %}
+                    <div class="profile-list-card">
+                        <div class="profile-card-left">
+                            <img src="{% if perfil.profile_imagem %}{{ perfil.profile_imagem.url }}{% else %}{% static 'media/avatares/gideon.png' %}{% endif %}" alt="Avatar" class="list-avatar">
+                            <div class="list-info">
+                                <div class="list-title-row">
+                                    <h3 class="list-name">{{ perfil.nickname|default:perfil.user.username }}</h3>
+                                    <span class="elo-tag tag-{{ perfil.elo_classe|default:'gold'|lower }}">{{ perfil.elo_nome|default:'OURO'|upper }}</span>
+                                </div>
+                                <div class="list-meta">
+                                    <span><i class="fa-solid fa-location-dot"></i> {{ perfil.location|default:"Sem localização" }}</span>
+                                </div>
+                                <p class="list-bio">{{ perfil.bio|default:"Este jogador ainda não escreveu uma biografia." }}</p>
                             </div>
-                            <div class="list-meta">
-                                <span><i class="fa-solid fa-location-dot"></i> {{ perfil.location|default:"Sem localização" }}</span>
+                        </div>
+                        <div class="profile-card-right">
+                            <div class="list-stats">
+                                <div class="stat-col"><span class="stat-num">{{ perfil.winrate|default:"0" }}%</span><span class="stat-lbl">WIN RATE</span></div>
+                                <div class="stat-col"><span class="stat-num">{{ perfil.total_torneios|default:"0" }}</span><span class="stat-lbl">TORNEIOS</span></div>
                             </div>
-                            <p class="list-bio">{{ perfil.bio|default:"Este jogador ainda não escreveu uma biografia." }}</p>
+                            <a href="{% url 'profile_view' username=perfil.user.username %}" class="btn btn-outline-light list-btn">Ver Perfil</a>
                         </div>
                     </div>
-                    <div class="profile-card-right">
-                        <div class="list-stats">
-                            <div class="stat-col"><span class="stat-num">{{ perfil.winrate|default:"0" }}%</span><span class="stat-lbl">WIN RATE</span></div>
-                            <div class="stat-col"><span class="stat-num">{{ perfil.total_torneios|default:"0" }}</span><span class="stat-lbl">TORNEIOS</span></div>
-                            <div class="stat-col"><span class="stat-num">#{{ perfil.rank_position|default:"-" }}</span><span class="stat-lbl">RANK</span></div>
-                        </div>
-                        <a href="{% url 'profile_view' %}" class="btn btn-outline-light list-btn">Ver Perfil</a>
-                    </div>
-                </div>
-                
-                {% empty %}
-                <div class="profile-list-card" style="opacity: 0.6;">
-                    <div class="profile-card-left">
-                        <img src="{% static 'media/avatares/gideon.png' %}" alt="Avatar" class="list-avatar">
-                        <div class="list-info">
-                            <div class="list-title-row">
-                                <h3 class="list-name">Nenhum Perfil Encontrado</h3>
+                    
+                    {% empty %}
+                    <div class="profile-list-card" style="opacity: 0.6;">
+                        <div class="profile-card-left">
+                            <img src="{% static 'media/avatares/gideon.png' %}" alt="Avatar" class="list-avatar">
+                            <div class="list-info">
+                                <div class="list-title-row">
+                                    <h3 class="list-name">Nenhum Perfil Encontrado</h3>
+                                </div>
+                                <p class="list-bio">Os perfis dos jogadores aparecerão aqui quando a plataforma receber cadastros.</p>
                             </div>
-                            <p class="list-bio">Os perfis dos jogadores aparecerão aqui quando a plataforma receber cadastros.</p>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
+                    {% endfor %}
+                    
+                {% else %}
+                    <div class="profile-list-card" style="justify-content: center; text-align: center; padding: 4rem 2rem; flex-direction: column;">
+                        <i class="fa-solid fa-lock" style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                        <h3 style="color: #ffffff; font-size: 1.25rem; margin-bottom: 0.5rem;">Lista Bloqueada</h3>
+                        <p style="color: var(--text-muted);">Esta funcionalidade estará disponível no futuro. Por enquanto, explore a aba "Mais Populares" para encontrar novos adversários e aliados!</p>
+                    </div>
+                {% endif %}
 
-            </div>
+            </div> 
             
+            {% if request.GET.tab == 'populares' or not request.GET.tab %}
+                {% if perfis.has_other_pages %}
+                    <div style="margin-top: 3rem; width: 100%; display: flex; justify-content: center;">
+                        {% include 'components/pagination.html' with page_obj=perfis %}
+                    </div>
+                {% endif %}
+            {% endif %}
+
         </div> 
     </div>
     
@@ -219,7 +547,7 @@
                 const textSpan = btn.querySelector('.chip-text-value');
                 const textoEscolhido = popoverOption.textContent.trim();
                 
-                // Atualiza visual selecionado
+                // box visual selecionado
                 popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
                 popoverOption.classList.add('is-selected');
                 
@@ -229,7 +557,7 @@
                     btn.classList.remove('is-active');
                     btn.style.borderColor = "";
                 } else {
-                    textSpan.textContent = textoEscolhido.split('/')[0].trim(); // Pega só o primeiro nome
+                    textSpan.textContent = textoEscolhido.split('/')[0].trim();
                     btn.classList.add('is-active');
                     btn.style.borderColor = "var(--brand-primary)";
                 }
@@ -260,7 +588,6 @@
                 return;
             }
 
-            // Impede popover de fechar ao clicar no campo de cidade
             if (e.target.closest('.popover-custom-input')) {
                 return; 
             }
@@ -273,7 +600,6 @@
             });
         });
 
-        // Enter no campo da cidade
         const inputCidade = document.getElementById('input-cidade-filtro');
         if (inputCidade) {
             inputCidade.addEventListener('keypress', function(e) {
@@ -286,3 +612,4 @@
     });
 </script>
 {% endblock %}
+{% endcomment %}

@@ -20,8 +20,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views.index import home, profile_view
-from .views.dashboard import dashboard
+from .views.index import home, profile_view, toggle_like_view
+from .views.dashboard import dashboard, meus_torneios_view
 from .views.explore_torneios import explore_torneios
 from .views.explore_profile import explore_profile
 from .views.torneios_view import torneios_view
@@ -32,11 +32,12 @@ urlpatterns = [
     path('', home, name='home'),
     path('dashboard/', dashboard, name='dashboard'),
     path('users/', include('users.urls')),
-    path('torneios/', include('tournaments.urls')),
+    path('perfil/<str:nickname>/like/', toggle_like_view, name='toggle_like'),
     path('perfil/<str:nickname>/', profile_view, name='profile_view'),
     path('explore_torneios/', explore_torneios , name='explore_torneios'),
     path('explore_perfis/', explore_profile, name='explore_profile'),
-    path('torneios_view/', torneios_view, name='torneio_view')
+    path('torneios_view/', torneios_view, name='torneio_view'),
+    path('dashboard/torneios/', meus_torneios_view, name='meus_torneios')
 
 ]
 

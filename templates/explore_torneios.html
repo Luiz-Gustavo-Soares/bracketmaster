@@ -19,7 +19,7 @@
     
 
         <div class="container container-explore hero-featured-container">
-            
+            {% if featured_tournament %}
             <div class="featured-tourney-panel animate-fade-up" style="animation-delay: 0.1s;">
                 
                 <div class="featured-header-row">
@@ -81,6 +81,7 @@
                 </div>
                 
             </div>
+            {% endif %}
         </div>
     </div>
 
@@ -194,10 +195,14 @@
                             {% empty %}
                                 <p style="color: var(--text-muted); grid-column: 1 / -1; padding: 2rem 0;">Nenhum torneio encontrado com os critérios de busca.</p>
                             {% endfor %}
-                        </div>
-                    </div>
-                    
-                </div> <aside class="explore-sidebar animate-fade-up" style="animation-delay: 0.5s;">
+                        
+                        </div> {% if torneios.has_other_pages %}
+                            <div style="margin-top: 3rem; width: 100%; display: flex; justify-content: center;">
+                                {% include 'components/pagination.html' with page_obj=torneios %}
+                            </div>
+                        {% endif %}  
+                        
+                    </div> </div> <aside class="explore-sidebar animate-fade-up" style="animation-delay: 0.5s;">
                     
                     <div class="champions-header">
                         <h2 class="champions-title">Campeões Recentes</h2>
