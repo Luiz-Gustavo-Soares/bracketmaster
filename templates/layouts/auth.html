@@ -19,7 +19,7 @@
         {% block auth_content %}{% endblock %}
     </div>
 
-    {% include 'components/footer_minimal.html' %}
+    {% include 'components/footer_minimal.html' with footer_class="auth-footer-bottom" %} <!--passando a classe pra ele saber oq usar-->
 
 </div>
 {% endblock %}

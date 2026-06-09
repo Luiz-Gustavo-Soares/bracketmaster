@@ -1,0 +1,443 @@
+/* ==========================================
+   TELA DE DETALHES DO TORNEIO — STYLE 
+   ========================================== */
+
+.tournament-detail-page {
+    background-color: var(--bg-base);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Hero Banner Section --- */
+.tournament-hero {
+    position: relative;
+    width: 100%;
+    min-height: 45vh;
+    padding-top: var(--navbar-height);
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center 30%;
+}
+
+.tournament-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(9, 9, 11, 0.5) 0%, rgba(9, 9, 11, 0.9) 70%, var(--bg-base) 100%);
+    z-index: 1;
+}
+
+.tournament-hero-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1050px; 
+    margin: 0 auto;
+}
+
+.tournament-status-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.tournament-format-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+}
+
+.tournament-main-title {
+    font-size: 3.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.tournament-hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    line-height: 1.5;
+}
+
+/* --- Tags do Torneio (Hero) --- */
+.tournament-tags-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.tourney-tag {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    padding: 0.35rem 1.25rem;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    background: transparent;
+    transition: all var(--transition-fast);
+    cursor: default;
+}
+
+.tourney-tag:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+
+/* --- Corpo e Grelha de Duas Colunas --- */
+.tournament-body-section {
+    padding-bottom: 5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.tournament-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px; 
+    gap: 4rem; /* <-- Espaçamento maior entre as colunas para respirar */
+    max-width: 1050px; 
+    margin: 0 auto;
+    align-items: stretch; /* <-- A MÁGICA 1: Isso permite que a sidebar tenha espaço para o card deslizar! */
+}
+
+/* --- Coluna da Esquerda (Conteúdo) --- */
+.tournament-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4.5rem; /* <-- Afasta os blocos (Sobre, Premiação, Placar) */
+}
+
+.content-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.block-title {
+    font-size: 1.25rem;
+    color: #ffffff;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+    margin: 0;
+}
+
+.block-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.block-header-row .block-title {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.results-count {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.block-text {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* --- Cards de Premiação Dinâmicos --- */
+.prizes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.prize-card {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.5rem; /* <-- Card de prêmios um pouco mais "gordo" */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.prize-rank {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.prize-reward {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.prize-first {
+    border-color: rgba(201, 150, 58, 0.3);
+    background-color: rgba(201, 150, 58, 0.02);
+}
+
+.prize-first .prize-rank {
+    color: var(--brand-gold);
+}
+
+/* --- Ajuste fino para células da tabela de placar --- */
+.table th, .table td {
+    padding: 1.25rem 1rem; /* <-- Dá mais altura às linhas do placar para não parecer Excel esmagado */
+}
+
+.table-player-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.table-player-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-name {
+    font-weight: 500;
+    color: #ffffff;
+}
+
+
+/* --- Barra Lateral / Card Stick (Direita) --- */
+
+.tournament-sidebar {
+    height: 100%; /* <-- A MÁGICA 2: Garante que a pista do card está ativa */
+}
+
+.sticky-ticket-card {
+    position: sticky;
+    top: calc(var(--navbar-height) + 2rem); /* Gruda perfeitamente 2rem abaixo da Navbar */
+    background-color: rgba(24, 24, 27, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem; /* <-- Card de Inscrição um pouco mais luxuoso e espaçoso */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.ticket-price-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.ticket-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.ticket-price {
+    font-size: 2.5rem; /* <-- Preço um pouco maior para destacar a conversão */
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.ticket-divider {
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin: 0;
+}
+
+.ticket-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* <-- Mais espaço entre as informações de Data, Local e Vagas */
+}
+
+.ticket-info-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.ticket-info-item i {
+    font-size: 1.1rem;
+    color: var(--brand-primary);
+    margin-top: 0.2rem;
+}
+
+.ticket-info-item .info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.ticket-info-item .info-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.ticket-info-item .info-val {
+    font-size: 0.95rem;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.ticket-action-btn {
+    padding: 1.25rem; /* Botão mais grosso para clique fácil */
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+/* --- Bloco do Organizador --- */
+.profile-block-label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.organizer-profile-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.organizer-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.organizer-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.organizer-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.organizer-title {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* --- Responsividade Completa --- */
+@media (max-width: 950px) {
+    .tournament-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    .tournament-sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+    }
+    .sticky-ticket-card {
+        position: static;
+    }
+    .tournament-main-title {
+        font-size: 2.5rem;
+    }
+    .prizes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ==========================
+   TORNEIO EM ANDAMENTO
+   ========================== */
+
+.tournament-live-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    padding: 0.85rem 1rem;
+
+    border-radius: var(--radius-md);
+
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+
+    color: #10b981;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ticket-play-btn {
+    background: linear-gradient(
+        135deg,
+        #10b981,
+        #059669
+    );
+
+    border: none;
+    color: white;
+
+    box-shadow:
+        0 4px 20px rgba(16, 185, 129, 0.35),
+        0 0 30px rgba(16, 185, 129, 0.15);
+
+    transition: all 0.25s ease;
+}
+
+.ticket-play-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(16, 185, 129, 0.45),
+        0 0 40px rgba(16, 185, 129, 0.25);
+}
+
+.ticket-disabled-btn {
+    background: var(--bg-surface-hover);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    border: 1px solid var(--border-color);
+}
