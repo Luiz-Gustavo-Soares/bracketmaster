@@ -39,7 +39,7 @@ class TournamentRegistrationService:
 
     @classmethod
     @transaction.atomic
-    def approvar_jogador(cls, participante: TorneioParticipante, organizador: TorneioParticipante):
+    def approvar_jogador(cls, participante: TorneioParticipante, organizador: User):
 
         if participante.torneio.organizador != organizador:
             raise PermissionDenied()
@@ -51,7 +51,7 @@ class TournamentRegistrationService:
 
     @classmethod
     @transaction.atomic
-    def regeitar_jogador(cls, participante: TorneioParticipante, organizador: TorneioParticipante):
+    def regeitar_jogador(cls, participante: TorneioParticipante, organizador: User):
 
         if participante.torneio.organizador != organizador:
             raise PermissionDenied()

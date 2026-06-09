@@ -1,12 +1,18 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.utils.dateparse import parse_date
-from tournaments.models import Torneio
+
+from tournaments.models import Torneio, TorneioParticipante
 from tournaments.forms import TorneioForm
 from tournaments.enums import StatusTorneio, FormatoJogo
-from core.models import Cidade
+from tournaments.services.registroService import TournamentRegistrationService
+
+from tournaments.services.exceptions import RegistrationError
+from core.exceptions import PermissionDenied
+
 
 
 def busc_torneios(request):
@@ -129,3 +135,95 @@ def criar_torneio(request):
         'form': form
     }
     return render(request, 'torneio-edit.html', context)
+
+
+@login_required
+def aprovar_participante(request, torneio_id, participante_id):
+    """Aprova um participante em um torneio em especifico"""
+    participante = get_object_or_404(
+        TorneioParticipante,
+        id=participante_id,
+        torneio_id=torneio_id
+    )
+
+    try:
+        TournamentRegistrationService.approvar_jogador(participante, request.user)
+        messages.success(
+            request,
+            'Participante aprovado.'
+        )
+    except PermissionDenied as e:
+        messages.error(
+            request,
+            'Permição negada, voce não é o ornanizador!'
+        )
+
+    except Exception as e:
+        messages.error(
+            request,
+            'Erro desconhecido!'
+        )
+
+    return redirect('torneio', torneio_id=torneio_id)
+
+
+@login_required
+def rejeitar_participante(request, torneio_id, participante_id):
+    """Rejeita um participante em um torneio em especifico"""
+    participante = get_object_or_404(
+        TorneioParticipante,
+        id=participante_id,
+        torneio_id=torneio_id
+    )
+
+    try:
+        TournamentRegistrationService.regeitar_jogador(participante, request.user)
+        messages.success(
+            request,
+            'Participante rejeitado.'
+        )
+    except PermissionDenied as e:
+        messages.error(
+            request,
+            'Permição negada, voce não é o ornanizador!'
+        )
+
+    except Exception as e:
+        messages.error(
+            request,
+            'Erro desconhecido!'
+        )
+
+    return redirect('torneio', torneio_id=torneio_id)
+
+
+
+@login_required
+def inscrever_torneio(request, torneio_id):
+    """Inscreve um participante em um torneio em especifico"""
+    torneio = get_object_or_404(
+        Torneio,
+        torneio_id=torneio_id
+    )
+
+    try:
+        TournamentRegistrationService.adicionar_jogador(torneio, request.user)
+        messages.success(
+            request,
+            'Participante inscrito.'
+        )
+    except RegistrationError as e:
+        messages.error(
+            request,
+            str(e)
+        )
+
+    except Exception as e:
+        messages.error(
+            request,
+            'Erro desconhecido!'
+        )
+
+    return redirect('torneio', torneio_id=torneio_id)
+
+
