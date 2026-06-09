@@ -8,12 +8,7 @@ urlpatterns = [
 
     path('login/', login_view, name='login'),
 
-    path('register/', register_view, name='register'),
-
-    path('profile/edit', edit_profile, name='edit_profile'),
-    
-    
-    path('profile/like/<str:username>', like_profile, name='like_profile'),
+    path('register/', register_view, name='register'),    
 
     path(
         "senha/",
@@ -38,8 +33,10 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(),
         name="password_reset_complete"
     ),
-    path('<str:username>', profile, name='users/profile_view.html'),
+
+    path('perfil/edit', edit_profile, name='edit_profile'),
+
+    path('perfil/<str:username>/like/', like_profile, name='like_profile'),
     path('perfil/<str:username>/', profile, name='profile_view'),
-    path('profile/edit', edit_profile, name='edit_profile'),
     
 ]
