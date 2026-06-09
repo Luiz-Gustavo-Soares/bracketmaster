@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="{% static 'css/utilitarios.css' %}">
 
 {% block extra_css %}{% endblock %}
-
+{% block navbar %}
+    {% include 'components/navbar.html' with is_dashboard=False %}
+{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
 

@@ -2,36 +2,28 @@
 <div class="dash-sidebar__inner">
     <nav class="dash-sidebar__nav">
         <a href="#" class="dash-sidebar__link {% if active_sidebar == 'perfil' %}is-active{% endif %}">
-            <i class="fa-regular fa-user"></i>
-            <span>Perfil</span>
+            <i class="fa-regular fa-user"></i> <span>Perfil</span>
         </a>
         <a href="#" class="dash-sidebar__link {% if active_sidebar == 'inbox' %}is-active{% endif %}">
-            <i class="fa-regular fa-envelope"></i>
-            <span>Inbox</span>
+            <i class="fa-regular fa-envelope"></i> <span>Inbox</span>
         </a>
         <a href="#" class="dash-sidebar__link {% if active_sidebar == 'historico' %}is-active{% endif %}">
-            <i class="fa-regular fa-clock"></i>
-            <span>Histórico</span>
+            <i class="fa-regular fa-clock"></i> <span>Histórico</span>
         </a>
         <a href="#" class="dash-sidebar__link {% if active_sidebar == 'torneios' %}is-active{% endif %}">
-            <i class="fa-solid fa-trophy"></i>
-            <span>Torneios</span>
+            <i class="fa-solid fa-trophy"></i> <span>Torneios</span>
         </a>
         <a href="#" class="dash-sidebar__link {% if active_sidebar == 'decks' %}is-active{% endif %}">
-            <i class="fa-solid fa-layer-group"></i>
-            <span>Decks</span>
+            <i class="fa-solid fa-layer-group"></i> <span>Decks</span>
         </a>
     </nav>
 
-    <div class="dash-sidebar__footer">
-        <a href="{}" class="dash-sidebar__link">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Sair</span>
+    <div class="dash-sidebar__footer" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <a href="{% url 'logout' %}" class="dash-sidebar__link">
+            <i class="fa-solid fa-right-from-bracket"></i> <span>Sair</span>
         </a>
-
         <a href="#" class="dash-sidebar__link">
-            <i class="fa-regular fa-circle-question"></i>
-            <span>Ajuda</span>
+            <i class="fa-regular fa-circle-question"></i> <span>Ajuda</span>
         </a>
     </div>
 </div>

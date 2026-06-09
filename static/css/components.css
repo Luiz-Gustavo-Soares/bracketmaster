@@ -366,7 +366,7 @@
 /* Garante que a Navbar seja intocável em qualquer página */
 nav, .navbar, header {
     position: relative;
-    z-index: 999999 !important;
+    z-index: 999 !important;
 }
 
 .logo-text {
@@ -522,6 +522,16 @@ nav, .navbar, header {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: var(--brand-primary);
     width: 260px; /* Expande um pouco ao clicar */
+}
+
+.nav-hamburger {
+    display: none;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+}
+
+.mobile-global-nav {
+    display: none;
 }
 
 /* --- Dropdown de Busca --- */
@@ -1067,7 +1077,8 @@ span.flatpickr-weekday,
 
     .nav-hamburger {
         display: flex;
-        margin-left: auto;
+        align-items: center;
+        justify-content: center;
     }
 
     .logo-text {
@@ -1078,6 +1089,11 @@ span.flatpickr-weekday,
         min-width: unset;
         width: 100%;
     }
+
+    .mobile-global-nav {
+    display: block;
+    }
+
 }
 
 /* ==========================================
@@ -1121,3 +1137,4 @@ body {
         min-height: 44px;
     }
 }
+

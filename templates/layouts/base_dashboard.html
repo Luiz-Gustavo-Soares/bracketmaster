@@ -27,13 +27,15 @@
     style="background-image:url('{% static 'media/backgrounds/casal_magic.png' %}')"
 >
 
-    {% include 'components/navbar.html' %}
+    {% include 'components/navbar.html' with is_dashboard=True %}
 
     <div class="dash-layout">
 
         <aside class="dash-sidebar">
             {% include 'components/sidebar.html' %}
         </aside>
+
+        <div class="sidebar-overlay"></div>
 
         <main class="dash-main">
 

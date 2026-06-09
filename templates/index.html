@@ -10,8 +10,7 @@
 
 {% block content %}
 <header class="home-fixed-header">
-    {% include 'components/navbar.html' %}
-    
+  
     <div class="scroll-progress-container">
         <div class="scroll-progress-bar" id="scrollIndicator"></div>
     </div>
@@ -125,8 +124,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
-
 <script>
     // SCROLL INDICATOR
     window.addEventListener('scroll', function() {
