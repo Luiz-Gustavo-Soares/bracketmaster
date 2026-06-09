@@ -46,12 +46,13 @@ def edit_profile(request):
     if request.method == 'POST':
         form = ProfileForm(
             request.POST,
-            request.FILES,
             instance=profile
         )
-
+        
         if form.is_valid():
-            form.save()
+            profile: Profile = form.save(commit=False)
+            profile.adicionar_cidade(form.cleaned_data['cidade'], form.cleaned_data['estado'])
+            profile.save()
 
     
     else: 
