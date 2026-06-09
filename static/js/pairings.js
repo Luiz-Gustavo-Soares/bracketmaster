@@ -1,1 +1,0 @@
-/*interações específicas de pareamentos*/

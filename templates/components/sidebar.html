@@ -10,7 +10,7 @@
         <a href="#" class="dash-sidebar__link {% if active_sidebar == 'historico' %}is-active{% endif %}">
             <i class="fa-regular fa-clock"></i> <span>Histórico</span>
         </a>
-        <a href="#" class="dash-sidebar__link {% if active_sidebar == 'torneios' %}is-active{% endif %}">
+        <a href="{% url 'meus_torneios' %}" class="dash-sidebar__link {% if active_sidebar == 'torneios' %}is-active{% endif %}">
             <i class="fa-solid fa-trophy"></i> <span>Torneios</span>
         </a>
         <a href="#" class="dash-sidebar__link {% if active_sidebar == 'decks' %}is-active{% endif %}">

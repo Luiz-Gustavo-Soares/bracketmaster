@@ -1,0 +1,248 @@
+{% extends 'layouts/base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Meus Torneios{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/meus_torneios.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+    
+    <div id="state-empty" class="state-view active">
+        <div class="empty-state" style="margin-top: 6rem;">
+            <i class="fa-solid fa-shield-halved empty-icon"></i>
+            <h2 class="empty-title">Sem torneios ainda!</h2>
+            <p class="empty-text">Organize o seu primeiro torneio, descubra pela plataforma ou peça um link de convite ao seu organizador local.</p>
+            <button class="btn btn-outline" onclick="switchState('state-form-create')">
+                <i class="fa-solid fa-plus"></i> CRIAR TORNEIO
+            </button>
+        </div>
+    </div>
+
+    <div id="state-list" class="state-view">
+        
+        <h1 class="section-title">Inscritos</h1>
+        
+        <div id="container-inscritos">
+            <p class="info-text" id="aviso-sem-inscricoes" style="display: none;">
+                Você ainda não se inscreveu em nenhum torneio. Descubra pela plataforma ou peça um link de convite ao seu organizador local.
+            </p>
+
+            <div class="tournament-card" id="card-inscrito-exemplo">
+                <div class="tc-header">
+                    <div class="tc-title-row">
+                        <h3 class="tc-title">A Última Evolução</h3>
+                        <span class="badge badge-success">INSCRITO</span>
+                    </div>
+                    <span class="tc-meta">Daqui a 20 dias</span>
+                </div>
+                
+                <div class="tc-details">
+                    <span><i class="fa-regular fa-calendar"></i> 29/06/2026 às 14:00</span>
+                    <span><i class="fa-solid fa-location-dot"></i> Loja Central</span>
+                </div>
+                
+                <div class="tc-footer">
+                    <div class="tc-badges">
+                        <span class="badge">COMMANDER</span>
+                        <span class="badge">CASUAL</span>
+                    </div>
+                    
+                <div class="tc-actions">
+                    <button class="btn-icon" title="Ver detalhes do torneio">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                    <button class="btn-icon btn-play-action" title="Jogar">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </button>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        <h1 class="section-title" style="margin-top: 3rem;">Criados</h1>
+        
+        <div class="tournament-card">
+            <div class="tc-header">
+                <div class="tc-title-row">
+                    <h3 class="tc-title">Mix Diamantina</h3>
+                    <span class="badge badge-danger">LOTAÇÃO</span>
+                </div>
+                <span class="tc-meta">6 dias restantes.</span>
+            </div>
+            
+            <div class="tc-details">
+                <span><i class="fa-regular fa-calendar"></i> 21/06/2026 às 10:00</span>
+                <span><i class="fa-solid fa-location-dot"></i> Diamantina - MG</span>
+                <span><i class="fa-solid fa-users"></i> 16 jogadores</span>
+            </div>
+            
+            <div class="tc-footer">
+                <div class="tc-badges">
+                    <span class="badge">DRAFT</span>
+                    <span class="badge">SUÍÇO</span>
+                    <span class="badge">3 RODADAS</span>
+                    <span class="badge">PRESENCIAL</span>
+                    <span class="badge">DECKLIST OBRIGATÓRIA</span>
+                </div>
+                
+                <div class="tc-actions">
+                    <button class="btn-icon" title="Editar Torneio" onclick="switchState('state-form-edit')">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button class="btn-icon" title="Gerenciar Inscrições" onclick="switchState('state-inscriptions')">
+                        <i class="fa-solid fa-users-gear"></i>
+                    </button>
+                    <button class="btn-icon btn-play-action" title="Iniciar Partidas">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-outline" onclick="switchState('state-form-create')" style="margin-top: 1rem;">
+            <i class="fa-solid fa-plus"></i> CRIAR TORNEIO
+        </button>
+    </div>
+
+<div id="state-form" class="state-view">
+        <h1 class="section-title" id="form-main-title">Criar Torneio</h1>
+        
+        <h2 class="sub-title">Informações</h2>
+        <div class="form-grid full">
+            <div class="form-group">
+                <label class="form-label">Título</label>
+                <input type="text" class="form-control" id="f-titulo" placeholder="O nome do torneio">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Descrição</label>
+                <textarea class="form-control" id="f-desc" rows="3" placeholder="Sobre o torneio"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Data e Horário</label>
+                <input type="datetime-local" class="form-control" id="f-data">
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label">Modalidade</label>
+                <select class="form-control" id="f-mod" onchange="toggleModalidade()">
+                    <option value="Presencial">Presencial</option>
+                    <option value="Remoto">Remoto</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="wrap-plataforma" style="display: none;">
+                <label class="form-label">Plataforma</label>
+                <input type="text" class="form-control" id="f-plat" placeholder="Ex: Discord, SpellTable">
+            </div>
+        </div>
+
+        <div id="wrap-localizacao">
+            <label class="form-label" style="margin-bottom: 0.5rem; display: block;">Localização</label>
+            <div class="form-grid">
+                <div class="form-group"><input type="text" class="form-control" id="f-cid" placeholder="Cidade"></div>
+                <div class="form-group"><input type="text" class="form-control" id="f-est" placeholder="Estado (sigla)"></div>
+                <div class="form-group"><input type="text" class="form-control" id="f-log" placeholder="Logradouro"></div>
+                <div class="form-group"><input type="text" class="form-control" id="f-num" placeholder="Número"></div>
+                <div class="form-group"><input type="text" class="form-control" id="f-bai" placeholder="Bairro"></div>
+                <div class="form-group"><input type="text" class="form-control" id="f-comp" placeholder="Complemento"></div>
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label">Número de Jogadores</label>
+                <input type="number" class="form-control" id="f-jog" placeholder="Quantidade de participantes">
+            </div>
+        </div>
+
+        <h2 class="sub-title">Inscrição</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label">Valor</label>
+                <input type="text" class="form-control" id="f-val" placeholder="Valor da inscrição em R$">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Prazo</label>
+                <input type="date" class="form-control" id="f-pra">
+            </div>
+        </div>
+        <div class="form-grid full">
+            <div class="form-group">
+                <label class="form-label">Premiação</label>
+                <textarea class="form-control" id="f-prem" rows="2" placeholder="Informe a premiação de cada colocação, uma por linha, começando pelo 1º lugar"></textarea>
+            </div>
+        </div>
+
+        <h2 class="sub-title">Jogabilidade</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label">Formato</label>
+                <select class="form-control" id="f-formato">
+                    <option>Formato de jogo do torneio</option>
+                    <option>Standard</option>
+                    <option>Modern</option>
+                    <option>Pioneer</option>
+                    <option>Commander</option>
+                    <option>Draft</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Estratégia</label>
+                <select class="form-control" id="f-estrat">
+                    <option>Lógica estratégica do torneio</option>
+                    <option>Suíço</option>
+                    <option>Eliminação Simples</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Número de Rodadas</label>
+                <input type="number" class="form-control" id="f-rodadas" placeholder="Duração do torneio em rodadas">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Tipo</label>
+                <select class="form-control" id="f-tipo">
+                    <option>Competitivo ou Casual</option>
+                    <option>Competitivo</option>
+                    <option>Casual</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-outline" id="btn-form-submit" onclick="switchState('state-list')">SALVAR</button>
+        </div>
+    </div>
+
+    <div id="state-inscriptions" class="state-view">
+        <div class="inscriptions-header-row">
+            <h1 class="section-title">Inscrições: Mix Diamantina</h1>
+            <button class="btn btn-outline" onclick="switchState('state-list')"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+        </div>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead><tr><th>Jogador</th><th>Cidade</th><th style="text-align: right;">Ação</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td class="player-name-cell">Ítalo Felipe</td>
+                        <td class="table-muted-cell">Rio Preto</td>
+                        <td style="text-align: right;">
+                            <button class="btn-icon btn-accept"><i class="fa-solid fa-check"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/meus_torneios.js' %}"></script>
+{% endblock %}
