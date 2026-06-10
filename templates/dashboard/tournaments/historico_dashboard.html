@@ -29,15 +29,15 @@
                 <tbody>
                     {% for partida in partidas %}
                     <tr>
-                        <td class="col-torneio">{{ partida.torneio }}</td>
-                        <td class="col-data">{{ partida.data }}</td>
-                        <td class="col-formato">{{ partida.formato }}</td>
+                        <td class="col-torneio">{{ partida.torneio.nome }}</td>
+                        <td class="col-data">{{ partida.torneio.data_inicio }}</td>
+                        <td class="col-formato">{{ partida.torneio.get_formato_jogo_display }}</td>
                         <td class="col-resultado" style="text-align: right;">
-                            <span class="badge-status badge-{{ partida.status }}">
-                                {% if partida.colocacao == '1º Lugar' %}
+                            <span class="badge-status badge-{{ partida.torneio.status }}">
+                                {% if partida.posicao == 1 %}
                                     <i class="fa-solid fa-trophy" style="margin-right: 6px;"></i>
                                 {% endif %}
-                                {{ partida.colocacao }}
+                                {{ partida.posicao }} º Lugar
                             </span>
                         </td>
                     </tr>

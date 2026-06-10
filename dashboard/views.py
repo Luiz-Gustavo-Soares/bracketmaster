@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
+from tournaments.models import Torneio, TorneioParticipante
+
 from users.models import Profile
 from users.forms import ProfileForm
 
@@ -30,8 +32,29 @@ def dashboard(request):
 
 
     context = {
+        'active_sidebar': 'perfil',
         'form':form,
         'profile': profile
     }
     
     return render(request, 'dashboard/dashboard.html', context)
+
+
+@login_required
+def historico_dashboard_view(request):
+    page_number = request.GET.get('page', None)
+
+    partidas = TorneioParticipante.objects.filter(
+        jogador=request.user
+    ).select_related('torneio').all().order_by(
+        '-data_inscricao'
+    )
+    
+    paginator = Paginator(partidas, 8) 
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'active_sidebar': 'historico',
+        'partidas': page_obj
+    }
+    return render(request, 'dashboard/tournaments/historico_dashboard.html', context)

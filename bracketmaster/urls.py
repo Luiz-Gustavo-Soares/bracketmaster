@@ -40,10 +40,10 @@ urlpatterns = [
     # path('torneios_view/', torneios_view, name='torneio_view'),
     
 
+    # path('dashboard/historico/', historico_dashboard_view, name='historico_dashboard'),
     path('dashboard/torneios/', meus_torneios_view, name='meus_torneios'),
     path('dashboard/inbox/', inbox_view, name='dashboard_inbox'),
     path('dashboard/decks/', decks_view, name='dashboard_decks'),
-    path('dashboard/historico/', historico_dashboard_view, name='historico_dashboard')
 ]
 
 if settings.DEBUG:
