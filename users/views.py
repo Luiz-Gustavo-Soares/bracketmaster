@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse, Http404
@@ -35,6 +35,11 @@ def register_view(request):
     return render(request, 'users/register.html', {
         'form': form
     })
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
 
 
 @login_required
