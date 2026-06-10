@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Painel da Partida | {{ tournament.name }}{% endblock %}
+{% block title %}Painel da Partida | {{ tournament.nome }}{% endblock %}
 {% block navbar %}{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/play_torneio.css' %}">
@@ -10,7 +10,7 @@
 {% block content %}
 <div class="play-page-container">
 
-    <div class="play-fullscreen-bg" style="background-image: url('{% if tournament.imagem_capa %}{{ tournament.imagem_capa.url }}{% else %}{% static 'media/backgrounds/Key-Art.jpeg' %}{% endif %}');">
+    <div class="play-fullscreen-bg" style="background-image: url('{% if tournament.imagem_fundo %}{{ tournament.get_fundo_path }}{% else %}{% static 'media/backgrounds/Key-Art.jpeg' %}{% endif %}');">
         <div class="play-fullscreen-overlay"></div>
     </div>
 
@@ -18,10 +18,10 @@
         <div class="play-header-card animate-fade-up">
             <div class="ph-top-row">
                 <div>
-                    <h1 class="ph-title">{{ tournament.name }}</h1>
+                    <h1 class="ph-title">{{ tournament.nome }}</h1>
                     <div class="ph-tags">
-                        <span class="tourney-tag">{{ tournament.format }}</span>
-                        <span class="tourney-tag">{{ tournament.structure }}</span>
+                        <span class="tourney-tag">{{ tournament.get_formato_jogo_display }}</span>
+                        <span class="tourney-tag">{{ tournament.get_formato_torneio_display }}</span>
                         <span class="tourney-tag" style="border-color: var(--brand-primary); color: var(--brand-primary);">RODADA {{ current_round|default:"1" }}</span>
                         
                         <span class="tourney-tag">{{ pending_matches|default:"0" }} PENDENTES</span>
@@ -30,15 +30,15 @@
                 <div class="ph-meta">
                     <div class="meta-item">
                         <i class="fa-regular fa-calendar"></i>
-                        <span>{{ tournament.date|date:"d/m/Y" }} às {{ tournament.time }}</span>
+                        <span>{{ tournament.data_inicio|date:"d/m/Y" }} às {{ tournament.data_inicio|date:"H:m"  }}</span>
                     </div>
                     <div class="meta-item">
                         <i class="fa-solid fa-location-dot"></i>
-                        <span>{{ tournament.address }}</span>
+                        <span>{{ tournament.local }}</span>
                     </div>
                     <div class="meta-item">
                         <i class="fa-solid fa-users"></i>
-                        <span>{{ tournament.player_count }} Jogadores</span>
+                        <span>{{ tournament.count_participantes_validos }} Jogadores</span>
                     </div>
                 </div>
             </div>
@@ -133,18 +133,18 @@
                                 <tr>
                                     <td class="col-pos">{{ forloop.counter }}</td>
                                     <td class="col-player">
-                                        {% if standing.player.avatar %}
-                                            <img src="{{ standing.player.avatar.url }}" alt="Avatar de {{ standing.player.name }}">
+                                        {% if standing.participante.jogador.profile.avatar %}
+                                            <img src="{{ standing.participante.jogador.profile.get_avatar_path }}" alt="Avatar de {{ standing.participante.jogador.username }}">
                                         {% else %}
                                             <img src="{% static 'media/avatares/default.png' %}" alt="Avatar Padrão">
                                         {% endif %}
-                                        <span>{{ standing.player.name }}</span>
+                                        <span>{{ standing.participante.jogador.profile.nickname }}</span>
                                     </td>
-                                    <td class="col-highlight">{{ standing.points|default:"0" }}</td>
-                                    <td class="col-vde" style="color: var(--success);">{{ standing.wins|default:"0" }}</td>
-                                    <td class="col-vde" style="color: var(--danger);">{{ standing.losses|default:"0" }}</td>
-                                    <td class="col-vde" style="color: var(--text-muted);">{{ standing.draws|default:"0" }}</td>
-                                    <td>{{ standing.omw_percentage|floatformat:2|default:"-" }}</td>
+                                    <td class="col-highlight">{{ standing.pontos|default:"0" }}</td>
+                                    <td class="col-vde" style="color: var(--success);">{{ standing.participante.vitorias|default:"0" }}</td>
+                                    <td class="col-vde" style="color: var(--danger);">{{ standing.participante.derrotas|default:"0" }}</td>
+                                    <td class="col-vde" style="color: var(--text-muted);">{{ standing.participante.empate|default:"0" }}</td>
+                                    <td>{{ standing.omw|floatformat:2|default:"-" }}</td>
                                 </tr>
                                 {% empty %}
                                 <tr>
@@ -163,9 +163,9 @@
                 
                 <div class="round-tabs">
                     {% for i in total_rounds_range %}
-                        <a href="?rodada={{ i }}" class="round-tab {% if current_round == i %}active{% endif %}" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
-                            {{ i }}
-                        </a>
+                            <a href="?rodada={{ i }}" class="round-tab {% if current_round == i %}active{% endif %}" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                                {{ i }}
+                            </a>
                     {% endfor %}
                 </div>
 

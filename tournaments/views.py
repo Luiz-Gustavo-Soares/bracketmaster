@@ -22,6 +22,8 @@ from core.models import Cidade
 from users.models import Profile
 
 
+
+
 def busc_torneios(request):
 
     # Estilo da busca ?nome=dinos&formato=commander&cidade=diamantina...
@@ -314,7 +316,7 @@ def alter_status_torneio(request, torneio_id, new_status):
 def resetar_torneio(request, torneio_id):
     torneio = get_object_or_404(
         Torneio,
-        torneio_id=torneio_id
+        id=torneio_id
     )
 
     if torneio.organizador != request.user:
@@ -329,3 +331,28 @@ def resetar_torneio(request, torneio_id):
         messages.error(request, 'Anularam...')
 
     return redirect('torneio', torneio_id=torneio_id)
+
+
+
+def play_view(request, torneio_id):
+    torneio = get_object_or_404(
+        Torneio,
+        id=torneio_id
+    )
+
+    rodada_atual = int(request.GET.get('rodada', 1))
+
+    num_rodadas = torneio.rodadas.count()
+    progresso_torneio = round(num_rodadas / torneio.numero_rodadas * 100)
+    
+    classificacao = RankingService.calcular_ranking(torneio)
+
+    context = {
+        'tournament': torneio,
+        'current_round': rodada_atual,
+        'progresso_torneio': progresso_torneio,
+        'standings': classificacao,
+        'total_rounds_range': range(1, torneio.numero_rodadas+1)
+    }
+
+    return render(request, 'dashboard/tournaments/play.html', context=context)

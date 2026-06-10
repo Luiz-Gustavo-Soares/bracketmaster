@@ -46,7 +46,7 @@ urlpatterns = [
     path('dashboard/inbox/', inbox_view, name='dashboard_inbox'),
     path('dashboard/decks/', decks_view, name='dashboard_decks'),
     path('dashboard/historico/', historico_dashboard_view, name='historico_dashboard'),
-    path('play/', play_view, name='play')
+    # path('play/', play_view, name='play')
 ]
 
 if settings.DEBUG:
