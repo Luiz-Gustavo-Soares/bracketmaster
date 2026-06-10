@@ -2,7 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
+from core.models import Cidade
+
 from tournaments.models import Torneio, TorneioParticipante
+from tournaments.forms import TorneioForm
+from tournaments.enums import StatusInscricao
 
 from users.models import Profile
 from users.forms import ProfileForm
@@ -61,9 +65,84 @@ def historico_dashboard_view(request):
 
 
 @login_required
-def meus_torneios_view(request):
+def meus_torneios_view(request, pk=None, edit=False):
     """View da página de Meus Torneios no Dashboard"""
+
+    torneio_participantes_edit = None
+    torneio_edicao = None
+    torneio_participantes_edit_list = None
+    
+    if pk:
+        torneio_edicao = get_object_or_404(
+            Torneio,
+            pk=pk,
+            organizador=request.user
+        )
+
+        if edit == 'edit':
+            torneio_participantes_edit = True   
+            torneio_participantes_edit_list = TorneioParticipante.objects.filter(
+                jogador=request.user,
+                torneio = torneio_edicao,
+                ).select_related('torneio').all()
+            
+            torneio_participantes_edit_list = torneio_participantes_edit_list.exclude(
+                status=StatusInscricao.REJEITADA
+            ).order_by('status')
+
+
+    inscricoes = TorneioParticipante.objects.filter(
+        jogador=request.user
+    ).select_related('torneio').all()
+
+    torneios_criados = Torneio.objects.filter(organizador=request.user).all()
+    
+
+    if request.method == "POST":
+        form = TorneioForm(
+            request.POST,
+            instance=torneio_edicao
+        )
+
+        if form.is_valid():
+            torneio = form.save(commit=False)
+
+            cidade = form.cleaned_data['cidade']
+            estado = form.cleaned_data['estado']
+
+            endereco_list = [
+                    form.cleaned_data['lagradouro'],
+                    form.cleaned_data['numero'],
+                    form.cleaned_data['bairro'],
+                    form.cleaned_data['complemento'],
+                ]
+
+            endereco_list = [Cidade._normalizar(end) for end in endereco_list]
+            
+            torneio.local = ', '.join(endereco_list)
+            torneio.adicionar_cidade(cidade, estado)
+
+            if not torneio_edicao:
+                torneio.organizador = request.user
+
+            torneio.save()
+            return redirect("meus_torneios")
+
+    else:
+        if torneio_edicao:
+            ini = {'cidade': torneio_edicao.cidade.nome, 'estado': torneio_edicao.cidade.estado, 'lagradouro': torneio_edicao.local}
+            form = TorneioForm(instance=torneio_edicao, initial=ini)
+        else:
+            form = TorneioForm()
+    
     context = {
-        'active_sidebar': 'torneios'
+        'active_sidebar': 'torneios',
+        'inscricoes': inscricoes,
+        'torneios_criados': torneios_criados,
+        'form': form,
+        'torneio_edicao': torneio_edicao,
+        'torneio_participantes_edit': torneio_participantes_edit,
+        'torneio_participantes_edit_list': torneio_participantes_edit_list,
     }
+
     return render(request, 'dashboard/tournaments/meus_torneios.html', context)

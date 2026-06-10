@@ -211,7 +211,7 @@ def aprovar_participante(request, torneio_id, participante_id):
             'Erro desconhecido!'
         )
 
-    return redirect('torneio', torneio_id=torneio_id)
+    return redirect('meus_torneios_participantes_edit', pk=torneio_id, edit='edit')
 
 
 @login_required
@@ -241,7 +241,7 @@ def rejeitar_participante(request, torneio_id, participante_id):
             'Erro desconhecido!'
         )
 
-    return redirect('torneio', torneio_id=torneio_id)
+    return redirect('meus_torneios_participantes_edit', pk=torneio_id, edit='edit')
 
 
 
