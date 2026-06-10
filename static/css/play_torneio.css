@@ -1,0 +1,543 @@
+
+
+/* ==========================================================================
+   TELA DE PLAY / PAINEL DA PARTIDA
+   ========================================================================== */
+
+.play-page-container {
+    background-color: var(--bg-base);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* --- Background Fullscreen Fixo --- */
+.play-fullscreen-bg {
+    position: fixed; /* A mágica acontece aqui: o fundo não rola junto com a página */
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0;
+    background-size: cover;
+    background-position: center center;
+    z-index: 0; /* Fica lá no fundo */
+}
+
+/* Overlay escuro para garantir que as letras brancas fiquem 100% legíveis */
+.play-fullscreen-overlay {
+    position: absolute;
+    inset: 0;
+    /* Um tom muito escuro (85% de opacidade) para dar contraste aos painéis Glass */
+    background: rgba(9, 9, 11, 0.85); 
+}
+
+/* --- Container Principal (Onde ficam os cards) --- */
+.play-main-container {
+    position: relative;
+    z-index: 1; /* Fica acima do background fixo */
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* --- Cabeçalho do Torneio (Glassmorphism) --- */
+.play-header-card {
+    background-color: rgba(24, 24, 27, 0.5);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.ph-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.ph-title {
+    font-size: 2.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+}
+
+.ph-tags {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ph-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: right;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.ph-meta i {
+    color: var(--brand-primary);
+    margin-right: 0.5rem;
+}
+
+/* --- Barra de Progresso --- */
+.ph-progress-container {
+    width: 100%;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.progress-track {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--brand-primary), #a855f7);
+    border-radius: 10px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Botões de Ação --- */
+.play-actions-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* ==========================================================================
+   ESTADOS DE RESULTADO (CORES DINÂMICAS NAS MESAS)
+   ========================================================================== */
+
+/* Jogador Vencedor: Fica verde brilhante e o avatar ganha uma aura verde */
+.player-winner {
+    color: var(--success, #10b981) !important;
+    font-weight: 700;
+}
+.player-winner img {
+    border-color: var(--success, #10b981) !important;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Jogador Perdedor: Fica mais apagado e o avatar fica levemente avermelhado e cinza */
+.player-loser {
+    color: var(--text-muted) !important; 
+    opacity: 0.5;
+}
+.player-loser img {
+    border-color: rgba(239, 68, 68, 0.4) !important; /* Vermelho sutil */
+    filter: grayscale(80%); /* Tira a cor do avatar do perdedor (estilo 'morto') */
+}
+
+/* Empate: Ambos ficam laranjas e levemente transparentes */
+.player-draw {
+    color: #f59e0b !important; /* Laranja Amber */
+    opacity: 0.8;
+}
+.player-draw img {
+    border-color: rgba(245, 158, 11, 0.5) !important;
+}
+
+.btn-danger-outline {
+    background: rgba(239, 68, 68, 0.05);
+    color: var(--danger, #ef4444);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-danger-outline:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: var(--danger);
+}
+
+.btn-success-solid {
+    background: var(--success, #10b981);
+    color: #000;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-success-solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    background: #059669;
+    color: #fff;
+}
+
+/* --- Grid de Duas Colunas --- */
+.play-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr; /* Placar fica um pouco menor que as Partidas */
+    gap: 2rem;
+    align-items: start;
+}
+
+/* --- Cartões Transparentes (Tabelas) --- */
+.glass-card {
+    background-color: rgba(24, 24, 27, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    
+}
+
+.glass-title {
+    font-size: 1.15rem;
+    color: #fff;
+    padding: 1.5rem;
+    margin: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+/* Barra de rolagem escura e elegante */
+.table-responsive::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: transparent;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* O overflow (a jaula) só é necessário no mobile para a tabela rolar para o lado */
+@media (max-width: 1024px) {
+    .table-responsive {
+        overflow-x: auto;
+        padding-bottom: 80px; /* Espaço de segurança apenas no celular! */
+    }
+}
+
+.play-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.play-table th {
+    padding: 1rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: left;
+}
+
+.play-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* Remove a regra antiga que causava o corte */
+.play-table tr:hover td {
+    background-color: transparent; 
+}
+
+/* Aplica o hover na linha (tr) inteira de forma fluida */
+.play-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.play-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.col-pos { color: var(--brand-gold); font-weight: 700; width: 40px; }
+.col-highlight { color: #fff; font-weight: 700; font-size: 1rem; }
+.col-vde { font-weight: 600; width: 40px; }
+
+/* Jogador na Tabela */
+.col-player {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+}
+
+.col-player.right-align {
+    justify-content: flex-end;
+}
+
+.col-player img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* --- Rodadas --- */
+.round-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: -1px; /* Para grudar no card abaixo */
+}
+
+.round-tab {
+    background: rgba(24, 24, 27, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: none;
+    color: var(--text-muted);
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.round-tab.active {
+    background: rgba(99, 102, 241, 0.15);
+    color: #fff;
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.round-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.badge-success-outline {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border: 1px solid var(--success);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.7rem;
+    border-radius: 20px;
+}
+
+.matches-count {
+    color: var(--danger);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.col-mesa span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+
+
+.score-vs {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 0 0.25rem;
+    text-transform: uppercase;
+}
+
+.btn-save-score {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--success);
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 0.5rem;
+}
+
+.btn-save-score:hover {
+    background: var(--success);
+    color: #000;
+}
+
+/* ==========================================
+   RESPONSIVIDADE INTELIGENTE
+   ========================================== */
+@media (max-width: 1024px) {
+    .play-grid-layout {
+        grid-template-columns: 1fr; 
+    }
+    
+    .ph-top-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .ph-meta {
+        text-align: left;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .play-header-card { padding: 1.5rem; }
+    .ph-title { font-size: 1.8rem; }
+    .match-table th, .match-table td { padding: 0.5rem; }
+}
+
+/* ==========================================================================
+   BOTÃO VS E POPOVER DE RESULTADO (MICRO ESCALA E CORREÇÃO DE SCROLL)
+   ========================================================================== */
+
+.match-action-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* O botão "VS" - Mais discreto e elegante */
+.btn-vs-match {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    font-weight: 800;
+    font-size: 0.7rem; 
+    padding: 0.25rem 0.75rem; 
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.btn-vs-match:hover {
+    background: rgba(99, 102, 241, 0.15); 
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.25);
+}
+
+/* Popover Ultra Compacto */
+.match-result-popover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: #18181b; 
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px; /* Arredondamento menor */
+    padding: 0.4rem; /* Margens internas mínimas */
+    width: 160px; /* Largura bem justa para não invadir os nomes */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.match-result-popover.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popover-title {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+    font-weight: 700;
+}
+
+/* Form do Django - Removendo espaçamentos padrão */
+.match-result-popover form {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem; /* Espaço micro entre os 3 botões */
+}
+
+/* Botões de Decisão - Mais finos */
+.btn-result-option {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    padding: 0.35rem 0.5rem; 
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem; 
+    font-weight: 600;
+    transition: all 0.2s;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-result-option:hover {
+    background: rgba(16, 185, 129, 0.1); 
+    color: var(--success, #10b981);
+    border-color: rgba(16, 185, 129, 0.25);
+}
+
+.btn-result-option.draw-option:hover {
+    background: rgba(161, 161, 170, 0.1); 
+    color: #d4d4d8;
+    border-color: rgba(161, 161, 170, 0.25);
+}
+
+/* ==========================================================================
+   A MÁGICA: ESPAÇAMENTO DINÂMICO PARA O MENU
+   ========================================================================== */
+.play-rounds .table-responsive {
+    min-height: auto; /* Remove o buraco gigante fixo! */
+    transition: padding-bottom 0.2s ease; /* Animação suave quando o espaço for criado */
+}
+
+/* Esta classe será injetada pelo Javascript APENAS quando o menu estiver aberto */
+.play-rounds .table-responsive.has-open-popover {
+    padding-bottom: 90px; 
+}

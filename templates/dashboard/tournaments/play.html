@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Painel da Partida | {{ tournament.name }}{% endblock %}
+{% block navbar %}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/play_torneio.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="play-page-container">
+
+    <div class="play-fullscreen-bg" style="background-image: url('{% if tournament.imagem_capa %}{{ tournament.imagem_capa.url }}{% else %}{% static 'media/backgrounds/Key-Art.jpeg' %}{% endif %}');">
+        <div class="play-fullscreen-overlay"></div>
+    </div>
+    
+
+    <div class="container play-main-container">
+        
+        <div class="play-header-card animate-fade-up">
+            <div class="ph-top-row">
+                <div>
+                    <h1 class="ph-title">Mix Diamantina</h1>
+                    <div class="ph-tags">
+                        <span class="tourney-tag">DRAFT</span>
+                        <span class="tourney-tag">SUÍÇO</span>
+                        <span class="tourney-tag" style="border-color: var(--brand-primary); color: var(--brand-primary);">RODADA 1</span>
+                        <span class="tourney-tag">4 PENDENTES</span>
+                    </div>
+                </div>
+                <div class="ph-meta">
+                    <div class="meta-item">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span>21/06/2026 às 10:00</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Diamantina (MG)</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fa-solid fa-users"></i>
+                        <span>8 Jogadores</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ph-progress-container">
+                <div class="progress-labels">
+                    <span>Progresso do Torneio</span>
+                    <span>{{ progresso_torneio|default:"0" }}%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: {{ progresso_torneio|default:'0' }}%;"></div>
+                </div>
+            </div>
+
+        <div class="play-actions-row animate-fade-up" style="animation-delay: 0.1s;">
+            <button class="btn btn-danger-outline">
+                <i class="fa-solid fa-rotate-left"></i> REINICIAR TORNEIO
+            </button>
+            <button class="btn btn-success-solid">
+                PRÓXIMA RODADA <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <div class="play-grid-layout animate-fade-up" style="animation-delay: 0.2s;">
+            
+            <aside class="play-standings">
+                <div class="glass-card">
+                    <h2 class="glass-title">Placar Geral</h2>
+                    <div class="table-responsive">
+                        <table class="play-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Jogador</th>
+                                    <th>Pts</th>
+                                    <th>V</th>
+                                    <th>D</th>
+                                    <th>E</th>
+                                    <th title="Opponent Match Win % (Critério de Desempate: Porcentagem de vitórias dos seus oponentes.)" style="cursor: help;">
+                                        OMW% <i class="fa-solid fa-circle-info" style="font-size: 0.8em; opacity: 0.7;"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-pos">-</td>
+                                    <td class="col-player">
+                                        <img src="{% static 'media/avatares/nissa.png' %}" alt="Avatar">
+                                        <span>Ítalo Felipe</span>
+                                    </td>
+                                    <td class="col-highlight">0</td>
+                                    <td class="col-vde" style="color: var(--success);">0</td>
+                                    <td class="col-vde" style="color: var(--danger);">0</td>
+                                    <td class="col-vde" style="color: var(--text-muted);">0</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-pos">-</td>
+                                    <td class="col-player">
+                                        <img src="{% static 'media/avatares/gisha.png' %}" alt="Avatar">
+                                        <span>Luiz Gustavo</span>
+                                    </td>
+                                    <td class="col-highlight">0</td>
+                                    <td class="col-vde" style="color: var(--success);">0</td>
+                                    <td class="col-vde" style="color: var(--danger);">0</td>
+                                    <td class="col-vde" style="color: var(--text-muted);">0</td>
+                                    <td>-</td>
+                                </tr>
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="play-rounds">
+                
+                <div class="round-tabs">
+                    <button class="round-tab active">1</button>
+                    <button class="round-tab">2</button>
+                    <button class="round-tab">3</button>
+                </div>
+
+                <div class="glass-card">
+                    <div class="round-header">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span class="badge badge-success-outline">ABERTA</span>
+                            <h2 class="glass-title" style="margin: 0; border: none; padding: 0;">Rodada 1</h2>
+                        </div>
+                        <span class="matches-count">0/4</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="play-table match-table">
+                            <thead>
+                                <tr>
+                                    <th>Mesa</th>
+                                    <th style="text-align: right;">Jogador 1</th>
+                                    <th style="text-align: center;">Resultado</th>
+                                    <th>Jogador 2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-mesa"><span>1</span></td>
+                                    
+                                    <td class="col-player right-align 
+                                        {% if match.winner == 'player1' %}player-winner
+                                        {% elif match.winner == 'player2' %}player-loser
+                                        {% elif match.status == 'draw' %}player-draw{% endif %}">
+                                        
+                                        <span>Ítalo Felipe</span>
+                                        <img src="{% static 'media/avatares/nissa.png' %}" alt="Avatar">
+                                    </td>
+                                    
+                                    <td class="col-score" style="text-align: center;">
+                                        <div class="match-action-wrapper">
+                                            <button type="button" class="btn-vs-match" onclick="toggleMatchModal(this)">VS</button>
+                                            
+                                            <div class="match-result-popover">
+                                                <div class="popover-title">Declarar Vencedor</div>
+                                                <form method="POST" action="#" style="margin: 0; display: flex; flex-direction: column; gap: 0.25rem;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" name="winner" value="player1" class="btn-result-option">Ítalo Felipe</button>
+                                                    <button type="submit" name="winner" value="draw" class="btn-result-option draw-option">Empate</button>
+                                                    <button type="submit" name="winner" value="player2" class="btn-result-option">Luiz Gustavo</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    
+                                    <td class="col-player 
+                                        {% if match.winner == 'player2' %}player-winner
+                                        {% elif match.winner == 'player1' %}player-loser
+                                        {% elif match.status == 'draw' %}player-draw{% endif %}">
+                                        
+                                        <img src="{% static 'media/avatares/gisha.png' %}" alt="Avatar">
+                                        <span>Luiz Gustavo</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+</div>
+
+{%block extra_js%}
+<script>
+function toggleMatchModal(button) {
+        // Fecha todos os outros popovers
+        document.querySelectorAll('.match-result-popover').forEach(pop => {
+            if (pop !== button.nextElementSibling) pop.classList.remove('is-open');
+        });
+        // Abre o atual
+        const popover = button.nextElementSibling;
+        popover.classList.toggle('is-open');
+    }
+
+    // =================================================================
+    // NOVO: SIMULADOR DE RESULTADO (FRONT-END)
+    // =================================================================
+    document.querySelectorAll('.match-result-popover form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // MÁGICA 1: Impede a página de recarregar!
+
+            // Descobre qual botão foi clicado
+            const clickedButton = e.submitter;
+            const resultValue = clickedButton.value; // 'player1', 'player2' ou 'draw'
+
+            // Encontra a linha (tr) da mesa e os dois jogadores
+            const tr = this.closest('tr');
+            const player1Td = tr.querySelectorAll('.col-player')[0];
+            const player2Td = tr.querySelectorAll('.col-player')[1];
+            const btnVs = tr.querySelector('.btn-vs-match');
+
+            // Limpa as cores de partidas anteriores
+            player1Td.classList.remove('player-winner', 'player-loser', 'player-draw');
+            player2Td.classList.remove('player-winner', 'player-loser', 'player-draw');
+
+            // MÁGICA 2: Aplica as cores baseado na sua escolha!
+            if (resultValue === 'player1') {
+                player1Td.classList.add('player-winner');
+                player2Td.classList.add('player-loser');
+                btnVs.innerHTML = '1 <span style="font-size:0.6rem; margin:0 4px; color:var(--text-muted)">-</span> 0';
+                btnVs.style.borderColor = 'var(--success)';
+                btnVs.style.color = 'var(--success)';
+            } else if (resultValue === 'player2') {
+                player2Td.classList.add('player-winner');
+                player1Td.classList.add('player-loser');
+                btnVs.innerHTML = '0 <span style="font-size:0.6rem; margin:0 4px; color:var(--text-muted)">-</span> 1';
+                btnVs.style.borderColor = 'var(--success)';
+                btnVs.style.color = 'var(--success)';
+            } else if (resultValue === 'draw') {
+                player1Td.classList.add('player-draw');
+                player2Td.classList.add('player-draw');
+                btnVs.textContent = 'EMPATE';
+                btnVs.style.borderColor = '#f59e0b';
+                btnVs.style.color = '#f59e0b';
+            }
+
+            this.closest('.match-result-popover').classList.remove('is-open');
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}
