@@ -25,6 +25,7 @@ from .views.dashboard import dashboard, meus_torneios_view, inbox_view, decks_vi
 from .views.explore_torneios import explore_torneios
 from .views.explore_profile import explore_profile
 from .views.torneios_view import torneios_view
+from .views.play_view import play_view
 
 
 urlpatterns = [
@@ -44,6 +45,8 @@ urlpatterns = [
     # path('dashboard/torneios/', meus_torneios_view, name='meus_torneios'),
     path('dashboard/inbox/', inbox_view, name='dashboard_inbox'),
     path('dashboard/decks/', decks_view, name='dashboard_decks'),
+    path('dashboard/historico/', historico_dashboard_view, name='historico_dashboard'),
+    path('play/', play_view, name='play')
 ]
 
 if settings.DEBUG:

@@ -29,24 +29,6 @@ function switchState(stateId) {
     }
 }
 
-/**
- * Preenche o formulário com dados mockados simulando a ação de Edição
- */
-function injectMockDataIntoForm() {
-    document.getElementById('f-titulo').value = "Mix Diamantina";
-    document.getElementById('f-desc').value = "Boas-vindas ao melhor campeonato de Commander do mundo, e até de Diamantina!";
-    document.getElementById('f-mod').value = "Presencial";
-    document.getElementById('f-cid').value = "Diamantina";
-    document.getElementById('f-est').value = "MG";
-    document.getElementById('f-jog').value = "16";
-    document.getElementById('f-formato').value = "Draft";
-    document.getElementById('f-estrat').value = "Suíço";
-    document.getElementById('f-rodadas').value = "3";
-    document.getElementById('f-tipo').value = "Competitivo";
-    document.getElementById('f-val').value = "25,00";
-    document.getElementById('f-pra').value = "2026-06-15";
-    document.getElementById('f-prem').value = "1º Lugar: 400,00 + Troféu\n2º Lugar: 200,00\n3º Lugar: 100,00";
-}
 
 /**
  * Reseta todos os campos limpando os inputs para uma nova criação limpa

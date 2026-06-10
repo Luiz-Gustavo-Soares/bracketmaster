@@ -933,6 +933,7 @@ span.flatpickr-weekday,
     align-items: center;
     white-space: nowrap;
 }
+
 .tag-bronze { border-color: var(--elo-bronze); color: var(--elo-bronze); background: rgba(205, 127, 50, 0.1); }
 .tag-silver { border-color: var(--elo-silver); color: var(--elo-silver); background: rgba(192, 192, 192, 0.1); }
 .tag-gold { border-color: var(--elo-gold); color: var(--elo-gold); background: rgba(255, 215, 0, 0.1); }
@@ -1137,4 +1138,3 @@ body {
         min-height: 44px;
     }
 }
-
