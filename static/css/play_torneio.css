@@ -541,3 +541,78 @@
 .play-rounds .table-responsive.has-open-popover {
     padding-bottom: 90px; 
 }
+
+/* ==========================================================================
+   SUPER BOTÃO E FORMULÁRIOS
+   ========================================================================== */
+
+/* Previne que a tag form crie margens estranhas quebrando o Flexbox */
+.super-button-container form {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+/* Botão especial de encerramento do torneio (Fica Dourado em vez de Verde) */
+.btn-gold-finish {
+    background: linear-gradient(135deg, #fbbf24, #d97706);
+    color: #000;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.btn-gold-finish:hover {
+    background: linear-gradient(135deg, #fcd34d, #b45309);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+    color: #000;
+}
+
+/* Botão Desabilitado (Quando Finalizado) */
+.btn-disabled {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    padding: 0.75rem 2rem;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: not-allowed;
+}
+
+/* ==========================================================================
+   TABS DE RODADAS (VISUAL IDÊNTICO À IMAGEM)
+   ========================================================================== */
+
+.round-tab {
+    background: rgba(24, 24, 27, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-bottom: none;
+    color: var(--text-muted);
+    padding: 0.6rem 1.75rem; /* Um pouco mais de área de clique */
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.round-tab:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+}
+
+.round-tab.active {
+    background: #2a2542; /* O tom de "Indigo Escuro" idêntico ao seu print */
+    color: #ffffff;
+    border-color: rgba(99, 102, 241, 0.2);
+    box-shadow: inset 0 -2px 0 var(--brand-primary); /* Sublinha a aba ativa subtilmente */
+}
+
+/* Badge Muted para quando a rodada já fechou */
+.badge-muted-outline {
+    background: rgba(161, 161, 170, 0.1);
+    color: #d4d4d8;
+    border: 1px solid rgba(161, 161, 170, 0.3);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.7rem;
+    border-radius: 20px;
+}

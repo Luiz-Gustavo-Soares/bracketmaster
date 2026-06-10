@@ -55,12 +55,58 @@
             </div>
 
         <div class="play-actions-row animate-fade-up" style="animation-delay: 0.1s;">
-            <button class="btn btn-danger-outline">
+            <button class="btn btn-danger-outline" title="Desfazer tudo e voltar ao zero">
                 <i class="fa-solid fa-rotate-left"></i> REINICIAR TORNEIO
             </button>
-            <button class="btn btn-success-solid">
-                PRÓXIMA RODADA <i class="fa-solid fa-arrow-right"></i>
-            </button>
+
+            <div class="super-button-container">
+                {% if tournament.status == 'criado' %}
+                    <form method="POST" action="#">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success-solid">
+                            INICIAR INSCRIÇÕES <i class="fa-solid fa-users"></i>
+                        </button>
+                    </form>
+                
+                {% elif tournament.status == 'aberta' %}
+                    <form method="POST" action="#">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success-solid">
+                            FINALIZAR INSCRIÇÕES <i class="fa-solid fa-lock"></i>
+                        </button>
+                    </form>
+                
+                {% elif tournament.status == 'fechada' %}
+                    <form method="POST" action="#">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success-solid">
+                            INICIAR TORNEIO <i class="fa-solid fa-play"></i>
+                        </button>
+                    </form>
+                
+                {% elif tournament.status == 'em_andamento' %}
+                    {% if is_last_round %}
+                        <form method="POST" action="#">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success-solid btn-gold-finish">
+                                FINALIZAR TORNEIO <i class="fa-solid fa-trophy"></i>
+                            </button>
+                        </form>
+                    {% else %}
+                        <form method="POST" action="#">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success-solid">
+                                PRÓXIMA RODADA <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    {% endif %}
+                
+                {% elif tournament.status == 'finalizado' %}
+                    <button type="button" class="btn btn-disabled" disabled>
+                        <i class="fa-solid fa-flag-checkered"></i> TORNEIO FINALIZADO
+                    </button>
+                {% endif %}
+            </div>
         </div>
 
         <div class="play-grid-layout animate-fade-up" style="animation-delay: 0.2s;">
@@ -108,7 +154,7 @@
                                     <td class="col-vde" style="color: var(--text-muted);">0</td>
                                     <td>-</td>
                                 </tr>
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -117,16 +163,21 @@
             <main class="play-rounds">
                 
                 <div class="round-tabs">
+                    {% for i in total_rounds_range %}
+                        <button class="round-tab {% if current_round == i %}active{% endif %}">
+                            {{ i }}
+                        </button>
+                    {% endfor %}
                     <button class="round-tab active">1</button>
-                    <button class="round-tab">2</button>
-                    <button class="round-tab">3</button>
                 </div>
 
                 <div class="glass-card">
                     <div class="round-header">
                         <div style="display: flex; align-items: center; gap: 1rem;">
-                            <span class="badge badge-success-outline">ABERTA</span>
-                            <h2 class="glass-title" style="margin: 0; border: none; padding: 0;">Rodada 1</h2>
+                            <span class="badge {% if is_round_finished %}badge-muted-outline{% else %}badge-success-outline{% endif %}">
+                                {% if is_round_finished %}FECHADA{% else %}ABERTA{% endif %}
+                            </span>
+                            <h2 class="glass-title" style="margin: 0; border: none; padding: 0;">Rodada {{ current_round|default:"1" }}</h2>
                         </div>
                         <span class="matches-count">0/4</span>
                     </div>
@@ -188,41 +239,41 @@
         </div>
     </div>
 </div>
-
+{% endblock %}
 {%block extra_js%}
 <script>
-function toggleMatchModal(button) {
-        // Fecha todos os outros popovers
+    // 1. Função para Abrir o Popover
+    function toggleMatchModal(button) {
         document.querySelectorAll('.match-result-popover').forEach(pop => {
             if (pop !== button.nextElementSibling) pop.classList.remove('is-open');
         });
-        // Abre o atual
         const popover = button.nextElementSibling;
         popover.classList.toggle('is-open');
     }
 
-    // =================================================================
-    // NOVO: SIMULADOR DE RESULTADO (FRONT-END)
-    // =================================================================
+    // 2. Função RESTAURADA para fechar o popover clicando fora
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.match-action-wrapper')) {
+            document.querySelectorAll('.match-result-popover').forEach(pop => pop.classList.remove('is-open'));
+        }
+    });
+
+    // 3. Simulador de Resultado (Front-End)
     document.querySelectorAll('.match-result-popover form').forEach(form => {
         form.addEventListener('submit', function(e) {
-            e.preventDefault(); // MÁGICA 1: Impede a página de recarregar!
+            e.preventDefault(); 
 
-            // Descobre qual botão foi clicado
             const clickedButton = e.submitter;
-            const resultValue = clickedButton.value; // 'player1', 'player2' ou 'draw'
+            const resultValue = clickedButton.value; 
 
-            // Encontra a linha (tr) da mesa e os dois jogadores
             const tr = this.closest('tr');
             const player1Td = tr.querySelectorAll('.col-player')[0];
             const player2Td = tr.querySelectorAll('.col-player')[1];
             const btnVs = tr.querySelector('.btn-vs-match');
 
-            // Limpa as cores de partidas anteriores
             player1Td.classList.remove('player-winner', 'player-loser', 'player-draw');
             player2Td.classList.remove('player-winner', 'player-loser', 'player-draw');
 
-            // MÁGICA 2: Aplica as cores baseado na sua escolha!
             if (resultValue === 'player1') {
                 player1Td.classList.add('player-winner');
                 player2Td.classList.add('player-loser');
@@ -247,5 +298,4 @@ function toggleMatchModal(button) {
         });
     });
 </script>
-{% endblock %}
 {% endblock %}
