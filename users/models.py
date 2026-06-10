@@ -6,6 +6,7 @@ from core.models import Cidade
 from users.query_sets import PerfilQuerySet
 
 from tournaments.models import TorneioParticipante
+from matches.models import ParticipacaoPartida
 from tournaments.enums import StatusInscricao
 
 class Profile(models.Model):
@@ -56,6 +57,11 @@ class Profile(models.Model):
         return TorneioParticipante.objects.filter(
             jogador=self.user,
             status=StatusInscricao.APROVADA
+        ).count()
+    
+    def count_part_partidas(self):
+        return ParticipacaoPartida.objects.filter(
+            jogador=self.user
         ).count()
 
     def get_avatar_path(self):
