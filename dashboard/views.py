@@ -82,7 +82,6 @@ def meus_torneios_view(request, pk=None, edit=False):
         if edit == 'edit':
             torneio_participantes_edit = True   
             torneio_participantes_edit_list = TorneioParticipante.objects.filter(
-                jogador=request.user,
                 torneio = torneio_edicao,
                 ).select_related('torneio').all()
             
