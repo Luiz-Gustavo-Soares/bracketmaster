@@ -13,33 +13,32 @@
     <div class="play-fullscreen-bg" style="background-image: url('{% if tournament.imagem_capa %}{{ tournament.imagem_capa.url }}{% else %}{% static 'media/backgrounds/Key-Art.jpeg' %}{% endif %}');">
         <div class="play-fullscreen-overlay"></div>
     </div>
-    
 
     <div class="container play-main-container">
-        
         <div class="play-header-card animate-fade-up">
             <div class="ph-top-row">
                 <div>
-                    <h1 class="ph-title">Mix Diamantina</h1>
+                    <h1 class="ph-title">{{ tournament.name }}</h1>
                     <div class="ph-tags">
-                        <span class="tourney-tag">DRAFT</span>
-                        <span class="tourney-tag">SUÍÇO</span>
-                        <span class="tourney-tag" style="border-color: var(--brand-primary); color: var(--brand-primary);">RODADA 1</span>
-                        <span class="tourney-tag">4 PENDENTES</span>
+                        <span class="tourney-tag">{{ tournament.format }}</span>
+                        <span class="tourney-tag">{{ tournament.structure }}</span>
+                        <span class="tourney-tag" style="border-color: var(--brand-primary); color: var(--brand-primary);">RODADA {{ current_round|default:"1" }}</span>
+                        
+                        <span class="tourney-tag">{{ pending_matches|default:"0" }} PENDENTES</span>
                     </div>
                 </div>
                 <div class="ph-meta">
                     <div class="meta-item">
                         <i class="fa-regular fa-calendar"></i>
-                        <span>21/06/2026 às 10:00</span>
+                        <span>{{ tournament.date|date:"d/m/Y" }} às {{ tournament.time }}</span>
                     </div>
                     <div class="meta-item">
                         <i class="fa-solid fa-location-dot"></i>
-                        <span>Diamantina (MG)</span>
+                        <span>{{ tournament.address }}</span>
                     </div>
                     <div class="meta-item">
                         <i class="fa-solid fa-users"></i>
-                        <span>8 Jogadores</span>
+                        <span>{{ tournament.player_count }} Jogadores</span>
                     </div>
                 </div>
             </div>
@@ -55,12 +54,12 @@
             </div>
 
         <div class="play-actions-row animate-fade-up" style="animation-delay: 0.1s;">
-            <button class="btn btn-danger-outline" title="Desfazer tudo e voltar ao zero">
+            <button type="button" class="btn btn-danger-outline" title="Desfazer tudo e voltar ao zero" onclick="openRestartModal()">
                 <i class="fa-solid fa-rotate-left"></i> REINICIAR TORNEIO
             </button>
 
             <div class="super-button-container">
-                {% if tournament.status == 'criado' %}
+                {% if tournament.status == 'CRIADO' %}
                     <form method="POST" action="#">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-success-solid">
@@ -68,7 +67,7 @@
                         </button>
                     </form>
                 
-                {% elif tournament.status == 'aberta' %}
+                {% elif tournament.status == 'ABERTA' %}
                     <form method="POST" action="#">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-success-solid">
@@ -76,7 +75,7 @@
                         </button>
                     </form>
                 
-                {% elif tournament.status == 'fechada' %}
+                {% elif tournament.status == 'FECHADA' %}
                     <form method="POST" action="#">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-success-solid">
@@ -84,7 +83,7 @@
                         </button>
                     </form>
                 
-                {% elif tournament.status == 'em_andamento' %}
+                {% elif tournament.status == 'EM_ANDAMENTO' %}
                     {% if is_last_round %}
                         <form method="POST" action="#">
                             {% csrf_token %}
@@ -101,7 +100,7 @@
                         </form>
                     {% endif %}
                 
-                {% elif tournament.status == 'finalizado' %}
+                {% elif tournament.status == 'FINALIZADO' %}
                     <button type="button" class="btn btn-disabled" disabled>
                         <i class="fa-solid fa-flag-checkered"></i> TORNEIO FINALIZADO
                     </button>
@@ -130,30 +129,30 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for standing in standings %}
                                 <tr>
-                                    <td class="col-pos">-</td>
+                                    <td class="col-pos">{{ forloop.counter }}</td>
                                     <td class="col-player">
-                                        <img src="{% static 'media/avatares/nissa.png' %}" alt="Avatar">
-                                        <span>Ítalo Felipe</span>
+                                        {% if standing.player.avatar %}
+                                            <img src="{{ standing.player.avatar.url }}" alt="Avatar de {{ standing.player.name }}">
+                                        {% else %}
+                                            <img src="{% static 'media/avatares/default.png' %}" alt="Avatar Padrão">
+                                        {% endif %}
+                                        <span>{{ standing.player.name }}</span>
                                     </td>
-                                    <td class="col-highlight">0</td>
-                                    <td class="col-vde" style="color: var(--success);">0</td>
-                                    <td class="col-vde" style="color: var(--danger);">0</td>
-                                    <td class="col-vde" style="color: var(--text-muted);">0</td>
-                                    <td>-</td>
+                                    <td class="col-highlight">{{ standing.points|default:"0" }}</td>
+                                    <td class="col-vde" style="color: var(--success);">{{ standing.wins|default:"0" }}</td>
+                                    <td class="col-vde" style="color: var(--danger);">{{ standing.losses|default:"0" }}</td>
+                                    <td class="col-vde" style="color: var(--text-muted);">{{ standing.draws|default:"0" }}</td>
+                                    <td>{{ standing.omw_percentage|floatformat:2|default:"-" }}</td>
                                 </tr>
+                                {% empty %}
                                 <tr>
-                                    <td class="col-pos">-</td>
-                                    <td class="col-player">
-                                        <img src="{% static 'media/avatares/gisha.png' %}" alt="Avatar">
-                                        <span>Luiz Gustavo</span>
+                                    <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                                        Nenhum jogador no placar ainda.
                                     </td>
-                                    <td class="col-highlight">0</td>
-                                    <td class="col-vde" style="color: var(--success);">0</td>
-                                    <td class="col-vde" style="color: var(--danger);">0</td>
-                                    <td class="col-vde" style="color: var(--text-muted);">0</td>
-                                    <td>-</td>
                                 </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -164,11 +163,10 @@
                 
                 <div class="round-tabs">
                     {% for i in total_rounds_range %}
-                        <button class="round-tab {% if current_round == i %}active{% endif %}">
+                        <a href="?rodada={{ i }}" class="round-tab {% if current_round == i %}active{% endif %}" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
                             {{ i }}
-                        </button>
+                        </a>
                     {% endfor %}
-                    <button class="round-tab active">1</button>
                 </div>
 
                 <div class="glass-card">
@@ -179,7 +177,7 @@
                             </span>
                             <h2 class="glass-title" style="margin: 0; border: none; padding: 0;">Rodada {{ current_round|default:"1" }}</h2>
                         </div>
-                        <span class="matches-count">0/4</span>
+                        <span class="matches-count">{{ completed_matches|default:"0" }}/{{ total_matches|default:"0" }}</span>
                     </div>
 
                     <div class="table-responsive">
@@ -193,52 +191,119 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for match in matches %}
                                 <tr>
-                                    <td class="col-mesa"><span>1</span></td>
+                                    <td class="col-mesa"><span>{{ match.table_number|default:forloop.counter }}</span></td>
                                     
                                     <td class="col-player right-align 
-                                        {% if match.winner == 'player1' %}player-winner
-                                        {% elif match.winner == 'player2' %}player-loser
+                                        {% if match.winner == match.player1 %}player-winner
+                                        {% elif match.winner == match.player2 %}player-loser
                                         {% elif match.status == 'draw' %}player-draw{% endif %}">
                                         
-                                        <span>Ítalo Felipe</span>
-                                        <img src="{% static 'media/avatares/nissa.png' %}" alt="Avatar">
+                                        <span>{{ match.player1.name }}</span>
+                                        {% if match.player1.avatar %}
+                                            <img src="{{ match.player1.avatar.url }}" alt="Avatar">
+                                        {% else %}
+                                            <img src="{% static 'media/avatares/default.png' %}" alt="Avatar">
+                                        {% endif %}
                                     </td>
                                     
                                     <td class="col-score" style="text-align: center;">
                                         <div class="match-action-wrapper">
-                                            <button type="button" class="btn-vs-match" onclick="toggleMatchModal(this)">VS</button>
+                                            <button type="button" class="btn-vs-match" onclick="toggleMatchModal(this)"
+                                                {% if match.winner %}style="border-color: var(--success); color: var(--success);"{% elif match.status == 'draw' %}style="border-color: #f59e0b; color: #f59e0b;"{% endif %}>
+                                                {% if match.winner == match.player1 %}
+                                                    1 <span style="font-size:0.6rem; margin:0 4px; color:var(--text-muted)">-</span> 0
+                                                {% elif match.winner == match.player2 %}
+                                                    0 <span style="font-size:0.6rem; margin:0 4px; color:var(--text-muted)">-</span> 1
+                                                {% elif match.status == 'draw' %}
+                                                    EMPATE
+                                                {% else %}
+                                                    VS
+                                                {% endif %}
+                                            </button>
                                             
                                             <div class="match-result-popover">
                                                 <div class="popover-title">Declarar Vencedor</div>
-                                                <form method="POST" action="#" style="margin: 0; display: flex; flex-direction: column; gap: 0.25rem;">
+                                                <form method="POST" action="." style="margin: 0; display: flex; flex-direction: column; gap: 0.25rem;">
                                                     {% csrf_token %}
-                                                    <button type="submit" name="winner" value="player1" class="btn-result-option">Ítalo Felipe</button>
-                                                    <button type="submit" name="winner" value="draw" class="btn-result-option draw-option">Empate</button>
-                                                    <button type="submit" name="winner" value="player2" class="btn-result-option">Luiz Gustavo</button>
+                                                    
+                                                    <input type="hidden" name="match_id" value="{{ match.id }}">
+                                                    
+                                                    <button type="submit" name="winner_id" value="{{ match.player1.id }}" class="btn-result-option">
+                                                        {{ match.player1.name }}
+                                                    </button>
+                                                    
+                                                    <button type="submit" name="status" value="draw" class="btn-result-option draw-option">
+                                                        Empate
+                                                    </button>
+                                                    
+                                                    {% if match.player2 %}
+                                                        <button type="submit" name="winner_id" value="{{ match.player2.id }}" class="btn-result-option">
+                                                            {{ match.player2.name }}
+                                                        </button>
+                                                    {% else %}
+                                                        <button type="button" disabled class="btn-result-option" style="opacity: 0.5; cursor: not-allowed;">
+                                                            BYE
+                                                        </button>
+                                                    {% endif %}
                                                 </form>
                                             </div>
                                         </div>
                                     </td>
                                     
                                     <td class="col-player 
-                                        {% if match.winner == 'player2' %}player-winner
-                                        {% elif match.winner == 'player1' %}player-loser
+                                        {% if match.winner == match.player2 %}player-winner
+                                        {% elif match.winner == match.player1 %}player-loser
                                         {% elif match.status == 'draw' %}player-draw{% endif %}">
                                         
-                                        <img src="{% static 'media/avatares/gisha.png' %}" alt="Avatar">
-                                        <span>Luiz Gustavo</span>
+                                        {% if match.player2 %}
+                                            {% if match.player2.avatar %}
+                                                <img src="{{ match.player2.avatar.url }}" alt="Avatar">
+                                            {% else %}
+                                                <img src="{% static 'media/avatares/default.png' %}" alt="Avatar">
+                                            {% endif %}
+                                            <span>{{ match.player2.name }}</span>
+                                        {% else %}
+                                            <img src="{% static 'media/avatares/default.png' %}" alt="Avatar" style="opacity: 0.5;">
+                                            <span style="color: var(--text-muted); font-style: italic;">BYE</span>
+                                        {% endif %}
                                     </td>
                                 </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                                        As partidas desta rodada ainda não foram geradas.
+                                    </td>
+                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </main>
-
         </div>
     </div>
 </div>
+    <div id="restartModal" class="custom-modal-overlay">
+        <div class="custom-modal-box">
+            <div class="modal-icon-warning">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="modal-title">Reiniciar Torneio?</h3>
+            <p class="modal-desc">
+                Esta ação é <strong>irreversível</strong>. Todo o progresso, placares e resultados serão apagados e o torneio voltará ao estado inicial.
+            </p>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeRestartModal()">Cancelar</button>
+                
+                <form method="POST" action="#" style="margin: 0; flex: 1;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-danger-solid" style="width: 100%;">Sim, Reiniciar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {%block extra_js%}
 <script>
@@ -258,44 +323,62 @@
         }
     });
 
-    // 3. Simulador de Resultado (Front-End)
-    document.querySelectorAll('.match-result-popover form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); 
 
-            const clickedButton = e.submitter;
-            const resultValue = clickedButton.value; 
 
-            const tr = this.closest('tr');
-            const player1Td = tr.querySelectorAll('.col-player')[0];
-            const player2Td = tr.querySelectorAll('.col-player')[1];
-            const btnVs = tr.querySelector('.btn-vs-match');
 
-            player1Td.classList.remove('player-winner', 'player-loser', 'player-draw');
-            player2Td.classList.remove('player-winner', 'player-loser', 'player-draw');
 
-            if (resultValue === 'player1') {
-                player1Td.classList.add('player-winner');
-                player2Td.classList.add('player-loser');
-                btnVs.innerHTML = '1 <span style="font-size:0.6rem; margin:0 4px; color:var(--text-muted)">-</span> 0';
-                btnVs.style.borderColor = 'var(--success)';
-                btnVs.style.color = 'var(--success)';
-            } else if (resultValue === 'player2') {
-                player2Td.classList.add('player-winner');
-                player1Td.classList.add('player-loser');
-                btnVs.innerHTML = '0 <span style="font-size:0.6rem; margin:0 4px; color:var(--text-muted)">-</span> 1';
-                btnVs.style.borderColor = 'var(--success)';
-                btnVs.style.color = 'var(--success)';
-            } else if (resultValue === 'draw') {
-                player1Td.classList.add('player-draw');
-                player2Td.classList.add('player-draw');
-                btnVs.textContent = 'EMPATE';
-                btnVs.style.borderColor = '#f59e0b';
-                btnVs.style.color = '#f59e0b';
+
+    // =================================================================
+    // MODAL DE REINICIAR TORNEIO
+    // =================================================================
+    function openRestartModal() {
+        document.getElementById('restartModal').classList.add('is-open');
+    }
+
+    function closeRestartModal() {
+        document.getElementById('restartModal').classList.remove('is-open');
+    }
+
+    // Fechar o modal se o usuário clicar na área escura fora da caixa
+    const restartModal = document.getElementById('restartModal');
+    if(restartModal) {
+        restartModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRestartModal();
             }
-
-            this.closest('.match-result-popover').classList.remove('is-open');
         });
+    }
+
+
+
+    /*
+    //para não recarregar a pagina quando selecionar um vencedor
+    document.querySelectorAll('.match-result-popover form').forEach(form => {
+
+    form.addEventListener('submit', async function(e) {
+
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        const response = await fetch(this.action || window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            // Atualizar somente a partida alterada
+
+        }
     });
+
+});
+*/
 </script>
 {% endblock %}
