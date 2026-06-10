@@ -15,7 +15,7 @@ class SwissStrategy(BaseStrategy):
         '''
 
         jogadores = list(
-            self.torneio.participantes.aprovados.order_by(
+            self.torneio.participantes.aprovados().order_by(
                 '-pontos'
             )
         )

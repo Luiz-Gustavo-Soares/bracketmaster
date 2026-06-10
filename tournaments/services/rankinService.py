@@ -78,7 +78,7 @@ class RankingService:
         """
         return (
             torneio.participantes
-            .aprovados
+            .aprovados()
             .order_by(
                 '-pontos',
                 '-vitorias'
@@ -96,7 +96,7 @@ class RankingService:
         """
         participantes = []
 
-        for p in torneio.participantes.aprovados.all():
+        for p in torneio.participantes.aprovados().all():
             participantes.append({
                 "participante": p,
                 "pontos": p.pontos,
