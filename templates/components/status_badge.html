@@ -1,12 +1,12 @@
-{% if status == 'created' %}
+{% if status == 'CRIADO' %}
     <span class="badge badge-primary">CRIADO</span>
-{% elif status == 'open' %}
+{% elif status == 'ABERTA' %}
     <span class="badge badge-success">ABERTO</span>
-{% elif status == 'closed' %}
+{% elif status == 'FECHADA' %}
     <span class="badge badge-danger">LOTADO</span>
-{% elif status == 'running' %}
+{% elif status == 'EM_ANDAMENTO' %}
     <span class="badge badge-warning">JOGANDO</span>
-{% elif status == 'finished' %}
+{% elif status == 'FINALIZADO' %}
     <span class="badge badge-muted">ENCERRADO</span>
 {% else %}
     <span class="badge badge-muted">{{ status|default:"Pendente"|upper }}</span>

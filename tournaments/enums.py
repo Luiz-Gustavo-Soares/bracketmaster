@@ -14,7 +14,7 @@ class FormatoJogo(models.TextChoices):
 
 
 class Fundos(models.TextChoices):
-    Fundo1='dinos', 'Dissa'
+    Fundo1='monumento_magic', 'Monumento'
 
 
 class StatusTorneio(models.TextChoices):

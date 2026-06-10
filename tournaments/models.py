@@ -161,7 +161,12 @@ class Torneio(models.Model):
 
 
     def get_fundo_path(self):
-        return f"/static/media/capas_campeonato/{self.avatar}.jpg"
+        return f"/static/media/capas_campeonato/{self.imagem_fundo}.jpg"
+
+    def count_participantes_validos(self):
+        return self.participantes.filter(
+            status=StatusInscricao.APROVADA
+        ).count()
 
 
     def save(self, *args, **kwargs):

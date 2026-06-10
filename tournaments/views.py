@@ -19,6 +19,7 @@ from tournaments.services.exceptions import RegistrationError
 from core.exceptions import PermissionDenied
 from core.models import Cidade
 
+from users.models import Profile
 
 
 def busc_torneios(request):
@@ -32,7 +33,9 @@ def busc_torneios(request):
     ocultar_finalizados = request.GET.get('ocultar_finalizados', 'true').lower() == 'true'
     page_number = request.GET.get('page', 1)
 
-    torneios = Torneio.objects.select_related('cidade').all()
+    torneios = Torneio.objects.select_related('cidade').all().order_by()
+    
+    destaque = torneios[0] if torneios else None
 
     if ocultar_finalizados:
         torneios = torneios.exclude(
@@ -58,26 +61,33 @@ def busc_torneios(request):
             cidade__nome__icontains=cidade
         )
 
-    data_fim = parse_date(data_fim)
-
     if data_fim:
-        torneios = torneios.filter(
-            data_inicio__date__lte=data_fim
-        )
+        data_fim = parse_date(data_fim)
+
+        if data_fim:
+            torneios = torneios.filter(
+                data_inicio__date__lte=data_fim
+            )
 
     torneios = torneios.order_by('data_inicio')
 
     torneios_paginator = Paginator(torneios, 10)
     torneios_page = torneios_paginator.get_page(page_number)
 
-
+    recent_champions = Profile.objects.all().order_by(
+        'user__likes_recebidos'
+    )[:3]
+ 
     
     context = {
         'torneios': torneios_page,
-        'destaque': torneios.first() # tem q ver isso ainda
+        'featured_tournament': destaque,
+        'total_torneios': torneios.count(),
+        'recent_champions': recent_champions
+
     }
 
-    return render(request, 'torneios.html', context)
+    return render(request, 'explore_torneios.html', context)
 
 
 

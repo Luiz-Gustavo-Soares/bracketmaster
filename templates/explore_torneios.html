@@ -14,7 +14,7 @@
 
 <div class="explore-page">
 
-    <div class="explore-hero" style="background-image: url('{% if featured_tournament.imagem_capa %}{{ featured_tournament.imagem_capa.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
+    <div class="explore-hero" style="background-image: url('{% if featured_tournament.imagem_fundo %}{{ featured_tournament.get_fundo_path }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
         <div class="explore-hero-overlay"></div>
     
 
@@ -27,41 +27,41 @@
                         <i class="fa-solid fa-star"></i> Evento Principal
                     </span>
                     <div class="featured-organizer-clean">
-                        <img src="{% if featured_tournament.organizer.profile.profile_imagem %}{{ featured_tournament.organizer.profile.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Organizador" class="feat-avatar">
-                        <span>Criado por <strong>{{ featured_tournament.organizer.username }}</strong></span>
+                        <img src="{% if featured_tournament.organizador.profile.avatar %}{{ featured_tournament.organizador.profile.get_avatar_path }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Organizador" class="feat-avatar">
+                        <span>Criado por <strong>{{ featured_tournament.organizador.profile.nickname }}</strong></span>
                     </div>
                 </div>
                 
-                <h1 class="featured-title">{{ featured_tournament.name }}</h1>
-                <p class="featured-desc">{{ featured_tournament.description }}</p>
+                <h1 class="featured-title">{{ featured_tournament.nome }}</h1>
+                <p class="featured-desc">{{ featured_tournament.descricao }}</p>
                 
                 <div class="featured-stats-clean">
                     <div class="stat-clean">
                         <i class="fa-regular fa-calendar stat-icon"></i>
                         <div class="stat-text">
                             <span class="stat-clean-label">Data e Hora</span>
-                            <span class="stat-clean-value">{{ featured_tournament.date|date:"d/m/Y" }} às {{ featured_tournament.time }}</span>
+                            <span class="stat-clean-value">{{ featured_tournament.data_inicio|date:"d/m/Y" }} às {{ featured_tournament.data_inicio|date:"H:m" }} </span>
                         </div>
                     </div>
                     <div class="stat-clean">
                         <i class="fa-solid fa-location-dot stat-icon"></i>
                         <div class="stat-text">
                             <span class="stat-clean-label">Localização</span>
-                            <span class="stat-clean-value">{{ featured_tournament.address }}</span>
+                            <span class="stat-clean-value">{{ featured_tournament.cidade.str_city }}</span>
                         </div>
                     </div>
                     <div class="stat-clean">
                         <i class="fa-solid fa-users stat-icon" style="color: var(--brand-gold);"></i>
                         <div class="stat-text">
                             <span class="stat-clean-label">Vagas</span>
-                            <span class="stat-clean-value" style="color: var(--brand-gold);">{{ featured_tournament.player_count }} / {{ featured_tournament.max_players }}</span>
+                            <span class="stat-clean-value" style="color: var(--brand-gold);">{{ featured_tournament.count_participantes_validos }} / {{ featured_tournament.numero_maximo_participantes }}</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="featured-actions">
                     {% if user.is_authenticated %}
-                        <form method="POST" action="{% if featured_tournament %}{% url 'tournaments:tournament_detail' featured_tournament.pk %}{% else %}#{% endif %}" style="margin: 0;">
+                        <form method="POST" action="{% if featured_tournament %}#{% else %}#{% endif %}" style="margin: 0;">
                             {% csrf_token %}
                             <button type="submit" class="btn-anim-subscribe">
                                 <span class="text-front">Inscrever-se</span>
@@ -77,7 +77,7 @@
                         </a>
                     {% endif %}
                     
-                    <a href="{% if featured_tournament %}{% url 'tournaments:tournament_detail' featured_tournament.pk %}{% else %}#{% endif %}" class="btn btn-outline-light" style="height: 54px; padding: 0 2rem; font-size: 1.05rem; display: inline-flex; align-items: center;">Ver Detalhes do Evento</a> <!--se existe um torneio em destaque me de a url dele, se não, taca um # não quebra a page e fica dinamico, só mudar o bd-->   
+                    <a href="{% if featured_tournament %}#{% else %}#{% endif %}" class="btn btn-outline-light" style="height: 54px; padding: 0 2rem; font-size: 1.05rem; display: inline-flex; align-items: center;">Ver Detalhes do Evento</a> <!--se existe um torneio em destaque me de a url dele, se não, taca um # não quebra a page e fica dinamico, só mudar o bd-->   
                 </div>
                 
             </div>
@@ -161,32 +161,27 @@
                             {% for torneio in torneios %}
                             <div class="tournament-card">
                                 
-                                <a href="{#}" style="text-decoration: none; color: inherit; display: block;"> 
-                                    <div class="card-image" style="background-image: url('{% if torneio.imagem_capa %}{{ torneio.imagem_capa.url }}{% else %}{% static 'media/backgrounds/torneio_bg.jpg' %}{% endif %}');">
-                                        <span class="card-format">{{ torneio.format }}</span>
-                                        <span class="card-date"><i class="fa-regular fa-calendar"></i> {{ torneio.date|date:"d/m/y" }}</span>
+                                <a href="{}" style="text-decoration: none; color: inherit; display: block;"> 
+                                    <div class="card-image" style="background-image: url('{% if torneio.imagem_fundo %}{{ torneio.get_fundo_path }}{% else %}{% static 'media/backgrounds/torneio_bg.jpg' %}{% endif %}');">
+                                        <span class="card-format">{{ torneio.get_formato_jogo_display }}</span>
+                                        <span class="card-date"><i class="fa-regular fa-calendar"></i> {{ torneio.data_inicio|date:"d/m/y" }}</span>
                                     </div>
                                 </a>
 
                                 <div class="card-body">
                                     <a href="{}" style="text-decoration: none; color: inherit; display: block;"> 
-                                        <h3 class="card-title">{{ torneio.name }}</h3>
-                                        <p class="card-desc">{{ torneio.description|truncatewords:15 }}</p>
+                                        <h3 class="card-title">{{ torneio.nome }}</h3>
+                                        <p class="card-desc">{{ torneio.descricao|truncatewords:15 }}</p>
                                     </a>
 
                                     <div class="card-footer-info">
-                                        <a href="#" class="card-author-link">
-                                            <img src="{% if torneio.organizer.profile.profile_imagem %}{{ torneio.organizer.profile.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Organizador" class="author-avatar">
-                                            <span class="author-name">{{ torneio.organizer.username }}</span>
+                                        <a href="{% url 'profile_view' torneio.organizador.profile.user.username %}" class="card-author-link">
+                                            <img src="{% if torneio.organizador.profile.avatar %}{{ torneio.organizador.profile.get_avatar_path }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Organizador" class="author-avatar">
+                                            <span class="author-name">{{ torneio.organizador.profile.nickname }}</span>
                                         </a>
-                                        
-                                        {% if torneio.status == 'active' %}
-                                            <span class="badge badge-primary">ANDAMENTO</span>
-                                        {% elif torneio.status == 'finished' %}
-                                            <span class="badge badge-muted">ENCERRADO</span>
-                                        {% else %}
-                                            <span class="badge badge-success">ABERTO</span>
-                                        {% endif %}
+                                         
+                                        {% include "components/status_badge.html" with status=torneio.status %}
+                                     
                                     </div>
                                 </div>
 
@@ -212,9 +207,9 @@
                     <div class="champions-grid">
                         {% for champion in recent_champions|slice:":5" %}
                         <div class="champion-card">
-                            <img src="{% if champion.user.profile.profile_imagem %}{{ champion.user.profile.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Avatar" class="champion-avatar">
+                            <img src="{% if champion.avatar %}{{ champion.get_avatar_path }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Avatar" class="champion-avatar">
                             <div class="champion-info">
-                                <span class="champion-name">{{ champion.user.username }}</span>
+                                <span class="champion-name">{{ champion.nickname }}</span>
                                 <span class="champion-deck"><i class="fa-solid fa-layer-group"></i> {{ champion.deck_name }}</span>
                             </div>
                         </div>
@@ -224,7 +219,7 @@
                         {% endfor %}
                     </div>
                     
-                    <a href="#" class="view-all-champions">
+                    <a href="{% url 'explore_profile' %}"  class="view-all-champions">
                         Ver Hall da Fama <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </aside> 

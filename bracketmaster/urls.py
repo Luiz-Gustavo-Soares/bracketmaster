@@ -32,9 +32,10 @@ urlpatterns = [
     path('', home, name='home'),
     path('dashboard/', dashboard, name='dashboard'),
     path('users/', include('users.urls')),
+    path('torneios/', include('tournaments.urls')),
     path('perfil/<str:nickname>/like/', toggle_like_view, name='toggle_like'),
-    path('perfil/<str:nickname>/', profile_view, name='profile_view'),
-    path('explore_torneios/', explore_torneios , name='explore_torneios'),
+    # path('perfil/<str:nickname>/', profile_view, name='profile_view'),
+    # path('explore_torneios/', explore_torneios , name='explore_torneios'),
     # path('explore_perfis/', explore_profile, name='explore_profile'),
     path('torneios_view/', torneios_view, name='torneio_view'),
     path('dashboard/torneios/', meus_torneios_view, name='meus_torneios')
