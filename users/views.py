@@ -20,7 +20,7 @@ def register_view(request):
     else:
         form = RegisterForm()
 
-    return render(request, 'users/register.html', {
+    return render(request, 'users/registration/register.html', {
         'form': form
     })
 
@@ -63,6 +63,3 @@ def profile(request, username):
     'profile': p
     }
     return render(request, 'users/profile_view.html', context)
-
-def recupera(request):
-    return render(request, 'users/recupera.html')
