@@ -39,4 +39,7 @@ urlpatterns = [
     path('explorarperfis/', busc_profile, name='explore_profile'),
     path('perfil/<str:username>/like/', like_profile, name='like_profile'),
     path('perfil/<str:username>/', profile, name='profile_view'),
+    path('profile/edit', edit_profile, name='edit_profile'),
+    path('profile/recupera', recupera, name='recupera'),
+
 ]

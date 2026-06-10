@@ -32,7 +32,7 @@ def register_view(request):
     else:
         form = RegisterForm()
 
-    return render(request, 'users/register.html', {
+    return render(request, 'users/registration/register.html', {
         'form': form
     })
 

@@ -24,7 +24,12 @@
     <div class="container hero-content text-center">
         <h1 class="hero-title animate-fade-up" style="animation-delay: 0.1s;">Bracketmaster</h1>
         <p class="hero-subtitle animate-fade-up" style="animation-delay: 0.3s;">Torneios de Magic: The Gathering® em minutos</p>
-        <a href="{% url 'register' %}" class="btn btn-outline-light hero-btn animate-fade-up" style="animation-delay: 0.5s;">COMECE AGORA</a>
+        
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-light hero-btn animate-fade-up" style="animation-delay: 0.5s;">IR PARA O PAINEL</a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn btn-outline-light hero-btn animate-fade-up" style="animation-delay: 0.5s;">COMECE AGORA</a>
+        {% endif %}
     </div>
 </section>
 
