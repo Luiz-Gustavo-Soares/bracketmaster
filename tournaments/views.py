@@ -280,10 +280,9 @@ def inscrever_torneio(request, torneio_id):
 @login_required
 @require_POST
 def alter_status_torneio(request, torneio_id, new_status):
-
     torneio = get_object_or_404(
         Torneio,
-        torneio_id=torneio_id
+        id=torneio_id
     )
 
     if torneio.organizador != request.user:
@@ -308,7 +307,7 @@ def alter_status_torneio(request, torneio_id, new_status):
     except Exception as e:
         messages.error(request, 'Erro ao alterar status')
 
-    return redirect('torneio', torneio_id=torneio_id)
+    return redirect('play', torneio_id=torneio_id)
 
 
 @login_required

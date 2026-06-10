@@ -60,7 +60,7 @@
 
             <div class="super-button-container">
                 {% if tournament.status == 'CRIADO' %}
-                    <form method="POST" action="#">
+                    <form method="POST" action="{% url "play-alt-status" tournament.id 'abrir_inscricoes' %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-success-solid">
                             INICIAR INSCRIÇÕES <i class="fa-solid fa-users"></i>
@@ -68,7 +68,7 @@
                     </form>
                 
                 {% elif tournament.status == 'ABERTA' %}
-                    <form method="POST" action="#">
+                    <form method="POST" action="{% url "play-alt-status" tournament.id 'encerrar_inscricoes' %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-success-solid">
                             FINALIZAR INSCRIÇÕES <i class="fa-solid fa-lock"></i>
@@ -76,7 +76,7 @@
                     </form>
                 
                 {% elif tournament.status == 'FECHADA' %}
-                    <form method="POST" action="#">
+                    <form method="POST" action="{% url "play-alt-status" tournament.id 'iniciar' %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-success-solid">
                             INICIAR TORNEIO <i class="fa-solid fa-play"></i>
@@ -92,7 +92,7 @@
                             </button>
                         </form>
                     {% else %}
-                        <form method="POST" action="#">
+                        <form method="POST" action="{% url "play-alt-status" tournament.id 'proxima_rodada' %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-success-solid">
                                 PRÓXIMA RODADA <i class="fa-solid fa-arrow-right"></i>
