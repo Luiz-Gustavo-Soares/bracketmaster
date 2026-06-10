@@ -64,3 +64,5 @@ def profile(request, username):
     }
     return render(request, 'users/profile_view.html', context)
 
+def recupera(request):
+    return render(request, 'users/recupera.html')

@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import register_view, profile, edit_profile
+from .views import register_view, profile, edit_profile, recupera
 
 
 urlpatterns = [
@@ -14,5 +14,5 @@ urlpatterns = [
 
     path('perfil/<str:username>/', profile, name='profile_view'),
     path('profile/edit', edit_profile, name='edit_profile'),
-    
+    path('profile/recupera', recupera, name='recupera'),
 ]
