@@ -2,7 +2,11 @@
 <nav class="main-navbar">
     <div class="navbar-container">
 
-        <a href="{% url 'home' %}" class="logo-text">B</a>
+        <a href="{% url 'home' %}" class="brand-logo">
+            <img src="{% static 'media/b_do_brackt.png' %}"
+                alt="BracketMaster"
+                class="brand-logo-img">
+        </a>
         
         <div class="nav-links">
             <a href="{% url 'dashboard' %}">Dashboard</a>

@@ -363,6 +363,17 @@
 
 /* --- Navbar --- */
 
+.brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-logo-img {
+    height: 52px;
+    width: auto;
+}
+
 /* Garante que a Navbar seja intocável em qualquer página */
 nav, .navbar, header {
     position: relative;
