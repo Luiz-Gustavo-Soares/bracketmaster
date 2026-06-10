@@ -1,7 +1,7 @@
 {% load static %}
 <div class="dash-sidebar__inner">
     <nav class="dash-sidebar__nav">
-        <a href="#" class="dash-sidebar__link {% if active_sidebar == 'perfil' %}is-active{% endif %}">
+        <a href="{% url 'dashboard' %}" class="dash-sidebar__link {% if active_sidebar == 'perfil' %}is-active{% endif %}">
             <i class="fa-regular fa-user"></i> <span>Perfil</span>
         </a>
                 
@@ -9,7 +9,7 @@
             <i class="fa-regular fa-envelope"></i> <span>Inbox</span>
         </a>
         
-        <a href="#" class="dash-sidebar__link {% if active_sidebar == 'historico' %}is-active{% endif %}">
+        <a href="{% url 'historico_dashboard' %}" class="dash-sidebar__link {% if active_sidebar == 'historico' %}is-active{% endif %}">
             <i class="fa-regular fa-clock"></i> <span>Histórico</span>
         </a>
         <a href="{% url 'meus_torneios' %}" class="dash-sidebar__link {% if active_sidebar == 'torneios' %}is-active{% endif %}">

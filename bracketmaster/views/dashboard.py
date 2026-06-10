@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.core.paginator import Paginator
 
 def dashboard(request):
     return render(request, 'dashboard/dashboard.html')
@@ -28,3 +29,24 @@ def decks_view(request):
         'titulo_pagina': 'Meus Decks'
     }
     return render(request, 'dashboard/em_construcao.html', context)
+
+@login_required
+def historico_dashboard_view(request):
+    # Simulando os dados que virão do seu banco:
+    partidas_mock = [
+        {'torneio': 'Mix Diamantina', 'data': '14/06/26', 'formato': 'Commander', 'colocacao': '1º Lugar', 'status': 'win'},
+        {'torneio': 'A Última Evolução', 'data': '29/05/26', 'formato': 'Draft', 'colocacao': 'Top 8', 'status': 'neutral'},
+        {'torneio': 'Torneio Local Magic', 'data': '10/05/26', 'formato': 'Modern', 'colocacao': 'Eliminado', 'status': 'loss'},
+        # Adicione mais itens aqui para testar a paginação visualmente
+    ] * 5 # Multipliquei por 5 só para gerar volume de dados e a paginação aparecer
+    
+    # Configurando a paginação (ex: 8 partidas por página)
+    paginator = Paginator(partidas_mock, 8) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'active_sidebar': 'historico',
+        'partidas': page_obj, # Passamos o page_obj para o template
+    }
+    return render(request, 'dashboard/tournaments/historico_dashboard.html', context)

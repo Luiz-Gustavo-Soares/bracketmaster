@@ -1,0 +1,61 @@
+{% extends 'layouts/base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Histórico | Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard_historico.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container animate-fade-up">
+    
+    <div class="header-section">
+        <h1 class="page-title">Histórico de Batalhas</h1>
+        <p class="page-subtitle">Acompanhe seu desempenho e glórias passadas.</p>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Torneio</th>
+                        <th>Data</th>
+                        <th>Formato</th>
+                        <th style="text-align: right;">Resultado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for partida in partidas %}
+                    <tr>
+                        <td class="col-torneio">{{ partida.torneio }}</td>
+                        <td class="col-data">{{ partida.data }}</td>
+                        <td class="col-formato">{{ partida.formato }}</td>
+                        <td class="col-resultado" style="text-align: right;">
+                            <span class="badge-status badge-{{ partida.status }}">
+                                {% if partida.colocacao == '1º Lugar' %}
+                                    <i class="fa-solid fa-trophy" style="margin-right: 6px;"></i>
+                                {% endif %}
+                                {{ partida.colocacao }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="no-data">Nenhuma partida registrada ainda.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% if partidas.has_other_pages %}
+    <div class="pagination-wrapper">
+        {% include 'components/pagination.html' with page_obj=partidas %}
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,24 +1,183 @@
 {% extends 'layouts/base_dashboard.html' %}
+{% load static %}
 
-{% block title %}Visão Geral{% endblock %}
+{% block title %}Meu Perfil | BracketMaster{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard_perfil.css' %}">
+{% endblock %}
 
 {% block content %}
-    <div style="padding: 2rem;">
-        
-        <div style="margin-bottom: 2rem;">
-            <h1 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--text-primary);">
-                Bem-vindo ao Painel, {{ user.username }}!
-            </h1>
-            <p style="colo  r: var(--text-secondary); font-size: 0.875rem;">
-                Acompanhe e gerencie todos os seus torneios de Magic: The Gathering.
-            </p>
+<div class="dashboard-container animate-fade-up">
+
+    <div class="profile-dash-hero"
+         style="background-image: url('{% if user.profile.banner %}{{ user.profile.banner.url }}{% else %}{% static 'media/backgrounds/casal_magic.png' %}{% endif %}');">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <div class="hero-left">
+
+                <div class="avatar-container">
+                    <img src="{% static 'media/avatares/Atraxa.jpg' %}"
+                        alt="Avatar"
+                        class="dash-avatar">
+                </div>
+
+                <div class="player-info">
+                    <h1 class="player-name">Italo</h1>
+
+                    <span class="player-username">
+                        @italo
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="dash-stats">
+
+                <div class="stat-box">
+                    <span class="stat-value">42</span>
+                    <span class="stat-label">Partidas</span>
+                </div>
+
+                <div class="stat-divider"></div>
+
+                <div class="stat-box">
+                    <span class="stat-value" style="color: var(--success, #10b981);">
+                        68%
+                    </span>
+                    <span class="stat-label">Win Rate</span>
+                </div>
+
+                <div class="stat-divider"></div>
+
+                <div class="stat-box">
+                    <span class="stat-value">
+                        <i class="fa-solid fa-heart"
+                        style="color: var(--danger, #ef4444);"></i>
+                        156
+                    </span>
+                    <span class="stat-label">Likes</span>
+                </div>
+
+                <div class="stat-divider"></div>
+
+                <div class="stat-box">
+                    <span class="stat-value">12</span>
+                    <span class="stat-label">Torneios</span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="profile-bio-card">
+
+        <div class="bio-header">
+            <i class="fa-solid fa-user"></i>
+            Sobre o Jogador
         </div>
 
-        <div class="card" style="height: 300px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--border-color); background: transparent;">
-            <p style="color: var(--text-muted); font-size: 0.875rem; letter-spacing: 0.05em; text-transform: uppercase;">
-                Suas estatísticas aparecerão aqui
-            </p>
+        <p class="bio-text">
+            {% if user.profile.bio %}
+                {{ user.profile.bio }}
+            {% else %}
+                Nenhuma biografia adicionada ainda.
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="profile-form-container">
+
+    <div class="profile-form-container">
+
+        <div class="section-header">
+            <h2 class="section-title">
+                Informações Pessoais
+            </h2>
         </div>
+
+        <form method="POST" action="#">
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label class="form-label">Usuário</label>
+
+                    <input type="text"
+                           class="form-control input-disabled"
+                           value="{{ user.username|default:'MagoDesconhecido' }}"
+                           disabled
+                           title="O nome de usuário de login não pode ser alterado.">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nickname</label>
+
+                    <input type="text"
+                           class="form-control"
+                           name="nickname"
+                           placeholder="Seu apelido na plataforma"
+                           value="{{ user.profile.nickname }}">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label class="form-label">Bio</label>
+
+            <textarea class="form-control"
+                    name="bio"
+                    rows="4"
+                    placeholder="Fale um pouco sobre você e seu estilo de jogo...">{{ user.profile.bio|default_if_none:'' }}</textarea>
+
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label class="form-label">Cidade</label>
+
+                    <input type="text"
+                           class="form-control"
+                           name="cidade"
+                           placeholder="Sua cidade"
+                           value="{{ user.profile.cidade|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Estado</label>
+
+                    <input type="text"
+                           class="form-control"
+                           name="estado"
+                           placeholder="Sigla do estado (ex: SP)"
+                           value="{{ user.profile.estado|default:'' }}">
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="btn-block btn-primary-purple"
+                        style="max-width: 250px;">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Salvar Alterações
+
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
+
+</div>
 {% endblock %}

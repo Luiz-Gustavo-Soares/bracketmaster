@@ -1,0 +1,142 @@
+/* ==========================================================================
+   ESTILOS EXCLUSIVOS: HISTÓRICO DE BATALHAS
+   ========================================================================== */
+
+.dashboard-container {
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+}
+
+.header-section { 
+    margin-bottom: 2.5rem; 
+}
+
+.page-title { 
+    font-size: 2.2rem; 
+    color: #ffffff; 
+    margin-bottom: 0.5rem;
+    font-family: var(--font-display, 'Cinzel', serif);
+    letter-spacing: 0.05em;
+}
+
+.page-subtitle { 
+    color: var(--text-muted); 
+    font-size: 0.95rem;
+}
+
+/* =========================================
+   CARD E TABELA
+   ========================================= */
+.table-card {
+    background: rgba(24, 24, 27, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg, 12px);
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Wrapper responsivo: a tabela rola para o lado em telas pequenas */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #ffffff;
+    min-width: 650px; /* Garante que as colunas não se esmaguem */
+}
+
+.history-table th {
+    text-align: left;
+    padding: 1.25rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02); /* Destaque sutil para o cabeçalho */
+}
+
+.history-table td {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    font-size: 0.95rem;
+    transition: background 0.2s ease;
+}
+
+/* Efeito ao passar o mouse na linha inteira */
+.history-table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.col-torneio { 
+    font-weight: 600; 
+    color: #ffffff;
+}
+
+.col-data, .col-formato { 
+    color: var(--text-secondary); 
+}
+
+/* =========================================
+   BADGES DE RESULTADO
+   ========================================= */
+.badge-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-win { 
+    background: rgba(16, 185, 129, 0.15); 
+    color: var(--success, #10b981); 
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-loss { 
+    background: rgba(239, 68, 68, 0.15); 
+    color: var(--danger, #ef4444);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.badge-neutral { 
+    background: rgba(161, 161, 170, 0.15); 
+    color: #d4d4d8; 
+    border: 1px solid rgba(161, 161, 170, 0.25);
+}
+
+.no-data { 
+    text-align: center; 
+    color: var(--text-muted); 
+    padding: 4rem 2rem !important; 
+}
+
+/* =========================================
+   PAGINAÇÃO E RESPONSIVO
+   ========================================= */
+.pagination-wrapper {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1.5rem 1rem;
+    }
+    .page-title {
+        font-size: 1.6rem;
+    }
+}

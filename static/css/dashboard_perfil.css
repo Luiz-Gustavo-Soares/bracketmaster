@@ -1,0 +1,397 @@
+/* ==========================================================================
+   ESTILOS DA PÁGINA: MEU PERFIL (DASHBOARD)
+   ========================================================================== */
+
+.dashboard-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+/* =========================================
+   HERO BANNER
+   ========================================= */
+
+.profile-dash-hero {
+    position: relative;
+    height: 220px;
+    border-radius: var(--radius-lg, 12px);
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 5rem;
+    border: 1px solid var(--border-color);
+    overflow: visible;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(9, 9, 11, 0.15) 0%,
+        rgba(9, 9, 11, 0.92) 100%
+    );
+    border-radius: inherit;
+}
+
+.hero-content {
+    position: absolute;
+    bottom: -55px;
+    left: 2rem;
+    right: 2rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    z-index: 2;
+}
+
+.hero-left {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.25rem;
+    flex: 1;
+}
+
+/* =========================================
+   AVATAR
+   ========================================= */
+
+.avatar-container {
+    flex-shrink: 0;
+}
+
+.dash-avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 5px solid var(--bg-base, #09090b);
+
+    background: var(--bg-surface);
+
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 10px 25px rgba(0,0,0,0.45);
+}
+
+/* =========================================
+   INFORMAÇÕES DO JOGADOR
+   ========================================= */
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 12px;
+}
+
+.player-name {
+    margin: 0;
+
+    font-size: 2.2rem;
+    font-weight: 700;
+
+    color: #ffffff;
+
+    font-family: var(--font-display, 'Cinzel', serif);
+
+    line-height: 1;
+}
+.player-username {
+    margin-top: 0.4rem;
+
+    color: var(--text-muted);
+
+    font-size: 1rem;
+}
+
+
+/* =========================================
+   ESTATÍSTICAS
+   ========================================= */
+
+.dash-stats {
+    display: flex;
+    align-items: center;
+
+    background: rgba(24, 24, 27, 0.88);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: var(--radius-lg, 12px);
+
+    padding: 0.9rem 1.4rem;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+    flex-shrink: 0;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+
+    color: #ffffff;
+
+    font-family: var(--font-display, 'Cinzel', serif);
+}
+
+.stat-label {
+    font-size: 0.65rem;
+
+    color: var(--text-muted);
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+
+    margin-top: 0.2rem;
+}
+
+.stat-divider {
+    width: 1px;
+    height: 34px;
+    background: rgba(255,255,255,0.08);
+}
+
+/* =========================================
+   CONTAINER FORMULÁRIO
+   ========================================= */
+
+.profile-form-container {
+    background: transparent;
+}
+
+/* =========================================
+   CABEÇALHO DA SEÇÃO
+   ========================================= */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.section-title {
+    margin: 0;
+}
+
+/* =========================================
+   INPUTS
+   ========================================= */
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+
+    color: #e4e4e7;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    width: 100%;
+
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    color: #ffffff;
+
+    padding: 0.9rem 1rem;
+
+    border-radius: var(--radius-md, 8px);
+
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    outline: none;
+
+    border-color: #6366f1;
+
+    box-shadow:
+        0 0 0 3px rgba(99,102,241,0.15);
+}
+
+.form-control::placeholder {
+    color: rgba(255,255,255,0.35);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.input-disabled {
+    background: rgba(255,255,255,0.02) !important;
+    color: var(--text-muted) !important;
+    cursor: not-allowed;
+    border-color: rgba(255,255,255,0.05) !important;
+}
+
+.form-actions {
+    margin-top: 3rem;
+}
+
+/* =========================================
+   BOTÕES
+   ========================================= */
+
+.btn-primary-purple {
+    background: #4f46e5;
+    color: #ffffff;
+
+    border-radius: var(--radius-md, 8px);
+
+    padding: 0.8rem 1.5rem;
+
+    font-weight: 600;
+
+    border: none;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.btn-primary-purple:hover {
+    background: #4338ca;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(79,70,229,0.35);
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+
+@media (max-width: 900px) {
+
+    .profile-dash-hero {
+        height: 340px;
+        margin-bottom: 12rem;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+        bottom: -120px;
+    }
+
+    .hero-left {
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .player-info {
+        align-items: center;
+    }
+
+    .player-bio {
+        max-width: 100%;
+    }
+
+    .dash-stats {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .dashboard-container {
+        padding: 1rem;
+    }
+
+    .player-name {
+        font-size: 1.6rem;
+    }
+
+    .dash-avatar {
+        width: 110px;
+        height: 110px;
+    }
+
+    .dash-stats {
+        padding: 0.8rem;
+    }
+
+    .stat-box {
+        padding: 0 0.75rem;
+    }
+
+    .stat-value {
+        font-size: 1.1rem;
+    }
+}
+
+/* =========================================
+   BIO CARD
+   ========================================= */
+
+.profile-bio-card {
+    margin-bottom: 2rem;
+
+    background: rgba(24, 24, 27, 0.55);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 12px;
+
+    padding: 1.25rem 1.5rem;
+
+    backdrop-filter: blur(8px);
+}
+
+.bio-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    color: #ffffff;
+
+    font-weight: 600;
+
+    margin-bottom: 1rem;
+}
+
+.bio-header i {
+    color: #6366f1;
+}
+
+.bio-text {
+    margin: 0;
+
+    color: #d4d4d8;
+
+    line-height: 1.7;
+}

@@ -6,8 +6,6 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/explore_torneio.css' %}">
 <link rel="stylesheet" href="{% static 'css/footer.css' %}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
 {% endblock %}
 
 {% block content %}
@@ -119,15 +117,16 @@
                                         <span class="chip-text-value">Data</span> 
                                         <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
                                     </button>
-                                    <input type="text" id="flatpickr-anchor" style="position: absolute; opacity: 0; width: 1px; height: 1px; top: 0; left: 0; pointer-events: none;" readonly>
                                     
-                                    <div class="chip-popover">
+                                    <div class="chip-popover" style="width: 260px;">
                                         <div class="popover-option is-selected">Qualquer Data</div>
                                         <div class="popover-option">Neste Fim de Semana</div>
                                         <div class="popover-option">Este Mês</div>
                                         <hr class="popover-divider">
-                                        <div class="popover-option popover-action" id="abrir-calendario-real">
-                                            <i class="fa-solid fa-calendar-days"></i> Escolher no Calendário
+                                        
+                                        <div class="popover-custom-input">
+                                            <input type="date" id="input-data-filtro" style="color-scheme: dark; background: transparent; color: var(--text-primary); border: none; outline: none; width: 100%; font-family: inherit; font-size: 0.9rem;">
+                                            <button type="button" id="btn-aplicar-data" class="btn-aplicar"><i class="fa-solid fa-check"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -179,14 +178,7 @@
                                             <img src="{% if torneio.organizer.profile.profile_imagem %}{{ torneio.organizer.profile.profile_imagem.url }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Organizador" class="author-avatar">
                                             <span class="author-name">{{ torneio.organizer.username }}</span>
                                         </a>
-                                        
-                                        {% if torneio.status == 'active' %}
-                                            <span class="badge badge-primary">ANDAMENTO</span>
-                                        {% elif torneio.status == 'finished' %}
-                                            <span class="badge badge-muted">ENCERRADO</span>
-                                        {% else %}
-                                            <span class="badge badge-success">ABERTO</span>
-                                        {% endif %}
+                                        {% include "components/status_badge.html" with status=torneio.status %}
                                     </div>
                                 </div>
 
@@ -239,42 +231,17 @@
 {% endblock %} 
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
         
         // ==========================================
-        // 1. INICIALIZAÇÃO DO CALENDÁRIO
-        // ==========================================
-        const dataBtn = document.getElementById('btn-filtro-data');
-        const dataText = dataBtn ? dataBtn.querySelector('.chip-text-value') : null;
-        
-        const calendario = flatpickr("#flatpickr-anchor", {
-            positionElement: dataBtn,
-            locale: "pt",
-            dateFormat: "d/m/Y",
-            minDate: "today",
-            clickOpens: false,
-            disableMobile: true,
-            onChange: function(selectedDates, dateStr, instance) {
-                if (!dateStr) return;
-                if(dataText) {
-                    dataText.textContent = dateStr;
-                    dataBtn.classList.add('is-active');
-                    dataBtn.style.borderColor = "var(--brand-primary)";
-                    const popover = dataBtn.closest('.chip-dropdown-wrapper').querySelector('.chip-popover');
-                    popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
-                }
-            }
-        });
-        
-        // ==========================================
-        // 2. DELEGAÇÃO DE EVENTOS
+        // DELEGAÇÃO DE EVENTOS
         // ==========================================
         document.addEventListener('click', function(e) {
             
+            // FILTRO DE FORMATO (Chips normais)
             const formatChip = e.target.closest('.format-chips .filter-chip');
             if (formatChip) {
                 e.preventDefault();
@@ -283,6 +250,7 @@
                 return;
             }
 
+            // ABRIR/FECHAR DROPDOWNS (Data e Local)
             const dropdownBtn = e.target.closest('.chip-dropdown-wrapper > button');
             if (dropdownBtn) {
                 e.preventDefault();
@@ -293,7 +261,8 @@
                 return;
             }
 
-            const popoverOption = e.target.closest('.popover-option:not(.popover-action)');
+            // SELECIONAR OPÇÕES PRÉ-DEFINIDAS (ex: "Qualquer Data", "Este Mês")
+            const popoverOption = e.target.closest('.popover-option');
             if (popoverOption) {
                 const wrapper = popoverOption.closest('.chip-dropdown-wrapper');
                 const popover = popoverOption.closest('.chip-popover');
@@ -304,7 +273,7 @@
                     "Neste Fim de Semana": "Fim de Semana",
                     "Este Mês": "Mês",
                     "Online (Arena / MTGO)": "Online",
-                    "Presencial (Lojas)": "Presencial",
+                    "Presencial": "Presencial",
                     "Qualquer Data": "Data",
                     "Qualquer Local": "Local"
                 };
@@ -316,20 +285,19 @@
                     textSpan.textContent = btn.id === 'btn-filtro-data' ? "Data" : "Local";
                     btn.classList.remove('is-active');
                     btn.style.borderColor = "";
-                    if(btn.id === 'btn-filtro-data') calendario.clear();
+                    if(btn.id === 'btn-filtro-data') document.getElementById('input-data-filtro').value = '';
                 } else {
                     textSpan.textContent = nomesExibicao[textoEscolhido] || textoEscolhido;
                     btn.classList.add('is-active');
                     btn.style.borderColor = "var(--brand-primary)";
-                    if(btn.id === 'btn-filtro-data') calendario.clear();
+                    if(btn.id === 'btn-filtro-data') document.getElementById('input-data-filtro').value = '';
                 }
                 
                 wrapper.classList.remove('is-open');
                 return;
             }
 
-    
-            // APLICAR CIDADE DIGITADA
+            // APLICAR CIDADE DIGITADA (Local)
             const btnAplicarCidade = e.target.closest('#btn-aplicar-cidade');
             if (btnAplicarCidade) {
                 e.preventDefault();
@@ -342,35 +310,50 @@
                 const cidade = input.value.trim();
                 
                 if (cidade) {
-                    // Coloca a cidade digitada no botão
                     textSpan.textContent = cidade;
                     btn.classList.add('is-active');
                     btn.style.borderColor = "var(--brand-primary)";
-                    
-                    // Remove a seleção das outras opções (Online, Presencial, etc)
                     popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
-                    
-                    // Fecha o popover
                     wrapper.classList.remove('is-open');
                 }
                 return;
             }
 
-            // Impede que o popover feche acidentalmente enquanto o usuário digita
+            // APLICAR DATA ESCOLHIDA NO CALENDÁRIO NATIVO
+            const btnAplicarData = e.target.closest('#btn-aplicar-data');
+            if (btnAplicarData) {
+                e.preventDefault();
+                const wrapper = btnAplicarData.closest('.chip-dropdown-wrapper');
+                const popover = wrapper.querySelector('.chip-popover');
+                const input = document.getElementById('input-data-filtro');
+                const btn = wrapper.querySelector('button');
+                const textSpan = btn.querySelector('.chip-text-value');
+                
+                const dataValor = input.value; // Retorna no formato YYYY-MM-DD
+                
+                if (dataValor) {
+                    // Transforma "2026-06-09" em "09/06/2026"
+                    const partes = dataValor.split('-');
+                    const dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+                    
+                    textSpan.textContent = dataFormatada;
+                    btn.classList.add('is-active');
+                    btn.style.borderColor = "var(--brand-primary)";
+                    
+                    popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
+                    wrapper.classList.remove('is-open');
+                }
+                return;
+            }
+
+            // Impede que o popover feche acidentalmente enquanto o usuário digita/escolhe
             if (e.target.closest('.popover-custom-input')) {
                 return; 
             }
 
-            const popoverAction = e.target.closest('.popover-action');
-            if (popoverAction && popoverAction.id === 'abrir-calendario-real') {
-                e.preventDefault();
-                document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
-                setTimeout(() => calendario.open(), 10);
-                return;
-            }
-
+            // FECHAR POPOVERS AO CLICAR FORA
             document.querySelectorAll('.chip-dropdown-wrapper.is-open').forEach(wrapper => {
-                if (!e.target.closest('.flatpickr-calendar') && !wrapper.contains(e.target)) {
+                if (!wrapper.contains(e.target)) {
                     wrapper.classList.remove('is-open');
                 }
             });
