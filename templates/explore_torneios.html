@@ -94,63 +94,71 @@
                         <h2 class="explore-subtitle">Torneios</h2>
                         <p class="explore-desc">Encontre eventos competitivos, casuais e lendários em toda a comunidade.</p>
                         
-                        <form method="GET" action="" class="search-input-wrapper">
-                            <input type="text" name="q" class="form-input search-input-large" placeholder="Buscar torneio por nome..." value="{{ request.GET.q }}">
-                            <button type="submit" class="search-submit-btn">
-                                <i class="fa-solid fa-magnifying-glass search-icon-large"></i>
-                            </button>
-                        </form>
-                        <div class="filters-chips-row">
-                            <div class="format-chips">
-                                <button class="filter-chip is-active">Todos</button>
-                                <button class="filter-chip">Commander</button>
-                                <button class="filter-chip">Modern</button>
-                                <button class="filter-chip">Pioneer</button>
-                                <button class="filter-chip">Legacy</button>
-                                <button class="filter-chip">Arena</button>
+                        <form method="GET" action="" id="form-busca-torneios">
+                            
+                            <input type="hidden" name="formato" id="hidden-formato" value="{{ request.GET.formato|default:'' }}">
+                            <input type="hidden" name="data" id="hidden-data" value="{{ request.GET.data|default:'' }}">
+                            <input type="hidden" name="local" id="hidden-local" value="{{ request.GET.local|default:'' }}">
+
+                            <div class="search-input-wrapper">
+                                <input type="text" name="q" class="form-input search-input-large" placeholder="Buscar torneio por nome..." value="{{ request.GET.q }}">
+                                <button type="submit" class="search-submit-btn">
+                                    <i class="fa-solid fa-magnifying-glass search-icon-large"></i>
+                                </button>
                             </div>
                             
-                            <div class="secondary-chips">
-                                <div class="chip-dropdown-wrapper">
-                                    <button class="filter-chip secondary-chip" id="btn-filtro-data">
-                                        <i class="fa-regular fa-calendar"></i> 
-                                        <span class="chip-text-value">Data</span> 
-                                        <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
-                                    </button>
-                                    
-                                    <div class="chip-popover" style="width: 260px;">
-                                        <div class="popover-option is-selected">Qualquer Data</div>
-                                        <div class="popover-option">Neste Fim de Semana</div>
-                                        <div class="popover-option">Este Mês</div>
-                                        <hr class="popover-divider">
+                            <div class="filters-chips-row">
+                                <div class="format-chips">
+                                    <button class="filter-chip is-active">Todos</button>
+                                    <button class="filter-chip">Commander</button>
+                                    <button class="filter-chip">Modern</button>
+                                    <button class="filter-chip">Pioneer</button>
+                                    <button class="filter-chip">Legacy</button>
+                                    <button class="filter-chip">Arena</button>
+                                </div>
+                                
+                                <div class="secondary-chips">
+                                    <div class="chip-dropdown-wrapper">
+                                        <button class="filter-chip secondary-chip" id="btn-filtro-data">
+                                            <i class="fa-regular fa-calendar"></i> 
+                                            <span class="chip-text-value">Data</span> 
+                                            <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
+                                        </button>
                                         
-                                        <div class="popover-custom-input">
-                                            <input type="date" id="input-data-filtro" style="color-scheme: dark; background: transparent; color: var(--text-primary); border: none; outline: none; width: 100%; font-family: inherit; font-size: 0.9rem;">
-                                            <button type="button" id="btn-aplicar-data" class="btn-aplicar"><i class="fa-solid fa-check"></i></button>
+                                        <div class="chip-popover" style="width: 260px;">
+                                            <div class="popover-option is-selected">Qualquer Data</div>
+                                            <div class="popover-option">Neste Fim de Semana</div>
+                                            <div class="popover-option">Este Mês</div>
+                                            <hr class="popover-divider">
+                                            
+                                            <div class="popover-custom-input">
+                                                <input type="date" id="input-data-filtro" style="color-scheme: dark; background: transparent; color: var(--text-primary); border: none; outline: none; width: 100%; font-family: inherit; font-size: 0.9rem;">
+                                                <button type="button" id="btn-aplicar-data" class="btn-aplicar"><i class="fa-solid fa-check"></i></button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="chip-dropdown-wrapper">
-                                    <button class="filter-chip secondary-chip" id="btn-filtro-local">
-                                        <i class="fa-solid fa-location-dot"></i> 
-                                        <span class="chip-text-value">Local</span> 
-                                        <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
-                                    </button>
-                                    
-                                    <div class="chip-popover" style="width: 260px;"> <div class="popover-option is-selected">Qualquer Local</div>
-                                        <div class="popover-option">Online (Arena / MTGO)</div>
-                                        <div class="popover-option">Presencial</div>
+                                    <div class="chip-dropdown-wrapper">
+                                        <button class="filter-chip secondary-chip" id="btn-filtro-local">
+                                            <i class="fa-solid fa-location-dot"></i> 
+                                            <span class="chip-text-value">Local</span> 
+                                            <i class="fa-solid fa-chevron-down" style="font-size: 0.7em; margin-left: 0.2rem; color: var(--text-muted);"></i>
+                                        </button>
                                         
-                                        <hr class="popover-divider">
-                                        
-                                        <div class="popover-custom-input">
-                                            <input type="text" id="input-cidade-filtro" placeholder="Ex: Belo Horizonte, MG" autocomplete="off">
-                                            <button type="button" id="btn-aplicar-cidade" class="btn-aplicar"><i class="fa-solid fa-arrow-right"></i></button>
+                                        <div class="chip-popover" style="width: 260px;"> 
+                                            <div class="popover-option is-selected">Qualquer Local</div>
+                                            <div class="popover-option">Online (Arena / MTGO)</div>
+                                            <div class="popover-option">Presencial</div>
+                                            <hr class="popover-divider">
+                                            
+                                            <div class="popover-custom-input">
+                                                <input type="text" id="input-cidade-filtro" placeholder="Ex: Belo Horizonte, MG" autocomplete="off">
+                                                <button type="button" id="btn-aplicar-cidade" class="btn-aplicar"><i class="fa-solid fa-arrow-right"></i></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div> <hr class="explore-divider animate-fade-up" style="animation-delay: 0.3s;">
 
                     <div class="animate-fade-up" style="animation-delay: 0.4s;">
@@ -235,129 +243,174 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // =========================================================
+    // 1. INICIALIZAÇÃO VISUAL (Mantém as escolhas após recarregar)
+    // =========================================================
+    
+    // Formato
+    const formatoAtual = document.getElementById('hidden-formato').value;
+    if (formatoAtual) {
+        document.querySelectorAll('.format-chips .filter-chip').forEach(chip => {
+            chip.classList.remove('is-active');
+            if (chip.textContent.trim() === formatoAtual) {
+                chip.classList.add('is-active');
+            }
+        });
+    } else {
+        const btnTodos = Array.from(document.querySelectorAll('.format-chips .filter-chip')).find(c => c.textContent.trim() === 'Todos');
+        if(btnTodos) btnTodos.classList.add('is-active');
+    }
+
+    // Data
+    const dataAtual = document.getElementById('hidden-data').value;
+    if (dataAtual) {
+        const btnData = document.getElementById('btn-filtro-data');
+        // Se for YYYY-MM-DD formata para DD/MM/YYYY na tela, senão mostra o texto (ex: Este Mês)
+        btnData.querySelector('.chip-text-value').textContent = dataAtual.includes('-') ? dataAtual.split('-').reverse().join('/') : dataAtual;
+        btnData.classList.add('is-active');
+        btnData.style.borderColor = "var(--brand-primary)";
+    }
+
+    // Local
+    const localAtual = document.getElementById('hidden-local').value;
+    if (localAtual) {
+        const btnLocal = document.getElementById('btn-filtro-local');
+        btnLocal.querySelector('.chip-text-value').textContent = localAtual;
+        btnLocal.classList.add('is-active');
+        btnLocal.style.borderColor = "var(--brand-primary)";
+    }
+
+
+    // =========================================================
+    // 2. INTERAÇÕES E CLIQUES (Monta o Combo de Filtros)
+    // =========================================================
+
+    const formBusca = document.getElementById('form-busca-torneios');
+
+    // =========================================================
+    // CORREÇÃO UX: ENTER NOS INPUTS CUSTOMIZADOS
+    // =========================================================
+    const inputCidade = document.getElementById('input-cidade-filtro');
+    if(inputCidade) {
+        inputCidade.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Impede o envio precipitado do form
+                document.getElementById('btn-aplicar-cidade').click(); 
+            }
+        });
+    }
+
+    const inputData = document.getElementById('input-data-filtro');
+    if(inputData) {
+        inputData.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('btn-aplicar-data').click();
+                document.querySelector('.search-submit-btn').classList.add('pulse-search-active'); setTimeout(() => document.querySelector('.search-submit-btn').classList.remove('pulse-search-active'), 1000);
+            }
+        });
+    }
+
+    document.addEventListener('click', function(e) {
         
-        // ==========================================
-        // DELEGAÇÃO DE EVENTOS
-        // ==========================================
-        document.addEventListener('click', function(e) {
+        // FILTRO DE FORMATO
+        const formatChip = e.target.closest('.format-chips .filter-chip');
+        if (formatChip) {
+            e.preventDefault();
+            document.querySelectorAll('.format-chips .filter-chip').forEach(c => c.classList.remove('is-active'));
+            formatChip.classList.add('is-active');
             
-            // FILTRO DE FORMATO (Chips normais)
-            const formatChip = e.target.closest('.format-chips .filter-chip');
-            if (formatChip) {
-                e.preventDefault();
-                document.querySelectorAll('.format-chips .filter-chip').forEach(c => c.classList.remove('is-active'));
-                formatChip.classList.add('is-active');
-                return;
-            }
+            const formatoTexto = formatChip.textContent.trim();
+            document.getElementById('hidden-formato').value = formatoTexto === 'Todos' ? '' : formatoTexto;
+            // Apenas salva a escolha. Não envia o form!
+            return;
+        }
 
-            // ABRIR/FECHAR DROPDOWNS (Data e Local)
-            const dropdownBtn = e.target.closest('.chip-dropdown-wrapper > button');
-            if (dropdownBtn) {
-                e.preventDefault();
-                const wrapper = dropdownBtn.closest('.chip-dropdown-wrapper');
-                const isAlreadyOpen = wrapper.classList.contains('is-open');
-                document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
-                if (!isAlreadyOpen) wrapper.classList.add('is-open');
-                return;
-            }
+        // ABRIR/FECHAR DROPDOWNS (Data e Local)
+        const dropdownBtn = e.target.closest('.chip-dropdown-wrapper > button');
+        if (dropdownBtn) {
+            e.preventDefault();
+            const wrapper = dropdownBtn.closest('.chip-dropdown-wrapper');
+            const isAlreadyOpen = wrapper.classList.contains('is-open');
+            document.querySelectorAll('.chip-dropdown-wrapper').forEach(w => w.classList.remove('is-open'));
+            if (!isAlreadyOpen) wrapper.classList.add('is-open');
+            return;
+        }
 
-            // SELECIONAR OPÇÕES PRÉ-DEFINIDAS (ex: "Qualquer Data", "Este Mês")
-            const popoverOption = e.target.closest('.popover-option');
-            if (popoverOption) {
-                const wrapper = popoverOption.closest('.chip-dropdown-wrapper');
-                const popover = popoverOption.closest('.chip-popover');
-                const btn = wrapper.querySelector('button');
-                const textSpan = btn.querySelector('.chip-text-value');
-                const textoEscolhido = popoverOption.textContent.trim();
-                const nomesExibicao = {
-                    "Neste Fim de Semana": "Fim de Semana",
-                    "Este Mês": "Mês",
-                    "Online (Arena / MTGO)": "Online",
-                    "Presencial": "Presencial",
-                    "Qualquer Data": "Data",
-                    "Qualquer Local": "Local"
-                };
-                
-                popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
-                popoverOption.classList.add('is-selected');
-                
-                if (textoEscolhido.startsWith('Qualquer')) {
-                    textSpan.textContent = btn.id === 'btn-filtro-data' ? "Data" : "Local";
-                    btn.classList.remove('is-active');
-                    btn.style.borderColor = "";
-                    if(btn.id === 'btn-filtro-data') document.getElementById('input-data-filtro').value = '';
-                } else {
-                    textSpan.textContent = nomesExibicao[textoEscolhido] || textoEscolhido;
-                    btn.classList.add('is-active');
-                    btn.style.borderColor = "var(--brand-primary)";
-                    if(btn.id === 'btn-filtro-data') document.getElementById('input-data-filtro').value = '';
-                }
-                
+        // SELECIONAR OPÇÕES PRÉ-DEFINIDAS RÁPIDAS
+        const popoverOption = e.target.closest('.popover-option');
+        if (popoverOption) {
+            const wrapper = popoverOption.closest('.chip-dropdown-wrapper');
+            const btn = wrapper.querySelector('button');
+            const textoEscolhido = popoverOption.textContent.trim();
+            const textSpan = btn.querySelector('.chip-text-value');
+            
+            if (btn.id === 'btn-filtro-data') {
+                document.getElementById('hidden-data').value = textoEscolhido === 'Qualquer Data' ? '' : textoEscolhido;
+                textSpan.textContent = textoEscolhido === 'Qualquer Data' ? 'Data' : textoEscolhido;
+            } else if (btn.id === 'btn-filtro-local') {
+                document.getElementById('hidden-local').value = textoEscolhido === 'Qualquer Local' ? '' : textoEscolhido;
+                textSpan.textContent = textoEscolhido === 'Qualquer Local' ? 'Local' : textoEscolhido;
+            }
+            
+            if (textoEscolhido.startsWith('Qualquer')) {
+                btn.classList.remove('is-active');
+                btn.style.borderColor = "";
+            } else {
+                btn.classList.add('is-active');
+                btn.style.borderColor = "var(--brand-primary)";
+            }
+            
+            wrapper.classList.remove('is-open');
+            return;
+        }
+
+        // APLICAR CIDADE DIGITADA (Local)
+        const btnAplicarCidade = e.target.closest('#btn-aplicar-cidade');
+        if (btnAplicarCidade) {
+            e.preventDefault();
+            const cidade = document.getElementById('input-cidade-filtro').value.trim();
+            const wrapper = btnAplicarCidade.closest('.chip-dropdown-wrapper');
+            const btn = wrapper.querySelector('button');
+            
+            if (cidade) {
+                document.getElementById('hidden-local').value = cidade;
+                btn.querySelector('.chip-text-value').textContent = cidade;
+                btn.classList.add('is-active');
+                btn.style.borderColor = "var(--brand-primary)";
                 wrapper.classList.remove('is-open');
-                return;
             }
+            return;
+        }
 
-            // APLICAR CIDADE DIGITADA (Local)
-            const btnAplicarCidade = e.target.closest('#btn-aplicar-cidade');
-            if (btnAplicarCidade) {
-                e.preventDefault();
-                const wrapper = btnAplicarCidade.closest('.chip-dropdown-wrapper');
-                const popover = wrapper.querySelector('.chip-popover');
-                const input = document.getElementById('input-cidade-filtro');
-                const btn = wrapper.querySelector('button');
-                const textSpan = btn.querySelector('.chip-text-value');
-                
-                const cidade = input.value.trim();
-                
-                if (cidade) {
-                    textSpan.textContent = cidade;
-                    btn.classList.add('is-active');
-                    btn.style.borderColor = "var(--brand-primary)";
-                    popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
-                    wrapper.classList.remove('is-open');
-                }
-                return;
+        // APLICAR DATA ESCOLHIDA NO CALENDÁRIO NATIVO
+        const btnAplicarData = e.target.closest('#btn-aplicar-data');
+        if (btnAplicarData) {
+            e.preventDefault();
+            const dataValor = document.getElementById('input-data-filtro').value; // YYYY-MM-DD
+            const wrapper = btnAplicarData.closest('.chip-dropdown-wrapper');
+            const btn = wrapper.querySelector('button');
+            
+            if (dataValor) {
+                document.getElementById('hidden-data').value = dataValor;
+                const partes = dataValor.split('-');
+                btn.querySelector('.chip-text-value').textContent = `${partes[2]}/${partes[1]}/${partes[0]}`;
+                btn.classList.add('is-active');
+                btn.style.borderColor = "var(--brand-primary)";
+                wrapper.classList.remove('is-open');
             }
+            return;
+        }
 
-            // APLICAR DATA ESCOLHIDA NO CALENDÁRIO NATIVO
-            const btnAplicarData = e.target.closest('#btn-aplicar-data');
-            if (btnAplicarData) {
-                e.preventDefault();
-                const wrapper = btnAplicarData.closest('.chip-dropdown-wrapper');
-                const popover = wrapper.querySelector('.chip-popover');
-                const input = document.getElementById('input-data-filtro');
-                const btn = wrapper.querySelector('button');
-                const textSpan = btn.querySelector('.chip-text-value');
-                
-                const dataValor = input.value; // Retorna no formato YYYY-MM-DD
-                
-                if (dataValor) {
-                    // Transforma "2026-06-09" em "09/06/2026"
-                    const partes = dataValor.split('-');
-                    const dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
-                    
-                    textSpan.textContent = dataFormatada;
-                    btn.classList.add('is-active');
-                    btn.style.borderColor = "var(--brand-primary)";
-                    
-                    popover.querySelectorAll('.popover-option').forEach(opt => opt.classList.remove('is-selected'));
-                    wrapper.classList.remove('is-open');
-                }
-                return;
-            }
+        // Impede que o popover feche enquanto o usuário digita
+        if (e.target.closest('.popover-custom-input')) return; 
 
-            // Impede que o popover feche acidentalmente enquanto o usuário digita/escolhe
-            if (e.target.closest('.popover-custom-input')) {
-                return; 
-            }
-
-            // FECHAR POPOVERS AO CLICAR FORA
-            document.querySelectorAll('.chip-dropdown-wrapper.is-open').forEach(wrapper => {
-                if (!wrapper.contains(e.target)) {
-                    wrapper.classList.remove('is-open');
-                }
-            });
+        // FECHAR POPOVERS AO CLICAR FORA
+        document.querySelectorAll('.chip-dropdown-wrapper.is-open').forEach(wrapper => {
+            if (!wrapper.contains(e.target)) wrapper.classList.remove('is-open');
         });
     });
+});
 </script>
 {% endblock %}
