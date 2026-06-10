@@ -28,7 +28,7 @@ def busc_torneios(request):
 
     nome = request.GET.get('nome', None)
     formato = request.GET.get('formato', None)
-    cidade = request.GET.get('cidade', None)
+    cidade = request.GET.get('local', None)
     data_fim = request.GET.get('data', None)
     ocultar_finalizados = request.GET.get('ocultar_finalizados', 'true').lower() == 'true'
     page_number = request.GET.get('page', 1)
@@ -97,15 +97,21 @@ def torneio(request, id_torneio):
         pk=id_torneio
     )
 
-    rank = RankingService.calcular_ranking(torneio)
+    rank = [p['participante'] for p in RankingService.calcular_ranking(torneio)]
+
+    is_registered = torneio.participantes.filter(
+        jogador=request.user
+    ).exists()
+    print(is_registered)
 
     context = {
         'tournament': torneio,
         'standings': rank,
-        'premiacoes': torneio.get_premiacoes_list()
+        'premiacoes': torneio.get_premiacoes_list(),
+        'is_registered': is_registered
     }
 
-    return render(request, 'torneio.html', context)
+    return render(request, 'torneio_view.html', context)
 
 
 @login_required

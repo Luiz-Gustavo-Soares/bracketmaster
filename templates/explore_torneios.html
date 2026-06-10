@@ -59,7 +59,7 @@
                 
                 <div class="featured-actions">
                     {% if user.is_authenticated %}
-                        <form method="POST" action="{% if featured_tournament %}#{% else %}#{% endif %}" style="margin: 0;">
+                        <form method="POST" action="{% if featured_tournament %} {% url "torneio_view" featured_tournament.id %} {% else %}#{% endif %}" style="margin: 0;">
                             {% csrf_token %}
                             <button type="submit" class="btn-anim-subscribe">
                                 <span class="text-front">Inscrever-se</span>
@@ -75,7 +75,7 @@
                         </a>
                     {% endif %}
                     
-                    <a href="{% if featured_tournament %}#{% else %}#{% endif %}" class="btn btn-outline-light" style="height: 54px; padding: 0 2rem; font-size: 1.05rem; display: inline-flex; align-items: center;">Ver Detalhes do Evento</a> <!--se existe um torneio em destaque me de a url dele, se não, taca um # não quebra a page e fica dinamico, só mudar o bd-->   
+                    <a href="{% if featured_tournament %} {% url "torneio_view" featured_tournament.id %} {% else %}#{% endif %}" class="btn btn-outline-light" style="height: 54px; padding: 0 2rem; font-size: 1.05rem; display: inline-flex; align-items: center;">Ver Detalhes do Evento</a> <!--se existe um torneio em destaque me de a url dele, se não, taca um # não quebra a page e fica dinamico, só mudar o bd-->   
                 </div>
                 
             </div>
@@ -168,7 +168,7 @@
                             {% for torneio in torneios %}
                             <div class="tournament-card">
                                 
-                                <a href="{}" style="text-decoration: none; color: inherit; display: block;"> 
+                                <a href="{% url "torneio_view" torneio.id %}" style="text-decoration: none; color: inherit; display: block;"> 
                                     <div class="card-image" style="background-image: url('{% if torneio.imagem_fundo %}{{ torneio.get_fundo_path }}{% else %}{% static 'media/backgrounds/torneio_bg.jpg' %}{% endif %}');">
                                         <span class="card-format">{{ torneio.get_formato_jogo_display }}</span>
                                         <span class="card-date"><i class="fa-regular fa-calendar"></i> {{ torneio.data_inicio|date:"d/m/y" }}</span>
@@ -176,7 +176,7 @@
                                 </a>
 
                                 <div class="card-body">
-                                    <a href="{}" style="text-decoration: none; color: inherit; display: block;"> 
+                                    <a href="{% url "torneio_view" torneio.id %}" style="text-decoration: none; color: inherit; display: block;"> 
                                         <h3 class="card-title">{{ torneio.nome }}</h3>
                                         <p class="card-desc">{{ torneio.descricao|truncatewords:15 }}</p>
                                     </a>

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ tournament.name }} | Bracketmaster{% endblock %}
+{% block title %}{{ tournament.nome }} | Bracketmaster{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/torneio_view.css' %}">
@@ -13,7 +13,7 @@
 
     {% include 'components/navbar.html' %}
 
-    <div class="tournament-hero" style="background-image: url('{% if tournament.imagem_capa %}{{ tournament.imagem_capa.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
+    <div class="tournament-hero" style="background-image: url('{% if tournament.imagem_fundo %}{{ tournament.get_fundo_path }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
         <div class="tournament-hero-overlay"></div>
         
         <div class="container tournament-hero-container">
@@ -34,21 +34,21 @@
                         </span>
                     {% endif %}
                     
-                    {% if tournament.days_remaining > 0 %}
-                        <span class="badge badge-muted">
-                            <i class="fa-regular fa-clock"></i> {{ tournament.days_remaining }} Dias Restantes
-                        </span>
+                    {% if tournament.tempo_para_iniciar %}
+                    <span class="badge badge-muted">
+                        <i class="fa-regular fa-clock"></i> {{ tournament.tempo_para_iniciar }} Dias Restantes
+                    </span>
                     {% endif %}
                 </div>
                 
-                <h1 class="tournament-main-title">{{ tournament.name }}</h1>
-                <p class="tournament-hero-subtitle">{{ tournament.description }}</p>
+                <h1 class="tournament-main-title">{{ tournament.nome }}</h1>
+                <p class="tournament-hero-subtitle">{{ tournament.descricao }}</p>
                 
                 <div class="tournament-tags-row">
-                    <span class="tourney-tag">{{ tournament.format }}</span>
-                    <span class="tourney-tag">{{ tournament.structure }}</span>
-                    <span class="tourney-tag">{{ tournament.rounds }} Rodadas</span>
-                    <span class="tourney-tag">{{ tournament.modality }}</span>
+                    <span class="tourney-tag">{{ tournament.get_formato_jogo_display }}</span>
+                    <span class="tourney-tag">{{ tournament.get_formato_torneio_display }}</span>
+                    <span class="tourney-tag">{{ tournament.numero_rodadas }} Rodadas</span>
+                    {% comment %} <span class="tourney-tag">{{ tournament.modality }}</span> {% endcomment %}
                     {% if tournament.decklist_required %}
                         <span class="tourney-tag">Decklist Obrigatória</span>
                     {% endif %}
@@ -66,9 +66,9 @@
                     
                     <section class="content-block">
                         <h2 class="block-title">Sobre o Evento</h2>
-                        <p class="block-text">{{ tournament.description }}</p>
+                        <p class="block-text">{{ tournament.descricao }}</p>
                     </section>
-                    {% if tournament.prizes or not tournament %}
+                    {% if premiacoes or not tournament %}
                     <section class="content-block">
                         <h2 class="block-title">Premiação</h2>
                         <div class="prizes-grid">
@@ -125,13 +125,13 @@
                                         </td>
                                         
                                         <td class="table-player-cell">
-                                            <img src="{% static 'media/avatares/Atraxa.jpg' %}" class="table-player-avatar" alt="Avatar">
-                                            <span class="player-name">{{ entry.player.username }}</span>
+                                            <img src="{{ entry.jogador.profile.get_avatar_path }}" class="table-player-avatar" alt="Avatar">
+                                            <span class="player-name">{{ entry.jogador.profile.nickname }}</span>
                                         </td>
-                                        <td style="text-align: center;">{{ entry.wins|default:"—" }}</td>
-                                        <td style="text-align: center;">{{ entry.losses|default:"—" }}</td>
-                                        <td style="text-align: center;">{{ entry.draws|default:"—" }}</td>
-                                        <td style="text-align: center; font-weight: 700;">{{ entry.points|default:"—" }}</td>
+                                        <td style="text-align: center;">{{ entry.vitorias|default:"—" }}</td>
+                                        <td style="text-align: center;">{{ entry.derrotas|default:"—" }}</td>
+                                        <td style="text-align: center;">{{ entry.empates|default:"—" }}</td>
+                                        <td style="text-align: center; font-weight: 700;">{{ entry.pontos|default:"—" }}</td>
                                     </tr>
                                     {% empty %}
                                     <tr>
@@ -153,7 +153,7 @@
                         <div class="ticket-price-row">
                             <span class="ticket-label">Inscrição</span>
                             <span class="ticket-price">
-                                {% if tournament.entry_fee %}R$ {{ tournament.entry_fee }}{% else %}Gratuito{% endif %}
+                                {% if tournament.valor_inscricao %}R$ {{ tournament.valor_inscricao }}{% else %}Gratuito{% endif %}
                             </span>
                         </div>
 
@@ -164,16 +164,16 @@
                                 <i class="fa-regular fa-calendar-days"></i>
                                 <div class="info-text">
                                     <span class="info-label">Data do Evento</span>
-                                    <span class="info-val">{{ tournament.date|date:"d/m/Y" }} às {{ tournament.time }}</span>
+                                    <span class="info-val">{{ tournament.data_inicio|date:"d/m/Y" }} às {{ tournament.data_inicio|date:"H:m" }}</span>
                                 </div>
                             </div>
 
                             <div class="ticket-info-item">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <div class="info-text">
-                                    <span class="info-label">Local ({{ tournament.modality }})</span>
+                                    <span class="info-label">Local ({{ tournament.cidade.str_city }})</span>
                                     <span class="info-val" style="line-height: 1.4;">
-                                        {{ tournament.address }}
+                                        {{ tournament.local }}
                                     </span>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
                                 <i class="fa-solid fa-users"></i>
                                 <div class="info-text">
                                     <span class="info-label">Vagas Disponíveis</span>
-                                    <span class="info-val">{{ tournament.player_count }} de {{ tournament.max_players }} preenchidas</span>
+                                    <span class="info-val">{{ tournament.count_participantes_validos }} de {{ tournament.numero_maximo_participantes }} preenchidas</span>
                                 </div>
                             </div>
                         </div>
@@ -192,37 +192,53 @@
                             {% if user.is_authenticated %}
                                 
                                 {% if is_registered %}
-                                    {% if tournament.status == 'ativo' %}
+                                    {% if tournament.status == 'EM_ANDAMENTO' %}
                                         <div class="tournament-live-banner" style="margin-bottom: 1rem; color: var(--success); font-weight: 600; text-align: center; font-size: 0.9rem;">
                                             <i class="fa-solid fa-circle-play"></i> Torneio em andamento
                                         </div>
                                         <a href="{}" class="btn-block btn-play-active" style="text-decoration: none;"> 
                                             <i class="fa-solid fa-gamepad"></i> JOGAR AGORA
                                         </a>
-                                    {% elif tournament.status == 'aberto' %}
+                                    {% elif tournament.status == 'CRIADO' %}
+                                        <button class="btn-block btn-disabled" disabled title="O torneio ainda não começou.">
+                                            <span style="font-size: 0.75rem; display: block; font-weight: normal; margin-top: 0.2rem;">(Aguardando início)</span>
+                                        </button>
+                                    
+                                    {% elif tournament.status == 'FECHADA' %}
                                         <button class="btn-block btn-disabled" disabled title="O torneio ainda não começou.">
                                             <i class="fa-solid fa-lock"></i> JOGAR 
                                             <span style="font-size: 0.75rem; display: block; font-weight: normal; margin-top: 0.2rem;">(Aguardando início)</span>
                                         </button>
-                                    {% elif tournament.status == 'finished' %}
+
+                                    {% elif tournament.status == 'ABERTA' %}
+                                        <button class="btn-block btn-disabled" disabled title="O torneio ainda não começou.">
+                                            <i class="fa-solid fa-lock"></i> JOGAR 
+                                            <span style="font-size: 0.75rem; display: block; font-weight: normal; margin-top: 0.2rem;">(Aguardando início)</span>
+                                        </button>
+                                        
+                                    {% elif tournament.status == 'FINALIZADO' %}
                                         <button class="btn-block btn-disabled" disabled>
                                             <i class="fa-solid fa-flag-checkered"></i> TORNEIO ENCERRADO
                                         </button>
                                     {% endif %}
 
                                 {% else %}
-                                    {% if tournament.status == 'aberto' %}
+                                    {% if tournament.status == 'ABERTA' %}
                                         <form method="POST" action="{}"> 
                                             {% csrf_token %}
                                             <button type="submit" class="btn-block btn-primary-purple">
                                                 <i class="fa-solid fa-right-to-bracket"></i> GARANTIR MINHA VAGA
                                             </button>
                                         </form>
-                                    {% elif tournament.status == 'ativo' %}
+                                    {% elif tournament.status == 'FECHADA' %}
                                         <button class="btn-block btn-disabled" disabled>
                                             <i class="fa-solid fa-lock"></i> INSCRIÇÕES ENCERRADAS
                                         </button>
-                                    {% elif tournament.status == 'finished' %}
+                                    {% elif tournament.status == 'CRIADO' %}
+                                        <button class="btn-block btn-disabled" disabled>
+                                            <i class="fa-solid fa-lock"></i> INSCRIÇÕES NÃO ABERTAS
+                                        </button>
+                                    {% elif tournament.status == 'FINALIZADO' %}
                                         <button class="btn-block btn-disabled" disabled>
                                             <i class="fa-solid fa-flag-checkered"></i> TORNEIO ENCERRADO
                                         </button>
@@ -242,9 +258,9 @@
                         <div class="sidebar-organizer-info">
                             <span class="profile-block-label">ORGANIZADOR</span>
                             <div class="organizer-profile-row">
-                                <img src="{% if tournament.organizer.profile.profile_imagem %}{{ tournament.organizer.profile.profile_imagem.url }}{% else %}{% static 'media/avatares/lilia.png' %}{% endif %}" alt="Organizador" class="organizer-avatar">
+                                <img src="{% if tournament.organizador.profile.avatar %}{{ tournament.organizador.profile.get_avatar_path }}{% else %}{% static 'media/avatares/lilia.png' %}{% endif %}" alt="Organizador" class="organizer-avatar">
                                 <div class="organizer-meta">
-                                    <span class="organizer-name">{{ tournament.organizer.username }}</span>
+                                    <span class="organizer-name">{{ tournament.organizador.profile.nickname }}</span>
                                     <span class="organizer-title">Organizador Oficial</span>
                                 </div>
                             </div>

@@ -3,6 +3,7 @@ import secrets
 from random import choice
 from tournaments.enums import FormatoJogo, TipoTorneio, FormatoTorneio, StatusTorneio, StatusRodada, StatusInscricao, Fundos
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from .strategies.singleEliminationStrategy import SingleEliminationStrategy
 from .strategies.swissStrategy import SwissStrategy
@@ -168,6 +169,11 @@ class Torneio(models.Model):
             status=StatusInscricao.APROVADA
         ).count()
 
+    def tempo_para_iniciar(self):
+        agora = timezone.now()
+        if agora < self.data_inicio:
+            return (self.data_inicio - agora).days
+        return None
 
     def save(self, *args, **kwargs):
 
