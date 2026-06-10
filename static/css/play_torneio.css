@@ -616,3 +616,115 @@
     font-size: 0.7rem;
     border-radius: 20px;
 }
+
+/* ==========================================================================
+   MODAL DE CONFIRMAÇÃO (REINICIAR TORNEIO)
+   ========================================================================== */
+.custom-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.custom-modal-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-modal-box {
+    background: #18181b;
+    border: 1px solid rgba(239, 68, 68, 0.3); /* Borda avermelhada sutil */
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2rem;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+    transform: scale(0.95);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-modal-overlay.is-open .custom-modal-box {
+    transform: scale(1);
+}
+
+.modal-icon-warning {
+    width: 64px;
+    height: 64px;
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger, #ef4444);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem auto;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.modal-title {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.modal-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.modal-desc strong {
+    color: var(--danger, #ef4444);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-danger-solid {
+    background: var(--danger, #ef4444);
+    color: #fff;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-danger-solid:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+}
