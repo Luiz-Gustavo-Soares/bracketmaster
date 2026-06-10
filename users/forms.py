@@ -58,7 +58,8 @@ class ProfileForm(forms.ModelForm):
     cidade = forms.CharField(
         widget = forms.TextInput(
             attrs={
-
+                'class':"form-control",
+                'placeholder':"Sua cidade"
             }
         )
     )
@@ -66,29 +67,34 @@ class ProfileForm(forms.ModelForm):
     estado = forms.CharField(
         widget = forms.TextInput(
             attrs={
-                
+                'class':"form-control",
+                'placeholder':"Sigla do estado (ex: SP)"
             }
         )
     )
 
     class Meta:
         model = Profile
-        fields = ['nickname', 'bio', 'avatar']
+        fields = ['nickname', 'bio'] #, 'avatar']
         widgets = {
             'nickname': forms.TextInput(
                 attrs={
-
+                    'class':"form-control",
+                    'placeholder':"Seu apelido na plataforma"
                 }
             ),
 
             'bio': forms.Textarea(
                 attrs={
+                    'class':"form-control",
+                    'rows':"4",
+                    'placeholder':"Fale um pouco sobre você e seu estilo de jogo..."
                 }
             ),
 
-            'avatar': forms.Select(
-                attrs={
+            # 'avatar': forms.Select(
+            #     attrs={
                     
-                }
-            )
+            #     }
+            # )
         }

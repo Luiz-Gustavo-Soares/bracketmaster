@@ -30,14 +30,16 @@ from .views.torneios_view import torneios_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
-    path('dashboard/', dashboard, name='dashboard'),
     path('users/', include('users.urls')),
     path('torneios/', include('tournaments.urls')),
+    path('dashboard/', include('dashboard.urls'), name='dashboards'),
     # path('perfil/<str:nickname>/like/', toggle_like_view, name='toggle_like'),
     # path('perfil/<str:nickname>/', profile_view, name='profile_view'),
     # path('explore_torneios/', explore_torneios , name='explore_torneios'),
     # path('explore_perfis/', explore_profile, name='explore_profile'),
     # path('torneios_view/', torneios_view, name='torneio_view'),
+    
+
     path('dashboard/torneios/', meus_torneios_view, name='meus_torneios'),
     path('dashboard/inbox/', inbox_view, name='dashboard_inbox'),
     path('dashboard/decks/', decks_view, name='dashboard_decks'),

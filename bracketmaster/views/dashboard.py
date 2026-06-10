@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from django.core.paginator import Paginator
 
+@login_required
 def dashboard(request):
     return render(request, 'dashboard/dashboard.html')
 

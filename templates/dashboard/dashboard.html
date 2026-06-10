@@ -20,16 +20,16 @@
             <div class="hero-left">
 
                 <div class="avatar-container">
-                    <img src="{% static 'media/avatares/Atraxa.jpg' %}"
+                    <img src="{{ user.profile.get_avatar_path }}"
                         alt="Avatar"
                         class="dash-avatar">
                 </div>
 
                 <div class="player-info">
-                    <h1 class="player-name">Italo</h1>
+                    <h1 class="player-name">{{ user.profile.nickname }}</h1>
 
                     <span class="player-username">
-                        @italo
+                        @{{ user.username }}
                     </span>
                 </div>
 
@@ -38,7 +38,7 @@
             <div class="dash-stats">
 
                 <div class="stat-box">
-                    <span class="stat-value">42</span>
+                    <span class="stat-value">{{ profile.count_part_partidas }}</span>
                     <span class="stat-label">Partidas</span>
                 </div>
 
@@ -46,7 +46,7 @@
 
                 <div class="stat-box">
                     <span class="stat-value" style="color: var(--success, #10b981);">
-                        68%
+                        {{ profile.taxa_vitoria }}
                     </span>
                     <span class="stat-label">Win Rate</span>
                 </div>
@@ -57,7 +57,7 @@
                     <span class="stat-value">
                         <i class="fa-solid fa-heart"
                         style="color: var(--danger, #ef4444);"></i>
-                        156
+                        {{ profile.count_likes_recebidos }}
                     </span>
                     <span class="stat-label">Likes</span>
                 </div>
@@ -65,7 +65,7 @@
                 <div class="stat-divider"></div>
 
                 <div class="stat-box">
-                    <span class="stat-value">12</span>
+                    <span class="stat-value">{{ profile.count_part_torneio }}</span>
                     <span class="stat-label">Torneios</span>
                 </div>
 
@@ -100,7 +100,7 @@
             </h2>
         </div>
 
-        <form method="POST" action="#">
+        <form method="POST" action="{% url "dashboard" %}">
             {% csrf_token %}
 
             <div class="form-grid">
@@ -116,48 +116,33 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Nickname</label>
+                    <label for="{{ form.nickname.id_for_label }}"  class="form-label">Nickname</label>
 
-                    <input type="text"
-                           class="form-control"
-                           name="nickname"
-                           placeholder="Seu apelido na plataforma"
-                           value="{{ user.profile.nickname }}">
+                    {{ form.nickname }}
                 </div>
 
             </div>
 
             <div class="form-group">
 
-                <label class="form-label">Bio</label>
+                <label  for="{{ form.nickname.id_for_label }}" class="form-label">Bio</label>
 
-            <textarea class="form-control"
-                    name="bio"
-                    rows="4"
-                    placeholder="Fale um pouco sobre você e seu estilo de jogo...">{{ user.profile.bio|default_if_none:'' }}</textarea>
+            {{ form.bio }}
 
             </div>
 
             <div class="form-grid">
 
                 <div class="form-group">
-                    <label class="form-label">Cidade</label>
+                    <label  for="{{ form.cidade.id_for_label }}" class="form-label">Cidade</label>
 
-                    <input type="text"
-                           class="form-control"
-                           name="cidade"
-                           placeholder="Sua cidade"
-                           value="{{ user.profile.cidade|default:'' }}">
+                    {{ form.cidade }}
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Estado</label>
+                    <label  for="{{ form.estado.id_for_label }}" class="form-label">Estado</label>
 
-                    <input type="text"
-                           class="form-control"
-                           name="estado"
-                           placeholder="Sigla do estado (ex: SP)"
-                           value="{{ user.profile.estado|default:'' }}">
+                    {{ form.estado }}
                 </div>
 
             </div>
