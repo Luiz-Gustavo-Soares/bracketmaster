@@ -1,7 +1,8 @@
 from django.urls import path
-from dashboard.views import dashboard, historico_dashboard_view
+from dashboard.views import dashboard, historico_dashboard_view, meus_torneios_view
 
 urlpatterns = [
     path('', dashboard , name='dashboard'),
-    path('historico/', historico_dashboard_view, name='historico_dashboard')
+    path('historico/', historico_dashboard_view, name='historico_dashboard'),
+    path('torneios/', meus_torneios_view, name='meus_torneios'),
 ]

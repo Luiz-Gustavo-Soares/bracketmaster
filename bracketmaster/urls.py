@@ -41,7 +41,7 @@ urlpatterns = [
     
 
     # path('dashboard/historico/', historico_dashboard_view, name='historico_dashboard'),
-    path('dashboard/torneios/', meus_torneios_view, name='meus_torneios'),
+    # path('dashboard/torneios/', meus_torneios_view, name='meus_torneios'),
     path('dashboard/inbox/', inbox_view, name='dashboard_inbox'),
     path('dashboard/decks/', decks_view, name='dashboard_decks'),
 ]
