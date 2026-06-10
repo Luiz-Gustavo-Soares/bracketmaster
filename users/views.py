@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse, Http404
 from django.core.paginator import Paginator
-from users.models import Profile
+from users.models import Profile, ProfileLike
 from users.services.usersServices import ProfileService
 from users.forms import RegisterForm, ProfileForm, LoginForm
 from users.services.exceptions import AltoLikeError
@@ -122,14 +122,17 @@ def profile(request, username):
         ).order_by(
             '-data_inscricao'
         )
+    
+    
 
     torneios_paginator = Paginator(participacoes, 5)
     torneios_page = torneios_paginator.get_page(page_number)
-    
+    is_liked = p.user.likes_recebidos.filter(usuario_que_curtiu=request.user).exists()
     context = {
         'profile': p,
         'taxa_vitoria': p.taxa_vitoria,
         'historico': torneios_page,
+        'is_liked': is_liked
     }
     
     return render(request, 'users/profile_view.html', context)
