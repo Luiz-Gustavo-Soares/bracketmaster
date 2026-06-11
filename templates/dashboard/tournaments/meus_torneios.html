@@ -11,7 +11,7 @@
 
 <div class="dashboard-container">
 
-    {% if not inscricoes and not torneios_criados %}
+    {% comment %} {% if not inscricoes and not torneios_criados %}
 
         <div id="state-empty" class="state-view active">
             <div class="empty-state" style="margin-top: 6rem;">
@@ -24,7 +24,7 @@
             </div>
         </div>  
     {% endif %}
-    
+     {% endcomment %}
     
     {% if not torneio_participantes_edit %}
 
@@ -137,9 +137,9 @@
             </div>
             {% endfor %}
     
-            <button class="btn btn-outline" onclick="switchState('state-form-create')" style="margin-top: 1rem;">
+            {% comment %} <button class="btn btn-outline" onclick="switchState('state-form-create')" style="margin-top: 1rem;">
                 <i class="fa-solid fa-plus"></i> CRIAR TORNEIO
-            </button>
+            </button> {% endcomment %}
         </div>
         
         {% endif %}
