@@ -1,6 +1,6 @@
 from django.db import transaction
 from matches.models import Partida, ParticipacaoPartida
-from matches.enums import ResultadoPartida
+from matches.enums import ResultadoPartida, StatusPartida
 from matches.services.exceptions import ParticipatDoesNotInMatchError, MatchAlreadyFinishedError, MatchNotFinishedError, MultipleWinnersError
 
 
@@ -23,7 +23,8 @@ class PartidaService:
         Args: 
             partida: Partida
         """
-        partida.state.encerrar_partida()
+        if partida.status == StatusPartida.EM_ANDAMENTO:
+            partida.state.encerrar_partida()
 
 
     @classmethod
@@ -41,12 +42,12 @@ class PartidaService:
         """
 
         if participacao_vencedora is not None:
-            if participacao_vencedora.partida_id != partida.id:
+            if participacao_vencedora.partida.id != partida.id:
                 raise ParticipatDoesNotInMatchError("Participação não pertence à partida")
             
 
-        if partida.terminada():
-            raise MatchAlreadyFinishedError('Partida já finalizada')
+        # if partida.finalizada():
+        #     raise MatchAlreadyFinishedError('Partida já finalizada')
 
           
         participacoes = list(partida.participacoes.all())

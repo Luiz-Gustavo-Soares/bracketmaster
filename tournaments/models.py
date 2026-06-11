@@ -300,6 +300,9 @@ class Rodada(models.Model):
         auto_now_add=True
     )
 
+    def is_finished(self):
+        return self.status == StatusRodada.FINALIZADA
+
     class Meta:
         unique_together = [
             ('torneio', 'numero')

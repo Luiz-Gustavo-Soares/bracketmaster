@@ -224,7 +224,7 @@
 
                                 {% else %}
                                     {% if tournament.status == 'ABERTA' %}
-                                        <form method="POST" action="{}"> 
+                                        <form method="POST" action="{% url "inscrever_participante" tournament.id %}"> 
                                             {% csrf_token %}
                                             <button type="submit" class="btn-block btn-primary-purple">
                                                 <i class="fa-solid fa-right-to-bracket"></i> GARANTIR MINHA VAGA

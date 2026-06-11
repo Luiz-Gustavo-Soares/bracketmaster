@@ -172,8 +172,17 @@
                 <div class="glass-card">
                     <div class="round-header">
                         <div style="display: flex; align-items: center; gap: 1rem;">
-                            <span class="badge {% if is_round_finished %}badge-muted-outline{% else %}badge-success-outline{% endif %}">
-                                {% if is_round_finished %}FECHADA{% else %}ABERTA{% endif %}
+                            <span class="badge 
+                            {% if is_round_finished %}
+                                badge-muted-outline
+                            {% else %}
+                                badge-success-outline
+                            {% endif %}">
+                            {% if is_round_finished %}
+                                FECHADA
+                            {% else %}
+                                ABERTA
+                            {% endif %}
                             </span>
                             <h2 class="glass-title" style="margin: 0; border: none; padding: 0;">Rodada {{ current_round|default:"1" }}</h2>
                         </div>
@@ -196,13 +205,17 @@
                                     <td class="col-mesa"><span>{{ match.table_number|default:forloop.counter }}</span></td>
                                     
                                     <td class="col-player right-align 
-                                        {% if match.winner == match.player1 %}player-winner
-                                        {% elif match.winner == match.player2 %}player-loser
-                                        {% elif match.status == 'draw' %}player-draw{% endif %}">
+                                        {% if match.winner == match.player1 %}
+                                            player-winner
+                                        {% elif match.winner == match.player2 %}
+                                            player-loser
+                                        {% elif match.status == 'draw' %}
+                                            player-draw
+                                        {% endif %}">
                                         
-                                        <span>{{ match.player1.name }}</span>
-                                        {% if match.player1.avatar %}
-                                            <img src="{{ match.player1.avatar.url }}" alt="Avatar">
+                                        <span>{{ match.player1.jogador.profile.nickname }}</span>
+                                        {% if match.player1.jogador.profile.avatar %}
+                                            <img src="{{ match.player1.jogador.profile.get_avatar_path }}" alt="Avatar">
                                         {% else %}
                                             <img src="{% static 'media/avatares/default.png' %}" alt="Avatar">
                                         {% endif %}
@@ -211,12 +224,17 @@
                                     <td class="col-score" style="text-align: center;">
                                         <div class="match-action-wrapper">
                                             <button type="button" class="btn-vs-match" onclick="toggleMatchModal(this)"
-                                                {% if match.winner %}style="border-color: var(--success); color: var(--success);"{% elif match.status == 'draw' %}style="border-color: #f59e0b; color: #f59e0b;"{% endif %}>
+                                                {% if match.winner == 'draw' %}
+                                                style="border-color: #f59e0b; color: #f59e0b;"
+                                                {% elif match.winner %}
+                                                style="border-color: var(--success); color: var(--success);"
+                                                {% endif %}>
+                                                
                                                 {% if match.winner == match.player1 %}
                                                     1 <span style="font-size:0.6rem; margin:0 4px; color:var(--text-muted)">-</span> 0
                                                 {% elif match.winner == match.player2 %}
                                                     0 <span style="font-size:0.6rem; margin:0 4px; color:var(--text-muted)">-</span> 1
-                                                {% elif match.status == 'draw' %}
+                                                {% elif match.winner == 'draw' %}
                                                     EMPATE
                                                 {% else %}
                                                     VS
@@ -225,13 +243,13 @@
                                             
                                             <div class="match-result-popover">
                                                 <div class="popover-title">Declarar Vencedor</div>
-                                                <form method="POST" action="." style="margin: 0; display: flex; flex-direction: column; gap: 0.25rem;">
+                                                <form method="POST" action="{% url "play-winner-partida" tournament.id %}" style="margin: 0; display: flex; flex-direction: column; gap: 0.25rem;">
                                                     {% csrf_token %}
                                                     
-                                                    <input type="hidden" name="match_id" value="{{ match.id }}">
+                                                    <input type="hidden" name="match_id" value="{{ match.partida.id }}">
                                                     
                                                     <button type="submit" name="winner_id" value="{{ match.player1.id }}" class="btn-result-option">
-                                                        {{ match.player1.name }}
+                                                        {{ match.player1.jogador.profile.nickname }}
                                                     </button>
                                                     
                                                     <button type="submit" name="status" value="draw" class="btn-result-option draw-option">
@@ -240,7 +258,7 @@
                                                     
                                                     {% if match.player2 %}
                                                         <button type="submit" name="winner_id" value="{{ match.player2.id }}" class="btn-result-option">
-                                                            {{ match.player2.name }}
+                                                             {{ match.player2.jogador.profile.nickname }}
                                                         </button>
                                                     {% else %}
                                                         <button type="button" disabled class="btn-result-option" style="opacity: 0.5; cursor: not-allowed;">
@@ -257,13 +275,13 @@
                                         {% elif match.winner == match.player1 %}player-loser
                                         {% elif match.status == 'draw' %}player-draw{% endif %}">
                                         
-                                        {% if match.player2 %}
-                                            {% if match.player2.avatar %}
-                                                <img src="{{ match.player2.avatar.url }}" alt="Avatar">
+                                        {% if match.player1.jogador.profile.nickname %}
+                                            {% if match.player2.jogador.profile.avatar %}
+                                                <img src="{{ match.player2.jogador.profile.get_avatar_path }}" alt="Avatar">
                                             {% else %}
                                                 <img src="{% static 'media/avatares/default.png' %}" alt="Avatar">
                                             {% endif %}
-                                            <span>{{ match.player2.name }}</span>
+                                            <span>{{ match.player2.jogador.profile.nickname }}</span>
                                         {% else %}
                                             <img src="{% static 'media/avatares/default.png' %}" alt="Avatar" style="opacity: 0.5;">
                                             <span style="color: var(--text-muted); font-style: italic;">BYE</span>
@@ -297,7 +315,7 @@
             <div class="modal-actions">
                 <button type="button" class="btn btn-secondary" onclick="closeRestartModal()">Cancelar</button>
                 
-                <form method="POST" action="#" style="margin: 0; flex: 1;">
+                <form method="POST" action="{% url "play-reset" tournament.id %}" style="margin: 0; flex: 1;">
                     {% csrf_token %}
                     <button type="submit" class="btn-danger-solid" style="width: 100%;">Sim, Reiniciar</button>
                 </form>

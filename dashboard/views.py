@@ -31,8 +31,11 @@ def dashboard(request):
 
     
     else: 
-        form = ProfileForm(instance=profile, initial={'cidade': profile.cidade.nome, 'estado': profile.cidade.estado
-})
+        if profile.cidade:
+            form = ProfileForm(instance=profile, initial={'cidade': profile.cidade.nome, 'estado': profile.cidade.estado})
+        else:
+            form = ProfileForm(instance=profile)
+
 
 
     context = {

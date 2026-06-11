@@ -52,7 +52,7 @@ class TournamentService:
             Rodada
         """
         
-        ultima = torneio.rodadas.last()
+        ultima = torneio.rodadas.order_by('numero').last()
 
         if ultima:
             RodadaService.finalizar(ultima)

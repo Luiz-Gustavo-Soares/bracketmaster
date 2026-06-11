@@ -67,9 +67,11 @@
                                             <i class="fa-solid fa-eye"></i>
                                         </button>
                                     </a>
-                                    <button class="btn-icon btn-play-action" title="Jogar">
-                                        <i class="fa-solid fa-play"></i>
-                                    </button>
+                                    <a href="{% url "play" inscricao.torneio.id %}">
+                                        <button class="btn-icon btn-play-action" title="Jogar">
+                                            <i class="fa-solid fa-play"></i>
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -125,9 +127,11 @@
                                 <i class="fa-solid fa-users-gear"></i>
                             </button>
                         </a>
-                        <button class="btn-icon btn-play-action" title="Iniciar Partidas">
-                            <i class="fa-solid fa-play"></i>
-                        </button>
+                        <a href="{% url "play" torneio.id %}">
+                            <button class="btn-icon btn-play-action" title="Iniciar Partidas">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>

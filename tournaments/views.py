@@ -8,13 +8,17 @@ from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.core.exceptions import PermissionDenied as PermissionDeniedDjango
 
-from tournaments.models import Torneio, TorneioParticipante
+from tournaments.models import Torneio, TorneioParticipante, Rodada
 from tournaments.forms import TorneioForm
-from tournaments.enums import StatusTorneio, FormatoJogo
+from tournaments.enums import StatusTorneio, FormatoJogo, StatusRodada
 from tournaments.services.registroService import TournamentRegistrationService
 from tournaments.services.rankinService import RankingService
 from tournaments.services.torneioService import TournamentService
 
+from matches.services.partidada_service import PartidaService
+from matches.models import Partida, ParticipacaoPartida
+
+from matches.services.exceptions import MatchNotFinishedError, MultipleWinnersError
 from tournaments.services.exceptions import RegistrationError
 from core.exceptions import PermissionDenied
 from core.models import Cidade
@@ -246,13 +250,13 @@ def rejeitar_participante(request, torneio_id, participante_id):
     return redirect('meus_torneios_participantes_edit', pk=torneio_id, edit='edit')
 
 
-
 @login_required
+@require_POST
 def inscrever_torneio(request, torneio_id):
     """Inscreve um participante em um torneio em especifico"""
     torneio = get_object_or_404(
         Torneio,
-        torneio_id=torneio_id
+        id=torneio_id
     )
 
     try:
@@ -273,7 +277,7 @@ def inscrever_torneio(request, torneio_id):
             'Erro desconhecido!'
         )
 
-    return redirect('torneio', torneio_id=torneio_id)
+    return redirect('torneio_view', id_torneio=torneio_id)
 
 
 
@@ -329,8 +333,26 @@ def resetar_torneio(request, torneio_id):
     except Exception as e:
         messages.error(request, 'Anularam...')
 
-    return redirect('torneio', torneio_id=torneio_id)
+    return redirect('play', torneio_id=torneio_id)
 
+
+@login_required
+@require_POST
+def definir_ganhador_partida(request, torneio_id):
+    
+    match_id = request.POST.get('match_id')
+    result = request.POST.get('winner_id')
+
+    partida = get_object_or_404(Partida, pk=match_id, rodada__torneio__organizador=request.user)
+    
+    par_partida = None
+    if result:
+        par_partida = ParticipacaoPartida.objects.filter(pk=result).first()
+
+    if partida.rodada.status != StatusRodada.FINALIZADA:
+        PartidaService.registrar_resultado(partida, par_partida)
+        PartidaService.finalizar_partida(partida)
+    return redirect('play', torneio_id=torneio_id)
 
 
 def play_view(request, torneio_id):
@@ -342,16 +364,56 @@ def play_view(request, torneio_id):
     rodada_atual = int(request.GET.get('rodada', 1))
 
     num_rodadas = torneio.rodadas.count()
-    progresso_torneio = round(num_rodadas / torneio.numero_rodadas * 100)
+    num_rodadas_finalizadas = torneio.rodadas.filter(status=StatusRodada.FINALIZADA).count()
+    progresso_torneio = round(num_rodadas_finalizadas / torneio.numero_rodadas * 100)
     
     classificacao = RankingService.calcular_ranking(torneio)
+    
+    rodada = Rodada.objects.filter(torneio=torneio, numero=rodada_atual).first()
+    
+    matches = []
+    is_round_finished = False
+
+    if rodada:
+        is_round_finished = rodada.is_finished()
+        partidas = rodada.partidas.all()
+
+        for partida in partidas:
+            participantes = list(partida.participacoes.all())
+            
+            p1 = participantes.pop()
+            
+            if participantes: 
+                p2 = participantes.pop()
+            else:
+                p2 = None
+            winner = None
+
+            try:
+                winner = PartidaService.ganhador(partida)
+                winner = winner if winner else 'draw'
+                
+            except MatchNotFinishedError as e:
+                pass
+            
+            except MultipleWinnersError as e:
+                pass
+
+            matches.append({
+                'partida': partida,
+                'winner': winner,
+                'player1': p1,
+                'player2': p2,
+            })
 
     context = {
         'tournament': torneio,
         'current_round': rodada_atual,
         'progresso_torneio': progresso_torneio,
         'standings': classificacao,
-        'total_rounds_range': range(1, torneio.numero_rodadas+1)
+        'total_rounds_range': range(1, num_rodadas+1),
+        'matches': matches,
+        'is_round_finished': is_round_finished
     }
 
     return render(request, 'dashboard/tournaments/play.html', context=context)

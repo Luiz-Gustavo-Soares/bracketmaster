@@ -10,7 +10,7 @@ class Partida(models.Model):
     status = models.CharField(
         max_length=2,
         choices=StatusPartida.choices,
-        default=StatusPartida.AGENDADA
+        default=StatusPartida.EM_ANDAMENTO
     )
 
     jogadores = models.ManyToManyField(
