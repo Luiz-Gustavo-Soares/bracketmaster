@@ -90,9 +90,9 @@
         
         <div class="mobile-user-card">
             {% if user.is_authenticated %}
-                <img src="{{ user.profile.get_avatar_path }}" alt="Avatar" class="mobile-avatar">
+                <a href="{% url "dashboard" %}"><img src="{{ user.profile.get_avatar_path }}" alt="Avatar" class="mobile-avatar"></a>
                 <div class="mobile-user-info">
-                    <span class="mobile-username">{{ user.username }}</span>
+                    <a href="{% url "dashboard" %}"><span class="mobile-username">{{ user.username }}</span></a>
                     <span class="mobile-user-role">Jogador</span>
                 </div>
             {% else %}
