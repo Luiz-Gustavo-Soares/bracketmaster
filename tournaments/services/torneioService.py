@@ -76,7 +76,7 @@ class TournamentService:
         """Finaliza o Torneio
         Args: 
             torneio: Torneio"""
-        
+        RankingService.recalcular(torneio)
         torneio.state.finalizar()
 
 
