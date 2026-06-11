@@ -12,7 +12,7 @@
 
 <div class="explore-page">
 
-    <div class="explore-hero" style="background-image: url('{% static 'media/backgrounds/bg-auth.jpg' %}'); min-height: 90vh;">
+    <div class="explore-hero" style="background-image: url('{% static 'media/backgrounds/Key-Art.jpg' %}'); min-height: 90vh;">
         <div class="explore-hero-overlay"></div>
 
         <div class="container container-explore hero-profiles-container">
@@ -42,7 +42,7 @@
                         
                         {% if top_profiles.1 %}
                         <div class="podium-card">
-                            <img src="{% if top_profiles.1.avatar %}{{ top_profiles.1.get_avatar_path }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
+                            <img src="{% if top_profiles.1.avatar %}{{ top_profiles.1.get_avatar_path }}{% else %}{% static 'media/avatares/jace.jpg' %}{% endif %}" alt="Avatar" class="podium-avatar">
                             <h3 class="podium-name">{{ top_profiles.1.nickname|default:top_profiles.1.user.username }}</h3>
                             <p class="podium-points"><i class="fa-solid fa-heart" style="color: var(--brand-primary);"></i> {{ top_profiles.1.count_likes_recebidos|default:"0" }} Likes</p>
                         </div>
@@ -51,7 +51,7 @@
                         {% if top_profiles.0 %}
                         <div class="podium-card podium-center">
                             <i class="fa-solid fa-crown podium-crown" style="color: #fbbf24; filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5));"></i>
-                            <img src="{% if top_profiles.0.avatar %}{{ top_profiles.0.get_avatar_path }}{% else %}{% static 'media/avatares/gideon.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
+                            <img src="{% if top_profiles.0.avatar %}{{ top_profiles.0.get_avatar_path }}{% else %}{% static 'media/avatares/gideon.jpg' %}{% endif %}" alt="Avatar" class="podium-avatar">
                             <h3 class="podium-name">{{ top_profiles.0.nickname|default:top_profiles.0.user.username }}</h3>
                             <p class="podium-points" style="font-size: 1rem; color: var(--brand-primary); font-weight: 700;"><i class="fa-solid fa-heart"></i> {{ top_profiles.0.count_likes_recebidos|default:"0" }} Likes</p>
                         </div>
@@ -59,7 +59,7 @@
 
                         {% if top_profiles.2 %}
                         <div class="podium-card">
-                            <img src="{% if top_profiles.2.avatar %}{{ top_profiles.2.get_avatar_path }}{% else %}{% static 'media/avatares/lilia.png' %}{% endif %}" alt="Avatar" class="podium-avatar">
+                            <img src="{% if top_profiles.2.avatar %}{{ top_profiles.2.get_avatar_path }}{% else %}{% static 'media/avatares/lilia.jpg' %}{% endif %}" alt="Avatar" class="podium-avatar">
                             <h3 class="podium-name">{{ top_profiles.2.nickname|default:top_profiles.2.user.username }}</h3>
                             <p class="podium-points"><i class="fa-solid fa-heart" style="color: var(--brand-primary);"></i> {{ top_profiles.2.count_likes_recebidos|default:"0" }} Likes</p>
                         </div>
@@ -133,7 +133,7 @@
                     {% for perfil in perfis %}
                     <div class="profile-list-card">
                         <div class="profile-card-left">
-                            <img src="{% if perfil.avatar %}{{ perfil.get_avatar_path }}{% else %}{% static 'media/avatares/gideon.png' %}{% endif %}" alt="Avatar" class="list-avatar">
+                            <img src="{% if perfil.avatar %}{{ perfil.get_avatar_path }}{% else %}{% static 'media/avatares/gisha.jpg' %}{% endif %}" alt="Avatar" class="list-avatar">
                             <div class="list-info">
                                 <div class="list-title-row">
                                     <h3 class="list-name">{{ perfil.nickname|default:perfil.user.username }}</h3>
@@ -156,7 +156,7 @@
                     {% empty %}
                     <div class="profile-list-card" style="opacity: 0.6;">
                         <div class="profile-card-left">
-                            <img src="{% static 'media/avatares/gideon.png' %}" alt="Avatar" class="list-avatar">
+                            <img src="{% static 'media/avatares/tishana.jpg' %}" alt="Avatar" class="list-avatar">
                             <div class="list-info">
                                 <div class="list-title-row">
                                     <h3 class="list-name">Nenhum Perfil Encontrado</h3>
