@@ -14,8 +14,7 @@
 <div class="profile-page">
 
 
-        <div class="profile-hero" style="background-image: url('{% if profile.banner %}{{ profile.banner.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
-
+        <div class="profile-hero" style="background-image: url('{% if profile.banner %}{{ profile.banner.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%;">
             <div class="profile-hero__overlay"></div>
 
             <div class="profile-hero__content container">
