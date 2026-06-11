@@ -53,60 +53,62 @@
                 </div>
             </div>
 
-        <div class="play-actions-row animate-fade-up" style="animation-delay: 0.1s;">
-            <button type="button" class="btn btn-danger-outline" title="Desfazer tudo e voltar ao zero" onclick="openRestartModal()">
-                <i class="fa-solid fa-rotate-left"></i> REINICIAR TORNEIO
-            </button>
-
-            <div class="super-button-container">
-                {% if tournament.status == 'CRIADO' %}
-                    <form method="POST" action="{% url "play-alt-status" tournament.id 'abrir_inscricoes' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-success-solid">
-                            INICIAR INSCRIÇÕES <i class="fa-solid fa-users"></i>
-                        </button>
-                    </form>
-                
-                {% elif tournament.status == 'ABERTA' %}
-                    <form method="POST" action="{% url "play-alt-status" tournament.id 'encerrar_inscricoes' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-success-solid">
-                            FINALIZAR INSCRIÇÕES <i class="fa-solid fa-lock"></i>
-                        </button>
-                    </form>
-                
-                {% elif tournament.status == 'FECHADA' %}
-                    <form method="POST" action="{% url "play-alt-status" tournament.id 'iniciar' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-success-solid">
-                            INICIAR TORNEIO <i class="fa-solid fa-play"></i>
-                        </button>
-                    </form>
-                
-                {% elif tournament.status == 'EM_ANDAMENTO' %}
-                    {% if is_last_round %}
-                        <form method="POST" action="#">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-success-solid btn-gold-finish">
-                                FINALIZAR TORNEIO <i class="fa-solid fa-trophy"></i>
-                            </button>
-                        </form>
-                    {% else %}
-                        <form method="POST" action="{% url "play-alt-status" tournament.id 'proxima_rodada' %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-success-solid">
-                                PRÓXIMA RODADA <i class="fa-solid fa-arrow-right"></i>
-                            </button>
-                        </form>
-                    {% endif %}
-                
-                {% elif tournament.status == 'FINALIZADO' %}
-                    <button type="button" class="btn btn-disabled" disabled>
-                        <i class="fa-solid fa-flag-checkered"></i> TORNEIO FINALIZADO
+            <div class="play-actions-row animate-fade-up" style="animation-delay: 0.1s;">
+                    {% if view_organizador %}
+                    <button type="button" class="btn btn-danger-outline" title="Desfazer tudo e voltar ao zero" onclick="openRestartModal()">
+                        <i class="fa-solid fa-rotate-left"></i> REINICIAR TORNEIO
                     </button>
-                {% endif %}
-            </div>
-        </div>
+        
+                    <div class="super-button-container">
+                        {% if tournament.status == 'CRIADO' %}
+                            <form method="POST" action="{% url "play-alt-status" tournament.id 'abrir_inscricoes' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success-solid">
+                                    INICIAR INSCRIÇÕES <i class="fa-solid fa-users"></i>
+                                </button>
+                            </form>
+                        
+                        {% elif tournament.status == 'ABERTA' %}
+                            <form method="POST" action="{% url "play-alt-status" tournament.id 'encerrar_inscricoes' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success-solid">
+                                    FINALIZAR INSCRIÇÕES <i class="fa-solid fa-lock"></i>
+                                </button>
+                            </form>
+                        
+                        {% elif tournament.status == 'FECHADA' %}
+                            <form method="POST" action="{% url "play-alt-status" tournament.id 'iniciar' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success-solid">
+                                    INICIAR TORNEIO <i class="fa-solid fa-play"></i>
+                                </button>
+                            </form>
+                        
+                        {% elif tournament.status == 'EM_ANDAMENTO' %}
+                            {% if is_last_round %}
+                                <form method="POST" action="#">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success-solid btn-gold-finish">
+                                        FINALIZAR TORNEIO <i class="fa-solid fa-trophy"></i>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form method="POST" action="{% url "play-alt-status" tournament.id 'proxima_rodada' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success-solid">
+                                        PRÓXIMA RODADA <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+                        
+                        {% elif tournament.status == 'FINALIZADO' %}
+                            <button type="button" class="btn btn-disabled" disabled>
+                                <i class="fa-solid fa-flag-checkered"></i> TORNEIO FINALIZADO
+                            </button>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
 
         <div class="play-grid-layout animate-fade-up" style="animation-delay: 0.2s;">
             
@@ -241,32 +243,34 @@
                                                 {% endif %}
                                             </button>
                                             
-                                            <div class="match-result-popover">
-                                                <div class="popover-title">Declarar Vencedor</div>
-                                                <form method="POST" action="{% url "play-winner-partida" tournament.id %}" style="margin: 0; display: flex; flex-direction: column; gap: 0.25rem;">
-                                                    {% csrf_token %}
-                                                    
-                                                    <input type="hidden" name="match_id" value="{{ match.partida.id }}">
-                                                    
-                                                    <button type="submit" name="winner_id" value="{{ match.player1.id }}" class="btn-result-option">
-                                                        {{ match.player1.jogador.profile.nickname }}
-                                                    </button>
-                                                    
-                                                    <button type="submit" name="status" value="draw" class="btn-result-option draw-option">
-                                                        Empate
-                                                    </button>
-                                                    
-                                                    {% if match.player2 %}
-                                                        <button type="submit" name="winner_id" value="{{ match.player2.id }}" class="btn-result-option">
-                                                             {{ match.player2.jogador.profile.nickname }}
+                                            {% if view_organizador %}
+                                                <div class="match-result-popover">
+                                                    <div class="popover-title">Declarar Vencedor</div>
+                                                    <form method="POST" action="{% url "play-winner-partida" tournament.id %}" style="margin: 0; display: flex; flex-direction: column; gap: 0.25rem;">
+                                                        {% csrf_token %}
+                                                        
+                                                        <input type="hidden" name="match_id" value="{{ match.partida.id }}">
+                                                        
+                                                        <button type="submit" name="winner_id" value="{{ match.player1.id }}" class="btn-result-option">
+                                                            {{ match.player1.jogador.profile.nickname }}
                                                         </button>
-                                                    {% else %}
-                                                        <button type="button" disabled class="btn-result-option" style="opacity: 0.5; cursor: not-allowed;">
-                                                            BYE
+                                                        
+                                                        <button type="submit" name="status" value="draw" class="btn-result-option draw-option">
+                                                            Empate
                                                         </button>
-                                                    {% endif %}
-                                                </form>
-                                            </div>
+                                                        
+                                                        {% if match.player2 %}
+                                                            <button type="submit" name="winner_id" value="{{ match.player2.id }}" class="btn-result-option">
+                                                                {{ match.player2.jogador.profile.nickname }}
+                                                            </button>
+                                                        {% else %}
+                                                            <button type="button" disabled class="btn-result-option" style="opacity: 0.5; cursor: not-allowed;">
+                                                                BYE
+                                                            </button>
+                                                        {% endif %}
+                                                    </form>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </td>
                                     
