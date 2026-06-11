@@ -133,9 +133,9 @@
                             <tr>
                                 <td>
                                     <div class="table-tournament-name">{{ entrada.torneio.nome }}</div>
-                                    <div class="table-tournament-meta">{{ entrada.torneio.formato }} / {{ entrada.torneio.total_jogadores }} players</div>
+                                    <div class="table-tournament-meta">{{ entrada.torneio.get_formato_jogo_display }} / {{ entrada.torneio.count_participantes_validos }} players</div>
                                 </td>
-                                <td>{{ entrada.torneio.data|date:"d M, Y" }}</td>
+                                <td>{{ entrada.torneio.data_inicio|date:"d M, Y" }}</td>
    
                                 <td>
                                     <span class="profile-result {% if entrada.posicao == 1 %}profile-result--gold{% elif entrada.posicao <= 4 %}profile-result--silver{% else %}profile-result--muted{% endif %}">
