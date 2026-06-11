@@ -12,14 +12,16 @@ class PerfilQuerySet(models.QuerySet):
         return self.annotate(
 
             total_partidas=Count(
-                'user__participacoes'
+                'user__participacoes',
+                distinct=True
             ),
 
             total_vitorias=Count(
                 'user__participacoes',
                 filter=Q(
                     user__participacoes__resultado=ResultadoPartida.VITORIA
-                )
+                ),
+                distinct=True
             )
 
         ).annotate(
