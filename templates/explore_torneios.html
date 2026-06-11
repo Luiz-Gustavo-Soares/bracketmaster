@@ -12,7 +12,7 @@
 
 <div class="explore-page">
 
-    <div class="explore-hero" style="background-image: url('{% if featured_tournament.imagem_fundo %}{{ featured_tournament.get_fundo_path }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
+    <div class="explore-hero" style="background-image: url('{% if featured_tournament.imagem_fundo %}{{ featured_tournament.get_fundo_path }}{% else %}{% static 'media/backgrounds/big_cat.jpg' %}{% endif %}');">
         <div class="explore-hero-overlay"></div>
     
 
@@ -25,7 +25,7 @@
                         <i class="fa-solid fa-star"></i> Evento Principal
                     </span>
                     <div class="featured-organizer-clean">
-                        <img src="{% if featured_tournament.organizador.profile.avatar %}{{ featured_tournament.organizador.profile.get_avatar_path }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Organizador" class="feat-avatar">
+                        <img src="{% if featured_tournament.organizador.profile.avatar %}{{ featured_tournament.organizador.profile.get_avatar_path }}{% else %}{% static 'media/avatares/Atraxa.jpg' %}{% endif %}" alt="Organizador" class="feat-avatar">
                         <span>Criado por <strong>{{ featured_tournament.organizador.profile.nickname }}</strong></span>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                             <div class="tournament-card">
                                 
                                 <a href="{% url "torneio_view" torneio.id %}" style="text-decoration: none; color: inherit; display: block;"> 
-                                    <div class="card-image" style="background-image: url('{% if torneio.imagem_fundo %}{{ torneio.get_fundo_path }}{% else %}{% static 'media/backgrounds/torneio_bg.jpg' %}{% endif %}');">
+                                    <div class="card-image" style="background-image: url('{% if torneio.imagem_fundo %}{{ torneio.get_fundo_path }}{% else %}{% static 'media/capas_campeonato/lobinho_magic.jpg' %}{% endif %}');">
                                         <span class="card-format">{{ torneio.get_formato_jogo_display }}</span>
                                         <span class="card-date"><i class="fa-regular fa-calendar"></i> {{ torneio.data_inicio|date:"d/m/y" }}</span>
                                     </div>
@@ -183,7 +183,7 @@
 
                                     <div class="card-footer-info">
                                         <a href="{% url 'profile_view' torneio.organizador.profile.user.username %}" class="card-author-link">
-                                            <img src="{% if torneio.organizador.profile.avatar %}{{ torneio.organizador.profile.get_avatar_path }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Organizador" class="author-avatar">
+                                            <img src="{% if torneio.organizador.profile.avatar %}{{ torneio.organizador.profile.get_avatar_path }}{% else %}{% static 'media/avatares/niv.jpg' %}{% endif %}" alt="Organizador" class="author-avatar">
                                             <span class="author-name">{{ torneio.organizador.profile.nickname }}</span>
                                         </a>
                                         {% include "components/status_badge.html" with status=torneio.status %}
@@ -212,7 +212,7 @@
                     <div class="champions-grid">
                         {% for champion in recent_champions|slice:":5" %}
                         <div class="champion-card">
-                            <img src="{% if champion.avatar %}{{ champion.get_avatar_path }}{% else %}{% static 'media/avatares/nissa.png' %}{% endif %}" alt="Avatar" class="champion-avatar">
+                            <img src="{% if champion.avatar %}{{ champion.get_avatar_path }}{% else %}{% static 'media/avatares/xavier_sal.jpg' %}{% endif %}" alt="Avatar" class="champion-avatar">
                             <div class="champion-info">
                                 <span class="champion-name">{{ champion.nickname }}</span>
                                 <span class="champion-deck"><i class="fa-solid fa-layer-group"></i> {{ champion.deck_name }}</span>

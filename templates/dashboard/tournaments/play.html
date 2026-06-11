@@ -10,7 +10,7 @@
 {% block content %}
 <div class="play-page-container">
 
-    <div class="play-fullscreen-bg" style="background-image: url('{% if tournament.imagem_fundo %}{{ tournament.get_fundo_path }}{% else %}{% static 'media/backgrounds/Key-Art.jpeg' %}{% endif %}');">
+    <div class="play-fullscreen-bg" style="background-image: url('{% if tournament.imagem_fundo %}{{ tournament.get_fundo_path }}{% else %}{% static 'media/backgrounds/Key-Art.jpg' %}{% endif %}');">
         <div class="play-fullscreen-overlay"></div>
     </div>
 
@@ -138,7 +138,7 @@
                                         {% if standing.participante.jogador.profile.avatar %}
                                             <img src="{{ standing.participante.jogador.profile.get_avatar_path }}" alt="Avatar de {{ standing.participante.jogador.username }}">
                                         {% else %}
-                                            <img src="{% static 'media/avatares/default.png' %}" alt="Avatar Padrão">
+                                            <img src="{% static 'media/avatares/driade.jpg' %}" alt="Avatar Padrão">
                                         {% endif %}
                                         <span>{{ standing.participante.jogador.profile.nickname }}</span>
                                     </td>
@@ -219,7 +219,7 @@
                                         {% if match.player1.jogador.profile.avatar %}
                                             <img src="{{ match.player1.jogador.profile.get_avatar_path }}" alt="Avatar">
                                         {% else %}
-                                            <img src="{% static 'media/avatares/default.png' %}" alt="Avatar">
+                                            <img src="{% static 'media/avatares/niv.jpg' %}" alt="Avatar">
                                         {% endif %}
                                     </td>
                                     
@@ -283,11 +283,11 @@
                                             {% if match.player2.jogador.profile.avatar %}
                                                 <img src="{{ match.player2.jogador.profile.get_avatar_path }}" alt="Avatar">
                                             {% else %}
-                                                <img src="{% static 'media/avatares/default.png' %}" alt="Avatar">
+                                                <img src="{% static 'media/avatares/xavier_sal.jpg' %}" alt="Avatar">
                                             {% endif %}
                                             <span>{{ match.player2.jogador.profile.nickname }}</span>
                                         {% else %}
-                                            <img src="{% static 'media/avatares/lilia.png' %}" alt="Avatar" style="opacity: 0.5;">
+                                            <img src="{% static 'media/avatares/nissa.jpg' %}" alt="Avatar" style="opacity: 0.5;">
                                             <span style="color: var(--text-muted); font-style: italic;">BYE</span>
                                         {% endif %}
                                     </td>

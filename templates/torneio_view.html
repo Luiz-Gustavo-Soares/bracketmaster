@@ -13,7 +13,7 @@
 
     {% include 'components/navbar.html' %}
 
-    <div class="tournament-hero" style="background-image: url('{% if tournament.imagem_fundo %}{{ tournament.get_fundo_path }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
+    <div class="tournament-hero" style="background-image: url('{% if tournament.imagem_fundo %}{{ tournament.get_fundo_path }}{% else %}{% static 'media/capas_campeonato/monumento_magic.jpg' %}{% endif %}');">
         <div class="tournament-hero-overlay"></div>
         
         <div class="container tournament-hero-container">
@@ -258,7 +258,7 @@
                         <div class="sidebar-organizer-info">
                             <span class="profile-block-label">ORGANIZADOR</span>
                             <div class="organizer-profile-row">
-                                <img src="{% if tournament.organizador.profile.avatar %}{{ tournament.organizador.profile.get_avatar_path }}{% else %}{% static 'media/avatares/lilia.png' %}{% endif %}" alt="Organizador" class="organizer-avatar">
+                                <img src="{% if tournament.organizador.profile.avatar %}{{ tournament.organizador.profile.get_avatar_path }}{% else %}{% static 'media/avatares/lilia.jpg' %}{% endif %}" alt="Organizador" class="organizer-avatar">
                                 <div class="organizer-meta">
                                     <span class="organizer-name">{{ tournament.organizador.profile.nickname }}</span>
                                     <span class="organizer-title">Organizador Oficial</span>
