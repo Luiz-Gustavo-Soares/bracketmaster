@@ -51,13 +51,13 @@ class TournamentService:
         Returns:
             Rodada
         """
+
+        RankingService.recalcular(torneio)
         
         ultima = torneio.rodadas.order_by('numero').last()
 
         if ultima:
             RodadaService.finalizar(ultima)
-
-        RankingService.recalcular(torneio)
 
         if torneio.strategy.terminou():
             cls.finalizar(torneio)
