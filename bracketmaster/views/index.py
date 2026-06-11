@@ -19,7 +19,7 @@ def home(request):
             'imagem_capa': 'media/capas_campeonato/monumento_magic.jpg',
             'autor_nome': 'Atraxa',
             'autor_avatar': 'media/avatares/Atraxa.jpg',
-            'status': 'created' 
+            'status': 'CRIADO' 
         },
         {
             'titulo': 'Mix Diamantina Dia D de Dado',
@@ -29,7 +29,7 @@ def home(request):
             'imagem_capa': 'media/capas_campeonato/lobinho_magic.jpg',
             'autor_nome': 'Nissa Revane',
             'autor_avatar': 'media/avatares/nissa.jpg',
-            'status': 'open' 
+            'status': 'ABERTA' 
         },
         {
             'titulo': 'Maior Campeonato de Todos os Tempos',
@@ -39,7 +39,7 @@ def home(request):
             'imagem_capa': 'media/capas_campeonato/cidade_vermelha.jpg',
             'autor_nome': 'Gideon Jura',
             'autor_avatar': 'media/avatares/gideon.jpg',
-            'status': 'running' 
+            'status': 'EM_ANDAMENTO' 
         },
         {
             'titulo': 'Só Dinos e Mais Nada, Uhum!',
@@ -49,7 +49,7 @@ def home(request):
             'imagem_capa': 'media/capas_campeonato/dinos_magic.jpg',
             'autor_nome': 'Gishath, Avatar do Sol',
             'autor_avatar': 'media/avatares/gisha.jpg',
-            'status': 'closed' 
+            'status': 'FECHADA' 
         },
         {
             'titulo': 'Redraft Gótico de Innistrad Muito Goth',
@@ -59,7 +59,7 @@ def home(request):
             'imagem_capa': 'media/capas_campeonato/pretos.jpg',
             'autor_nome': 'Liliana Vess',
             'autor_avatar': 'media/avatares/lilia.jpg',
-            'status': 'finished' 
+            'status': 'FINALIZADO' 
         }
     ]
 
