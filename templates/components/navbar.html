@@ -43,7 +43,7 @@
             {% if user.is_authenticated %}
                 <a href="{% url 'dashboard' %}" class="nav-user-link">
                     <img src="{{ user.profile.get_avatar_path }}" alt="Avatar" class="nav-avatar">
-                    <span class="nav-username">{{ user.username }}</span>
+                    <span class="nav-username">{{ user.profile.nickname }}</span>
                 </a>
             {% else %}
                 <a href="{% url 'login' %}" class="nav-login-link">Entrar</a>

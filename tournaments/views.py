@@ -40,10 +40,7 @@ def busc_torneios(request):
     ocultar_finalizados = request.GET.get('ocultar_finalizados', 'true').lower() == 'true'
     page_number = request.GET.get('page', 1)
 
-    torneios = Torneio.objects.select_related('cidade').all().order_by()
-    
-    destaque = torneios[0] if torneios else None
-
+    torneios = Torneio.objects.select_related('cidade').all().order_by('data_inicio')
     if ocultar_finalizados:
         torneios = torneios.exclude(
             status=StatusTorneio.FINALIZADO
@@ -52,15 +49,20 @@ def busc_torneios(request):
         torneios = torneios.filter(
             data_inicio__gte = timezone.now()
         )
+    
+    destaque = torneios[0] if torneios else None
+
 
     if nome:
         torneios = torneios.filter(
             nome__icontains=nome
         )
 
-    if formato in dict(FormatoJogo.choices):
+
+    if formato in FormatoJogo.values:
+        print('foiii')
         torneios = torneios.filter(
-            formato_torneio=formato
+            formato_jogo=formato
         )
 
     if cidade:
@@ -76,13 +78,11 @@ def busc_torneios(request):
                 data_inicio__date__lte=data_fim
             )
 
-    torneios = torneios.order_by('data_inicio')
-
     torneios_paginator = Paginator(torneios, 10)
     torneios_page = torneios_paginator.get_page(page_number)
 
-    recent_champions = Profile.objects.all().order_by(
-        'user__likes_recebidos'
+    recent_champions = Profile.objects.com_taxa_vitoria().all().order_by(
+        '-taxa_vitoria'
     )[:3]
  
     

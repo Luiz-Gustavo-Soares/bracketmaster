@@ -112,8 +112,8 @@
                 
                 <div class="tc-details">
                     <span><i class="fa-regular fa-calendar"></i> {{ torneio.data_inicio|date:"d/m/Y" }} às {{ torneio.data_inicio|date:"H:m" }}</span>
-                    <span><i class="fa-solid fa-location-dot"></i> {{ torneio.cidade.str_city }}</span>
                     <span><i class="fa-solid fa-users"></i> {{ torneio.count_participantes_validos }}/{{ torneio.numero_maximo_participantes }}</span>
+                    <span><i class="fa-solid fa-location-dot"></i> {{ torneio.local }}</span>
                 </div>
                 
                 <div class="tc-footer">
