@@ -27,7 +27,7 @@ class TournamentRegistrationService:
         if TorneioParticipante.objects.filter(torneio=torneio, jogador=jogador).exists():
             raise AlreadyRegisteredError('Já inscrito')
         
-        if TorneioParticipante.objects.count() >= torneio.numero_maximo_participantes:
+        if TorneioParticipante.objects.filter(torneio=torneio).count() >= torneio.numero_maximo_participantes:
             raise ParticipantLimitError('Limte de participantes atingido')
 
         if not torneio.inscricao_publica:

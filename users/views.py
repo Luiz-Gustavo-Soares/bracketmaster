@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login
 from django.contrib.auth import authenticate, logout
@@ -165,11 +166,16 @@ def login_view(request):
 
 def busc_profile(request):
     nome = request.GET.get('nome', None)
-    cidade = request.GET.get('cidade', None)
     page = request.GET.get('page', 1)
 
 
-    perfis = Profile.objects.com_taxa_vitoria().select_related('cidade').all().order_by('-user__likes_recebidos')
+    perfis = Profile.objects.com_taxa_vitoria().select_related('cidade').annotate(
+            total_likes=Count(
+                'user__likes_recebidos',
+                distinct=True
+            )
+        ) .order_by('-total_likes')
+    
     top_profiles = perfis[:3]
 
     if nome:
@@ -177,7 +183,8 @@ def busc_profile(request):
             nickname__icontains=nome
         )
 
-    perfis_paginator = Paginator(perfis, 20)
+
+    perfis_paginator = Paginator(perfis, 15)
     perfis_page = perfis_paginator.get_page(page)
     
     context = {

@@ -29,16 +29,24 @@
                 <tbody>
                     {% for partida in partidas %}
                     <tr>
-                        <td class="col-torneio">{{ partida.torneio.nome }}</td>
+                        <td class="col-torneio"><a href="{% url "play" partida.torneio.id %}">{{ partida.torneio.nome }}</a></td>
                         <td class="col-data">{{ partida.torneio.data_inicio }}</td>
                         <td class="col-formato">{{ partida.torneio.get_formato_jogo_display }}</td>
                         <td class="col-resultado" style="text-align: right;">
-                            <span class="badge-status badge-{{ partida.torneio.status }}">
-                                {% if partida.posicao == 1 %}
+                            {% if partida.posicao <= 3 %}
+                                <span class="badge-status badge-{{ partida.posicao }}">
                                     <i class="fa-solid fa-trophy" style="margin-right: 6px;"></i>
-                                {% endif %}
-                                {{ partida.posicao }} º Lugar
-                            </span>
+                                    {{ partida.posicao }} º Lugar
+                                </span>
+                            
+                            {% else %}
+                                <span class="badge-status badge-neutral">
+                                    {{ partida.posicao }} º Lugar
+                                </span>
+                            
+                            {% endif %}
+
+                            
                         </td>
                     </tr>
                     {% empty %}

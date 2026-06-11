@@ -10,7 +10,7 @@ from django.core.exceptions import PermissionDenied as PermissionDeniedDjango
 
 from tournaments.models import Torneio, TorneioParticipante, Rodada
 from tournaments.forms import TorneioForm
-from tournaments.enums import StatusTorneio, FormatoJogo, StatusRodada
+from tournaments.enums import StatusTorneio, FormatoJogo, StatusRodada, FormatoTorneio
 from tournaments.services.registroService import TournamentRegistrationService
 from tournaments.services.rankinService import RankingService
 from tournaments.services.torneioService import TournamentService
@@ -40,10 +40,7 @@ def busc_torneios(request):
     ocultar_finalizados = request.GET.get('ocultar_finalizados', 'true').lower() == 'true'
     page_number = request.GET.get('page', 1)
 
-    torneios = Torneio.objects.select_related('cidade').all().order_by()
-    
-    destaque = torneios[0] if torneios else None
-
+    torneios = Torneio.objects.select_related('cidade').all().order_by('data_inicio')
     if ocultar_finalizados:
         torneios = torneios.exclude(
             status=StatusTorneio.FINALIZADO
@@ -52,15 +49,20 @@ def busc_torneios(request):
         torneios = torneios.filter(
             data_inicio__gte = timezone.now()
         )
+    
+    destaque = torneios[0] if torneios else None
+    # ajustar destaque
 
     if nome:
         torneios = torneios.filter(
             nome__icontains=nome
         )
 
-    if formato in dict(FormatoJogo.choices):
+
+    if formato in FormatoJogo.values:
+        print('foiii')
         torneios = torneios.filter(
-            formato_torneio=formato
+            formato_jogo=formato
         )
 
     if cidade:
@@ -76,13 +78,11 @@ def busc_torneios(request):
                 data_inicio__date__lte=data_fim
             )
 
-    torneios = torneios.order_by('data_inicio')
-
     torneios_paginator = Paginator(torneios, 10)
     torneios_page = torneios_paginator.get_page(page_number)
 
-    recent_champions = Profile.objects.all().order_by(
-        'user__likes_recebidos'
+    recent_champions = Profile.objects.com_taxa_vitoria().all().order_by(
+        '-taxa_vitoria'
     )[:3]
  
     
@@ -109,7 +109,7 @@ def torneio(request, id_torneio):
     is_registered = torneio.participantes.filter(
         jogador=request.user
     ).exists()
-    print(is_registered)
+
 
     context = {
         'tournament': torneio,
@@ -372,15 +372,15 @@ def play_view(request, torneio_id):
     num_rodadas_finalizadas = torneio.rodadas.filter(status=StatusRodada.FINALIZADA).count()
     progresso_torneio = round(num_rodadas_finalizadas / torneio.numero_rodadas * 100)
     
-    classificacao = RankingService.calcular_ranking(torneio)
+    classificacao = RankingService.calcular_ranking(torneio, elim=torneio.formato_torneio == FormatoTorneio.SINGLE_ELIM)
     
     rodada = Rodada.objects.filter(torneio=torneio, numero=rodada_atual).first()
 
 
     matches = []
     is_round_finished = False
-    completed_matches = None
-    total_matches = None
+    completed_matches = 0
+    total_matches = 0
 
     if rodada:
         is_round_finished = rodada.is_finished()
@@ -426,7 +426,9 @@ def play_view(request, torneio_id):
         'matches': matches,
         'is_round_finished': is_round_finished,
         'completed_matches': completed_matches,
-        'total_matches': total_matches
+        'total_matches': total_matches,
+        'view_organizador': torneio.organizador == request.user,
+        'pending_matches': total_matches-completed_matches
     }
 
     return render(request, 'dashboard/tournaments/play.html', context=context)

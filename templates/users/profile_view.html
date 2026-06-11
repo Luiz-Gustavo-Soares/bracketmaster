@@ -14,10 +14,11 @@
 <div class="profile-page">
 
 
-    <div class="profile-hero" style="background-image: url('{% if profile.banner %}{{ profile.banner.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}');">
+        <div class="profile-hero" style="background-image: url('{% if profile.banner %}{{ profile.banner.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}'); background-size: cover; background-position: center center;">
+
         <div class="profile-hero__overlay"></div>
 
-        <div class="profile-hero__content container">
+         <div class="profile-hero__content container">
 
             <div class="profile-avatar-wrap">
                 {% if profile.avatar %}
@@ -77,7 +78,7 @@
                     <div class="profile-winrate-block">
                         <span class="profile-block-label">TAXA DE VITÓRIA</span>
                         <div class="profile-winrate">
-                            <span class="profile-winrate__value">{{ taxa_vitoria }}%</span>
+                            <span class="profile-winrate__value">{{ taxa_vitoria |floatformat:1  }}%</span>
                             {% if variacao_winrate %}
                                 <span class="profile-winrate__delta">+{{ variacao_winrate }}%</span>
                             {% endif %}
@@ -133,9 +134,9 @@
                             <tr>
                                 <td>
                                     <div class="table-tournament-name">{{ entrada.torneio.nome }}</div>
-                                    <div class="table-tournament-meta">{{ entrada.torneio.formato }} / {{ entrada.torneio.total_jogadores }} players</div>
+                                    <div class="table-tournament-meta">{{ entrada.torneio.get_formato_jogo_display }} / {{ entrada.torneio.count_participantes_validos }} players</div>
                                 </td>
-                                <td>{{ entrada.torneio.data|date:"d M, Y" }}</td>
+                                <td>{{ entrada.torneio.data_inicio|date:"d M, Y" }}</td>
    
                                 <td>
                                     <span class="profile-result {% if entrada.posicao == 1 %}profile-result--gold{% elif entrada.posicao <= 4 %}profile-result--silver{% else %}profile-result--muted{% endif %}">

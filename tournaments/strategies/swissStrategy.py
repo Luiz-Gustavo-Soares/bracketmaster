@@ -2,6 +2,8 @@ from .base_strategy import BaseStrategy
 from matches.models import Partida, ParticipacaoPartida
 from tournaments.enums import StatusRodada
 
+from matches.services.partidada_service import PartidaService
+
 class SwissStrategy(BaseStrategy):
     """Torneio Formato suiço"""
 
@@ -46,11 +48,13 @@ class SwissStrategy(BaseStrategy):
         if jogadores:
             p = jogadores.pop(0)
             partida = Partida.objects.create(rodada=rodada)
-            ParticipacaoPartida.objects.create(
+            part = ParticipacaoPartida.objects.create(
                 partida=partida,
                 jogador=p.jogador
             )
-            # partida.finalizar_partida(p.jogador) tem que ver como modelar isso ainda se o bye vai ser uma partidad solo
+            # partida.finalizar_partida(p.jogador)
+            PartidaService.registrar_resultado(partida, part)
+            PartidaService.finalizar_partida(partida)
             partidas.append(partida)
         
         return partidas

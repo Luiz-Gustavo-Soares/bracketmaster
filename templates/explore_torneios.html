@@ -113,8 +113,8 @@
                                     <button class="filter-chip">Commander</button>
                                     <button class="filter-chip">Modern</button>
                                     <button class="filter-chip">Pioneer</button>
-                                    <button class="filter-chip">Legacy</button>
-                                    <button class="filter-chip">Arena</button>
+                                    <button class="filter-chip">Draft</button>
+                                    <button class="filter-chip">Standard</button>
                                 </div>
                                 
                                 <div class="secondary-chips">
@@ -215,7 +215,7 @@
                             <img src="{% if champion.avatar %}{{ champion.get_avatar_path }}{% else %}{% static 'media/avatares/xavier_sal.jpg' %}{% endif %}" alt="Avatar" class="champion-avatar">
                             <div class="champion-info">
                                 <span class="champion-name">{{ champion.nickname }}</span>
-                                <span class="champion-deck"><i class="fa-solid fa-layer-group"></i> {{ champion.deck_name }}</span>
+                                {% comment %} <span class="champion-deck"><i class="fa-solid fa-layer-group"></i> {{ champion.deck_name }}</span> {% endcomment %}
                             </div>
                         </div>
                         
@@ -322,7 +322,14 @@ document.addEventListener('DOMContentLoaded', function() {
             formatChip.classList.add('is-active');
             
             const formatoTexto = formatChip.textContent.trim();
-            document.getElementById('hidden-formato').value = formatoTexto === 'Todos' ? '' : formatoTexto;
+            map_formatos = {
+                'Commander': 'CM',
+                'Standard': 'ST',
+                'Modern': 'MO',
+                'Pioneer': 'PI',
+                'Draft': 'DR',   
+            }
+            document.getElementById('hidden-formato').value = formatoTexto === 'Todos' ? '' : map_formatos[formatoTexto];
             // Apenas salva a escolha. Não envia o form!
             return;
         }

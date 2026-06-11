@@ -28,7 +28,9 @@ class Torneio(models.Model):
     
     imagem_fundo = models.CharField(
         max_length=20,
-        choices=Fundos
+        choices=Fundos,
+        blank=True, 
+        null=True
     )
 
     numero_maximo_participantes = models.PositiveIntegerField(default=20)
