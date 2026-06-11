@@ -14,7 +14,11 @@ class FormatoJogo(models.TextChoices):
 
 
 class Fundos(models.TextChoices):
-    Fundo1='monumento_magic', 'Monumento'
+    Fundo1='cidade_vermelha', 'Cidade Vermelha'
+    Fundo2='dinos_magic', 'Dinos Magic'
+    Fundo3='lobinho_magic', 'Sienna'
+    Fundo4='monumento_magic', 'Monumento'
+    Fundo5='pretos', 'Pretos'
 
 
 class StatusTorneio(models.TextChoices):
