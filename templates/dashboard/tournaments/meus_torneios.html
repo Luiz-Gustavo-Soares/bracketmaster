@@ -91,21 +91,24 @@
                 <div class="tc-header">
                     <div class="tc-title-row">
                         <h3 class="tc-title">{{ torneio.nome }}</h3>
+                        <span class="badge">{{ torneio.get_status_display }}</span>
                         {% if torneio.count_participantes_validos >= torneio.numero_maximo_participantes %}
                             <span class="badge badge-danger">Lotado</span>
                         {% endif %}
                     </div>
-                    {% if torneio.tempo_para_iniciar  %}
-                        <span class="tc-meta">Daqui a {{ torneio.tempo_para_iniciar }} dias</span>
-                    {% else %}
-                        <span class="tc-meta">Hoje</span>
+                    {% if not torneio.status == 'FINALIZADO' %}
+                        {% if torneio.tempo_para_iniciar  %}
+                            <span class="tc-meta">Daqui a {{ torneio.tempo_para_iniciar }} dias</span>
+                        {% else %}
+                            <span class="tc-meta">Hoje</span>
+                        {% endif %}
                     {% endif %}
                 </div>
                 
                 <div class="tc-details">
                     <span><i class="fa-regular fa-calendar"></i> {{ torneio.data_inicio|date:"d/m/Y" }} às {{ torneio.data_inicio|date:"H:m" }}</span>
                     <span><i class="fa-solid fa-location-dot"></i> {{ torneio.cidade.str_city }}</span>
-                    <span><i class="fa-solid fa-users"></i> {{ torneio.count_participantes_validos }}</span>
+                    <span><i class="fa-solid fa-users"></i> {{ torneio.count_participantes_validos }}/{{ torneio.numero_maximo_participantes }}</span>
                 </div>
                 
                 <div class="tc-footer">
@@ -113,7 +116,6 @@
                         <span class="badge">{{ torneio.get_formato_jogo_display }}</span>
                         <span class="badge">{{ torneio.get_formato_torneio_display }}</span>
                         <span class="badge">{{ torneio.numero_rodadas}} RODADAS</span>
-                        {% comment %} <span class="badge">PRESENCIAL</span> {% endcomment %}
                     </div>
                     
                     <div class="tc-actions">
@@ -125,6 +127,11 @@
                         <a href="{% url "meus_torneios_participantes_edit" torneio.id 'edit' %}">
                             <button class="btn-icon" title="Gerenciar Inscrições" onclick="switchState('state-inscriptions')">
                                 <i class="fa-solid fa-users-gear"></i>
+                            </button>
+                        </a>
+                        <a href="{% url "torneio_view" torneio.id %}">
+                            <button class="btn-icon" title="Ver detalhes do torneio">
+                                <i class="fa-solid fa-eye"></i>
                             </button>
                         </a>
                         <a href="{% url "play" torneio.id %}">
@@ -285,6 +292,12 @@
                                                 <i class="fa-solid fa-xmark"></i>
                                             </button>
                                         </a>
+                                        {% else %}{% if participante.status == 'RE' %}
+                                            <a href="{% url "aprovar_participante" torneio_edicao.id participante.id %}">
+                                                <button class="btn-icon btn-accept" title="Aceitar Inscrição">
+                                                    <i class="fa-solid fa-check"></i>
+                                                </button>
+                                            </a>
                                         {% else %}
                                             <a href="{% url "aprovar_participante" torneio_edicao.id participante.id %}">
                                                 <button class="btn-icon btn-accept" title="Aceitar Inscrição">
@@ -292,10 +305,11 @@
                                                 </button>
                                             </a>
                                             <a href="{% url "rejeitar_participante" torneio_edicao.id participante.id %}">
-                                            <button class="btn-icon btn-reject" title="Remover Jogador">
-                                                <i class="fa-solid fa-xmark"></i>
-                                            </button>
+                                                <button class="btn-icon btn-reject" title="Remover Jogador">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </button>
                                             </a>
+                                        {% endif %}
                                         {% endif %}
                                     </div>
                                 </td>
