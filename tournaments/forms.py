@@ -12,6 +12,7 @@ class TorneioForm(forms.ModelForm):
     )
 
     estado = forms.CharField(
+        max_length=2,
         widget = forms.TextInput(
             attrs={
                 "class":"form-control", "placeholder":"Estado (sigla)"
