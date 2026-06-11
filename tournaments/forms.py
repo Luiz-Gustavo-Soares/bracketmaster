@@ -130,6 +130,7 @@ class TorneioForm(forms.ModelForm):
 
             'data_inicio': forms.DateTimeInput(
                 attrs={
+                    'type':'datetime-local',
                     "class":"form-control"
                 }
             )
