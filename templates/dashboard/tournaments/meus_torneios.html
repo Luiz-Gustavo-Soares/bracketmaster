@@ -61,13 +61,18 @@
                                 </div>
                                 
                                 <div class="tc-actions">
+                                    <a href="mailto:{{inscricao.torneio.organizador.email}}?subject=Torneio: {{inscricao.torneio.nome}}" target="_blank" >
+                                        <button class="btn-icon" title="Ver detalhes do torneio">
+                                            <i class="fa-regular fa-envelope"></i>
+                                        </button>
+                                    </a>
                                     
                                     <a href="{% url "torneio_view" inscricao.torneio.id %}">
                                         <button class="btn-icon" title="Ver detalhes do torneio">
                                             <i class="fa-solid fa-eye"></i>
                                         </button>
                                     </a>
-                                    <a href="{% url "play" inscricao.torneio.id %}">
+                                    <a href="{% url "play" inscricao.torneio.id %}" target="_blank">
                                         <button class="btn-icon btn-play-action" title="Jogar">
                                             <i class="fa-solid fa-play"></i>
                                         </button>
@@ -134,7 +139,7 @@
                                 <i class="fa-solid fa-eye"></i>
                             </button>
                         </a>
-                        <a href="{% url "play" torneio.id %}">
+                        <a href="{% url "play" torneio.id %}" target="_blank">
                             <button class="btn-icon btn-play-action" title="Iniciar Partidas">
                                 <i class="fa-solid fa-play"></i>
                             </button>
