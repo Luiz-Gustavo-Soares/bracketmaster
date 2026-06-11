@@ -6,7 +6,7 @@ from core.models import Cidade
 
 from tournaments.models import Torneio, TorneioParticipante
 from tournaments.forms import TorneioForm
-from tournaments.enums import StatusInscricao
+from tournaments.enums import StatusInscricao, StatusTorneio
 
 from users.models import Profile
 from users.forms import ProfileForm
@@ -52,9 +52,10 @@ def historico_dashboard_view(request):
     page_number = request.GET.get('page', None)
 
     partidas = TorneioParticipante.objects.filter(
-        jogador=request.user
+        jogador=request.user,
+        torneio__status=StatusTorneio.FINALIZADO
     ).select_related('torneio').all().order_by(
-        '-data_inscricao'
+        '-data_inscricao',
     )
     
     paginator = Paginator(partidas, 8) 
