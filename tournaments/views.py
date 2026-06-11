@@ -51,7 +51,7 @@ def busc_torneios(request):
         )
     
     destaque = torneios[0] if torneios else None
-
+    # ajustar destaque
 
     if nome:
         torneios = torneios.filter(
