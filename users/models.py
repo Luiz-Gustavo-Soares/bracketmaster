@@ -65,7 +65,7 @@ class Profile(models.Model):
         ).count()
 
     def get_avatar_path(self):
-        return f"/static/media/avatares/{self.avatar}.png"
+        return f"/static/media/avatares/{self.avatar}.jpg"
 
     def __str__(self):
         return self.user.username

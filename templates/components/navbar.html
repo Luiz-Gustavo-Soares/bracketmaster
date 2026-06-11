@@ -16,11 +16,11 @@
         
         <div class="nav-actions">
             <div class="nav-search-container">
-                <form action="#" method="GET" class="nav-search-form">
+                <form action="{% url "explore_profile" %}" method="GET" class="nav-search-form">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" name="q" placeholder="Buscar jogador..." class="nav-search-input" id="globalSearchInput" autocomplete="off">
+                    <input type="text" name="nome" placeholder="Buscar jogador..." class="nav-search-input" id="globalSearchInput" autocomplete="off">
                 </form>
-                <div class="search-dropdown" id="searchDropdown">
+                {% comment %} <div class="search-dropdown" id="searchDropdown">
                     <div class="search-dropdown-header">Jogadores</div>
                     <a href="/perfil/NissaRevane" class="search-item">
                         <img src="{% static 'media/avatares/nissa.png' %}" alt="Nissa" class="search-item-avatar">
@@ -37,12 +37,12 @@
                         </div>
                     </a>
                     <a href="#" class="search-item-view-all">Ver todos os resultados...</a>
-                </div>
+                </div> {% endcomment %}
             </div>
 
             {% if user.is_authenticated %}
                 <a href="{% url 'dashboard' %}" class="nav-user-link">
-                    <img src="{% static 'media/avatares/nissa.png' %}" alt="Avatar" class="nav-avatar">
+                    <img src="{{ user.profile.get_avatar_path }}" alt="Avatar" class="nav-avatar">
                     <span class="nav-username">{{ user.username }}</span>
                 </a>
             {% else %}
