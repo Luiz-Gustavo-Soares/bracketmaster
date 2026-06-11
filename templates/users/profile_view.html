@@ -27,16 +27,16 @@
                     <img src="{% static 'media/avatares/chandra.jpg' %}" alt="Avatar padrão" class="profile-avatar">
                 {% endif %}
 
-                {% if user != profile.user %}
-                    <button type="button" 
-                            id="btn-like" 
-                            class="btn btn-outline-light btn-like" 
-                            data-username="{{ profile.user.username }}">
-                        <i class="{% if is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart" id="heart-icon"></i>
-                        <span id="btn-text">{% if is_liked %}Curtido{% else %}Curtir jogador{% endif %}</span>
-                    </button>
-                {% endif %}
-            </div>
+                    {% if user != profile.user and user.is_authenticated %}
+                        <button type="button" 
+                                id="btn-like" 
+                                class="btn btn-outline-light btn-like" 
+                                data-username="{{ profile.user.username }}">
+                            <i class="{% if is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart" id="heart-icon"></i>
+                            <span id="btn-text">{% if is_liked %}Curtido{% else %}Curtir jogador{% endif %}</span>
+                        </button>
+                    {% endif %}
+                </div>
 
             
             <div class="profile-info">

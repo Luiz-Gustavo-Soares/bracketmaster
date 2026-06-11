@@ -106,9 +106,10 @@ def torneio(request, id_torneio):
 
     rank = [p['participante'] for p in RankingService.calcular_ranking(torneio)]
 
+   
     is_registered = torneio.participantes.filter(
         jogador=request.user
-    ).exists()
+    ).exists() if request.user.is_authenticated else False
 
 
     context = {

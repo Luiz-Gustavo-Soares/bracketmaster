@@ -128,7 +128,12 @@ def profile(request, username):
 
     torneios_paginator = Paginator(participacoes, 5)
     torneios_page = torneios_paginator.get_page(page_number)
-    is_liked = p.user.likes_recebidos.filter(usuario_que_curtiu=request.user).exists()
+
+    if request.user.is_authenticated:
+        is_liked = p.user.likes_recebidos.filter(usuario_que_curtiu=request.user).exists()
+    else:
+        is_liked = None
+
     context = {
         'profile': p,
         'taxa_vitoria': p.taxa_vitoria,
