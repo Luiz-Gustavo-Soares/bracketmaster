@@ -361,16 +361,21 @@ def play_view(request, torneio_id):
         id=torneio_id
     )
 
-    rodada_atual = int(request.GET.get('rodada', 1))
 
+    rodada_atual = int(request.GET.get('rodada', 0))
+    
     num_rodadas = torneio.rodadas.count()
+
+    rodada_atual = rodada_atual if rodada_atual else num_rodadas
+    
     num_rodadas_finalizadas = torneio.rodadas.filter(status=StatusRodada.FINALIZADA).count()
     progresso_torneio = round(num_rodadas_finalizadas / torneio.numero_rodadas * 100)
     
     classificacao = RankingService.calcular_ranking(torneio)
     
     rodada = Rodada.objects.filter(torneio=torneio, numero=rodada_atual).first()
-    
+
+
     matches = []
     is_round_finished = False
 
