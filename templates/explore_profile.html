@@ -146,7 +146,7 @@
                         </div>
                         <div class="profile-card-right">
                             <div class="list-stats">
-                                <div class="stat-col"><span class="stat-num">{{ perfil.taxa_vitoria|default:"0" }}%</span><span class="stat-lbl">WIN RATE</span></div>
+                                <div class="stat-col"><span class="stat-num">{{ perfil.taxa_vitoria|default:"0" |floatformat:1  }}%</span><span class="stat-lbl">WIN RATE</span></div>
                                 <div class="stat-col"><span class="stat-num">{{ perfil.count_part_torneio|default:"0" }}</span><span class="stat-lbl">TORNEIOS</span></div>
                             </div>
                             <a href="{% url 'profile_view' username=perfil.user.username %}" class="btn btn-outline-light list-btn">Ver Perfil</a>
