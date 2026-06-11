@@ -280,11 +280,13 @@
             </div>
             <div class="table-wrapper">
                 <table class="data-table">
-                    <thead><tr><th>Jogador</th><th>Cidade</th><th>Status</th><th style="text-align: right;">Ação</th></tr></thead>
+                    <thead><tr><th>Jogador</th><th>Contato</th><th>Cidade</th><th>Status</th><th style="text-align: right;">Ação</th></tr></thead>
                     <tbody>
                         {% for participante in torneio_participantes_edit_list %}
                             <tr>
-                                <td class="player-name-cell"><a href="{% url "profile_view" participante.jogador.username %}">{{ participante.jogador.profile.nickname }}</a></td>
+                                <td class="player-name-cell"><a href="{% url "profile_view" participante.jogador.username %}">{{ participante.jogador.profile.nickname }}</a>  </td>
+                                
+                                <td class="table-muted-cell"> <a href="mailto:{{participante.jogador.email}}?subject=Torneio: {{participante.torneio.nome}}" target="_blank" ><i style="font-size: 22px; "class="fa-regular fa-envelope"></i></a></td>
                                     
                                 <td class="table-muted-cell">{{ participante.jogador.profile.cidade.str_city }}</td>
                                 <td class="table-muted-cell">{{ participante.get_status_display }}</td>
