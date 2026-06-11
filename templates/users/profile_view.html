@@ -14,11 +14,11 @@
 <div class="profile-page">
 
 
-    <div class="profile-hero" style="background-image: url('{% if profile.banner %}{{ profile.banner.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}'); background-size: cover; background-position: center center;">
+        <div class="profile-hero" style="background-image: url('{% if profile.banner %}{{ profile.banner.url }}{% else %}{% static 'media/backgrounds/bg-auth.jpg' %}{% endif %}'); background-size: cover; background-position: center center;">
 
         <div class="profile-hero__overlay"></div>
 
-        <div class="profile-hero__content container">
+         <div class="profile-hero__content container">
 
             <div class="profile-avatar-wrap">
                 {% if profile.avatar %}
