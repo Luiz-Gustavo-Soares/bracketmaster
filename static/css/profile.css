@@ -1,8 +1,14 @@
-/* PERFIL — visual only */
+/* ==========================================
+   1. ESTRUTURA GERAL DA PÁGINA
+   ========================================== */
+.profile-page {
+    padding-top: var(--navbar-height);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
 .profile-body {
-    background-size: cover;
-    background-position: center top;
     flex: 1;
     padding-top: 2rem;
     padding-bottom: 4rem;
@@ -14,19 +20,16 @@
     width: 100%;
     position: relative;
     z-index: 1;
+    margin-top: -2px; 
 }
 
-.profile-hero__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(9,9,11,0.3) 0%, rgba(9,9,11,0.95) 100%);
-    z-index: 0;
-}
-
+/*  O CABEÇALHO E A CAPA*/
 .profile-hero {
-    background: inherit;
-    background-size: cover;
-    background-position: center top;
+    position: relative;
+    min-height: 480px; 
+    display: flex;
+    align-items: center;
+    padding: 3rem 0 4rem 0; 
 }
 
 .profile-hero::before {
@@ -36,7 +39,31 @@
     left: 0;
     width: 100%;
     height: var(--navbar-height);
+    background: inherit;
+    background-position: center top;
     z-index: -1;
+}
+
+.profile-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(9, 9, 11, 0.2) 0%,
+        rgba(9, 9, 11, 0.6) 50%,
+        rgba(9, 9, 11, 1) 100% 
+    );
+    z-index: 0;
+    pointer-events: none;
+}
+
+.profile-hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 3rem;
 }
 
 .profile-avatar-wrap {
@@ -71,11 +98,10 @@
     flex-direction: column;
     gap: 1.25rem;
     padding: 1.5rem 2rem;
-    padding-bottom: 1.5rem;
-    background: rgba(9, 9, 11, 0.15);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(9, 9, 11, 0.55); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08); 
     border-radius: var(--radius-md);
 }
 
