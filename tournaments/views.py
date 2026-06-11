@@ -10,7 +10,7 @@ from django.core.exceptions import PermissionDenied as PermissionDeniedDjango
 
 from tournaments.models import Torneio, TorneioParticipante, Rodada
 from tournaments.forms import TorneioForm
-from tournaments.enums import StatusTorneio, FormatoJogo, StatusRodada
+from tournaments.enums import StatusTorneio, FormatoJogo, StatusRodada, FormatoTorneio
 from tournaments.services.registroService import TournamentRegistrationService
 from tournaments.services.rankinService import RankingService
 from tournaments.services.torneioService import TournamentService
@@ -372,15 +372,15 @@ def play_view(request, torneio_id):
     num_rodadas_finalizadas = torneio.rodadas.filter(status=StatusRodada.FINALIZADA).count()
     progresso_torneio = round(num_rodadas_finalizadas / torneio.numero_rodadas * 100)
     
-    classificacao = RankingService.calcular_ranking(torneio)
+    classificacao = RankingService.calcular_ranking(torneio, elim=torneio.formato_torneio == FormatoTorneio.SINGLE_ELIM)
     
     rodada = Rodada.objects.filter(torneio=torneio, numero=rodada_atual).first()
 
 
     matches = []
     is_round_finished = False
-    completed_matches = None
-    total_matches = None
+    completed_matches = 0
+    total_matches = 0
 
     if rodada:
         is_round_finished = rodada.is_finished()
@@ -426,7 +426,9 @@ def play_view(request, torneio_id):
         'matches': matches,
         'is_round_finished': is_round_finished,
         'completed_matches': completed_matches,
-        'total_matches': total_matches
+        'total_matches': total_matches,
+        'view_organizador': torneio.organizador == request.user,
+        'pending_matches': total_matches-completed_matches
     }
 
     return render(request, 'dashboard/tournaments/play.html', context=context)

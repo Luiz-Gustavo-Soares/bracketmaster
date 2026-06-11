@@ -87,7 +87,7 @@ class RankingService:
 
 
     @classmethod
-    def calcular_ranking(cls, torneio: Torneio) -> List[Dict]:
+    def calcular_ranking(cls, torneio: Torneio, elim = False) -> List[Dict]:
         """Calcula/ordena o ranking levando em consideracao seus pontos e o OMW%
         Args: 
             torneio: Torneio a ser calculado
@@ -100,10 +100,11 @@ class RankingService:
             participantes.append({
                 "participante": p,
                 "pontos": p.pontos,
-                "omw": cls.opponent_match_win_percentage(p)
+                "omw": cls.opponent_match_win_percentage(p),
+                'derrotas': p.derrotas
             })
 
-        return sorted(
+        participantes = sorted(
             participantes,
             key=lambda x: (
                 x["pontos"],
@@ -111,6 +112,16 @@ class RankingService:
             ),
             reverse=True
         )
+        
+        if elim:
+            participantes = sorted(
+                participantes,
+                key=lambda x: (
+                    x["derrotas"],
+                ),
+            )
+
+        return participantes
 
 
     @classmethod

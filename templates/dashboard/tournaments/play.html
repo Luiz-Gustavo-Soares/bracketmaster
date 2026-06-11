@@ -143,7 +143,7 @@
                                     <td class="col-highlight">{{ standing.pontos|default:"0" }}</td>
                                     <td class="col-vde" style="color: var(--success);">{{ standing.participante.vitorias|default:"0" }}</td>
                                     <td class="col-vde" style="color: var(--danger);">{{ standing.participante.derrotas|default:"0" }}</td>
-                                    <td class="col-vde" style="color: var(--text-muted);">{{ standing.participante.empate|default:"0" }}</td>
+                                    <td class="col-vde" style="color: var(--text-muted);">{{ standing.participante.empates|default:"0" }}</td>
                                     <td>{{ standing.omw|floatformat:2|default:"-" }}</td>
                                 </tr>
                                 {% empty %}
@@ -275,7 +275,7 @@
                                         {% elif match.winner == match.player1 %}player-loser
                                         {% elif match.status == 'draw' %}player-draw{% endif %}">
                                         
-                                        {% if match.player1.jogador.profile.nickname %}
+                                        {% if match.player2.jogador.profile.nickname %}
                                             {% if match.player2.jogador.profile.avatar %}
                                                 <img src="{{ match.player2.jogador.profile.get_avatar_path }}" alt="Avatar">
                                             {% else %}
@@ -283,7 +283,7 @@
                                             {% endif %}
                                             <span>{{ match.player2.jogador.profile.nickname }}</span>
                                         {% else %}
-                                            <img src="{% static 'media/avatares/default.png' %}" alt="Avatar" style="opacity: 0.5;">
+                                            <img src="{% static 'media/avatares/lilia.png' %}" alt="Avatar" style="opacity: 0.5;">
                                             <span style="color: var(--text-muted); font-style: italic;">BYE</span>
                                         {% endif %}
                                     </td>
