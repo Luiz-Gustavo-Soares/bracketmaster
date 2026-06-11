@@ -17,6 +17,7 @@ from tournaments.services.torneioService import TournamentService
 
 from matches.services.partidada_service import PartidaService
 from matches.models import Partida, ParticipacaoPartida
+from matches.enums import StatusPartida
 
 from matches.services.exceptions import MatchNotFinishedError, MultipleWinnersError
 from tournaments.services.exceptions import RegistrationError
@@ -378,10 +379,15 @@ def play_view(request, torneio_id):
 
     matches = []
     is_round_finished = False
+    completed_matches = None
+    total_matches = None
 
     if rodada:
         is_round_finished = rodada.is_finished()
         partidas = rodada.partidas.all()
+
+        total_matches = partidas.count()
+        completed_matches = partidas.filter(status=StatusPartida.FINALIZADA).count()
 
         for partida in partidas:
             participantes = list(partida.participacoes.all())
@@ -418,7 +424,9 @@ def play_view(request, torneio_id):
         'standings': classificacao,
         'total_rounds_range': range(1, num_rodadas+1),
         'matches': matches,
-        'is_round_finished': is_round_finished
+        'is_round_finished': is_round_finished,
+        'completed_matches': completed_matches,
+        'total_matches': total_matches
     }
 
     return render(request, 'dashboard/tournaments/play.html', context=context)
