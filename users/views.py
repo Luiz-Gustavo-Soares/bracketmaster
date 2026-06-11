@@ -169,7 +169,7 @@ def busc_profile(request):
     page = request.GET.get('page', 1)
 
 
-    perfis = Profile.objects.com_taxa_vitoria().select_related('cidade').all().order_by('user__likes_recebidos')
+    perfis = Profile.objects.com_taxa_vitoria().select_related('cidade').all().order_by('-user__likes_recebidos')
     top_profiles = perfis[:3]
 
     if nome:
