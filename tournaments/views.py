@@ -109,7 +109,7 @@ def torneio(request, id_torneio):
     is_registered = torneio.participantes.filter(
         jogador=request.user
     ).exists()
-    print(is_registered)
+
 
     context = {
         'tournament': torneio,
