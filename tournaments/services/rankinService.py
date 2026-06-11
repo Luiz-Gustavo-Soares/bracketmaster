@@ -2,7 +2,9 @@ from typing import List, Dict
 from django.db import transaction
 from matches.models import Partida
 from matches.enums import StatusPartida, ResultadoPartida
+
 from tournaments.models import TorneioParticipante, Torneio
+from tournaments.enums import FormatoTorneio
 
 
 class RankingService:
@@ -10,14 +12,14 @@ class RankingService:
 
     @classmethod
     @transaction.atomic
-    def recalcular(cls, torneio: Torneio):
+    def recalcular(cls, torneio: Torneio, elim=False):
         """Recalcula a pontuacao de cada participante de um torneio 
         levando em consideracao as suas respectivas patidas
         Args:
             torneio: torneio a ser recalculado
         """
 
-        participantes = cls.calcular_ranking(torneio)
+        participantes = cls.calcular_ranking(torneio, torneio.formato_torneio == FormatoTorneio.SINGLE_ELIM)
 
         for i, p in enumerate(participantes):
             cls._atualizar_participante(p['participante'], i+1)
@@ -104,6 +106,14 @@ class RankingService:
                 'derrotas': p.derrotas
             })
 
+        if elim:
+            participantes = sorted(
+                participantes,
+                key=lambda x: (
+                    x["derrotas"],
+                ),
+            )
+
         participantes = sorted(
             participantes,
             key=lambda x: (
@@ -113,13 +123,6 @@ class RankingService:
             reverse=True
         )
         
-        if elim:
-            participantes = sorted(
-                participantes,
-                key=lambda x: (
-                    x["derrotas"],
-                ),
-            )
 
         return participantes
 
