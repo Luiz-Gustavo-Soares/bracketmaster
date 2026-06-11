@@ -86,7 +86,7 @@ tournaments/
 ├── inscrições
 ├── classificação
 └── gerenciamento
-````
+```
 
 ## Instalação
 
@@ -117,6 +117,7 @@ venv\Scripts\activate
 ```bash
 pip install -r requirements.txt
 ```
+ 
 
 ### 4. Configurar variáveis de ambiente
 
@@ -170,4 +171,10 @@ Este projeto foi desenvolvido para fins acadêmicos na disciplina de Engenharia 
 ---
 
 Desenvolvido com foco na organização de eventos e análise estratégica para jogadores de Magic: The Gathering.
+### Disclaimer
 
+Magic: The Gathering é uma marca registrada da Wizards of the Coast LLC.
+
+Este projeto foi desenvolvido exclusivamente para fins educacionais e acadêmicos.
+
+As imagens, logotipos e demais materiais relacionados a Magic: The Gathering pertencem aos seus respectivos proprietários e não estão cobertos pela licença deste projeto.
