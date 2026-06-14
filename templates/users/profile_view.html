@@ -43,7 +43,6 @@
 
                 <div class="profile-info__header">
                     <h1 class="profile-name">{{ profile.nickname|default:profile.user.username }}</h1>
-                    {# TODO: adicionar localização ao modelo Profile #}
                     {% if profile.cidade %}
                         <span class="profile-location">
                             <i class="fa-solid fa-location-dot"></i>
@@ -51,6 +50,13 @@
                         </span>
                     {% endif %}
                 </div>
+
+                {% if profile.user.is_staff %}
+                <div class="profile-role-badge">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Membro da Staff
+                </div>
+                {% endif %}    
 
                 {% if profile.bio %}
                     <div class="profile-bio-block">

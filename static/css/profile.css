@@ -462,3 +462,32 @@
 .btn-like:active {
     transform: scale(0.95); 
 }
+
+
+.profile-role-badge{
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+
+    width: fit-content;
+
+    margin-top: .5rem;
+
+    padding: .4rem .8rem;
+
+    border-radius: 999px;
+
+    background: rgba(99, 102, 241, .12);
+    border: 1px solid rgba(99, 102, 241, .25);
+
+    color: var(--brand-primary);
+
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.profile-role-badge i{
+    font-size: .8rem;
+}
