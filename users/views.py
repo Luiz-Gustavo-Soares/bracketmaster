@@ -25,7 +25,7 @@ def register_view(request):
             
             if not User.objects.filter(email=email).exists():
 
-                user = User.objects.create(username=username, email=email, password=senha)
+                user = User.objects.create_user(username=username, email=email, password=senha)
 
                 login(request, user)
                 return redirect('home')
