@@ -179,9 +179,9 @@ def busc_profile(request):
                 'user__likes_recebidos',
                 distinct=True
             )
-        ) .order_by('-total_likes')
+        ) .order_by('-total_likes', 'user__username')
     
-    top_profiles = perfis[:3]
+    top_profiles = list(perfis[:3])
 
     if nome:
         perfis = perfis.filter(
