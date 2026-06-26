@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import register_view, profile, edit_profile, login_view, like_profile, busc_profile, logout_view
+from .views import register_view, profile, edit_profile, login_view, like_profile, busc_profile, logout_view, LimitedPasswordResetView
 
 
 urlpatterns = [
@@ -12,7 +12,7 @@ urlpatterns = [
 
     path(
         "senha/",
-        auth_views.PasswordResetView.as_view(),
+        LimitedPasswordResetView.as_view(),
         name="password_reset"
     ),
 

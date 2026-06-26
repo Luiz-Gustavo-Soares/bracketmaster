@@ -11,6 +11,41 @@ from users.services.usersServices import ProfileService
 from users.forms import RegisterForm, ProfileForm, LoginForm
 from users.services.exceptions import AltoLikeError
 from tournaments.models import TorneioParticipante
+from django.contrib import messages
+from django.contrib.auth.views import PasswordResetView
+from django.core.cache import cache
+
+
+class LimitedPasswordResetView(PasswordResetView):
+
+    MAX_EMAILS = 3
+    TIMEOUT = 3600
+
+    def form_valid(self, form):
+        email = form.cleaned_data["email"].lower()
+
+        if not User.objects.filter(email=email).exists():
+            messages.error(
+                self.request,
+                "Email não cadastrado no sistema."
+            )
+            return self.form_invalid(form)
+
+        key = f"password-reset:{email}"
+
+        enviados = cache.get(key, 0)
+
+        if enviados >= self.MAX_EMAILS:
+            messages.error(
+                self.request,
+                "Você já solicitou a redefinição de senha várias vezes. Aguarde uma hora antes de tentar novamente."
+            )
+            return self.form_invalid(form)
+
+        cache.set(key, enviados + 1, timeout=self.TIMEOUT)
+
+        return super().form_valid(form)
+    
 
 
 def register_view(request):
