@@ -83,7 +83,7 @@
 
         <p class="bio-text">
             {% if user.profile.bio %}
-                {{ user.profile.bio }}
+                {{ user.profile.bio|linebreaksbr }}
             {% else %}
                 Nenhuma biografia adicionada ainda.
             {% endif %}

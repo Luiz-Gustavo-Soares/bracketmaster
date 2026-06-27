@@ -61,7 +61,7 @@
                 {% if profile.bio %}
                     <div class="profile-bio-block">
                         <span class="profile-block-label">BIO</span>
-                        <p class="profile-bio">{{ profile.bio }}</p>
+                        <p class="profile-bio">{{ profile.bio|linebreaksbr }}</p>
                     </div>
                 {% endif %}
 

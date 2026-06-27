@@ -65,7 +65,7 @@
                     
                     <section class="content-block">
                         <h2 class="block-title">Sobre o Evento</h2>
-                        <p class="block-text">{{ tournament.descricao }}</p>
+                        <p class="block-text">{{ tournament.descricao|linebreaksbr }}</p>
                     </section>
                     {% if premiacoes or not tournament %}
                     <section class="content-block">
