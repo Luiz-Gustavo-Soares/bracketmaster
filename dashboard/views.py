@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
-from core.models import Cidade
+from core.models import Cidade, Endereco
 
 from tournaments.models import Torneio, TorneioParticipante
 from tournaments.forms import TorneioForm
@@ -106,21 +106,26 @@ def meus_torneios_view(request, pk=None, edit=False):
         )
 
         if form.is_valid():
-            torneio = form.save(commit=False)
+            torneio: Torneio = form.save(commit=False)
 
             cidade = form.cleaned_data['cidade']
             estado = form.cleaned_data['estado']
 
-            endereco_list = [
-                    form.cleaned_data['lagradouro'],
-                    form.cleaned_data['numero'],
-                    form.cleaned_data['bairro'],
-                    form.cleaned_data['complemento'],
-                ]
+            lagradouro = form.cleaned_data['lagradouro']
+            numero = form.cleaned_data['numero']
+            bairro = form.cleaned_data['bairro']
+            complemento = form.cleaned_data['complemento']
 
-            endereco_list = [Cidade._normalizar(end) for end in endereco_list]
+            if not torneio.endereco:
+                torneio.endereco = Endereco.objects.create(lagradouro=lagradouro, numero=numero, bairro=bairro, complemento=complemento)
+            else:
+                torneio.endereco.lagradouro = lagradouro
+                torneio.endereco.numero = numero
+                torneio.endereco.bairro = bairro
+                torneio.endereco.complemento = complemento
+                torneio.endereco.save()
             
-            torneio.local = ', '.join(endereco_list)
+            
             torneio.adicionar_cidade(cidade, estado)
 
             if not torneio_edicao:
@@ -131,7 +136,17 @@ def meus_torneios_view(request, pk=None, edit=False):
 
     else:
         if torneio_edicao:
-            ini = {'cidade': torneio_edicao.cidade.nome, 'estado': torneio_edicao.cidade.estado, 'lagradouro': torneio_edicao.local}
+            ini = {
+                'cidade': torneio_edicao.cidade.nome, 
+                'estado': torneio_edicao.cidade.estado, 
+            }
+            if torneio_edicao.endereco:
+                ini.update({ 'lagradouro': torneio_edicao.endereco.lagradouro,
+                    'numero': torneio_edicao.endereco.numero,
+                    'bairro': torneio_edicao.endereco.bairro,
+                    'complemento': torneio_edicao.endereco.complemento,
+                    })
+
             form = TorneioForm(instance=torneio_edicao, initial=ini)
         else:
             form = TorneioForm()

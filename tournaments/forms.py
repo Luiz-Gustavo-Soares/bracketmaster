@@ -21,6 +21,7 @@ class TorneioForm(forms.ModelForm):
     )
 
     numero = forms.CharField(
+        max_length=8,
         widget = forms.TextInput(
             attrs={
                 "class":"form-control", "placeholder":"Número"

@@ -11,7 +11,7 @@ from .strategies.base_strategy import BaseStrategy
 
 from .states.statesTorneio import EncInscricoesState, EmAndamentoState, CriadoState, InscricoesState, StateTorneio
 from matches.models import Partida
-from core.models import Cidade
+from core.models import Cidade, Endereco
 
 
 class Torneio(models.Model):
@@ -54,7 +54,13 @@ class Torneio(models.Model):
         blank=True
     )
 
-    local = models.CharField(max_length=150)
+    endereco = models.OneToOneField(
+        Endereco,
+        on_delete=models.PROTECT,
+        related_name='torneio',
+        null=True,
+        blank=True
+    )
 
     premiacoes = models.TextField(blank=True, null=True)
 

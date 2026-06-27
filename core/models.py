@@ -25,3 +25,14 @@ class Cidade(models.Model):
                 name='unique_city'
             )
         ]
+
+
+class Endereco(models.Model):
+    lagradouro = models.CharField(max_length=200)
+    numero = models.CharField(max_length=10)
+    bairro = models.CharField(max_length=120)
+    complemento = models.CharField(max_length=200, blank=True, null=True)
+
+    @property
+    def str_local(self):
+        return f'{self.lagradouro} - {self.numero}, {self.bairro}' + (f', {self.complemento}' if self.complemento else '')
