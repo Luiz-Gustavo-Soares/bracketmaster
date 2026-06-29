@@ -40,7 +40,12 @@ def busc_torneios(request):
     ocultar_finalizados = request.GET.get('ocultar_finalizados', 'true').lower() == 'true'
     page_number = request.GET.get('page', 1)
 
-    torneios = Torneio.objects.select_related('cidade').all().order_by('data_inicio')
+    torneios = Torneio.objects.select_related(
+            "cidade",
+            "organizador",
+            "organizador__profile"
+        ).all().order_by('data_inicio')
+    
     if ocultar_finalizados:
         torneios = torneios.exclude(
             status=StatusTorneio.FINALIZADO
