@@ -16,7 +16,7 @@ from users.forms import ProfileForm
 def dashboard(request):
     """View de edicao do Profile"""
 
-    profile = Profile.objects.com_taxa_vitoria().get(user=request.user)
+    profile = Profile.objects.select_related('user').com_taxa_vitoria().com_total_likes().com_torneios_count().get(user=request.user)
     
     if request.method == 'POST':
         form = ProfileForm(
