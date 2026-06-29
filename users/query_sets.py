@@ -22,7 +22,8 @@ class PerfilQuerySet(models.QuerySet):
                 "user__torneioparticipante",
                 filter=Q(
                     user__torneioparticipante__status=StatusInscricao.APROVADA
-                )
+                ),
+                distinct=True
             )
         )
 
