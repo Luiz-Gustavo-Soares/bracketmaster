@@ -3,9 +3,28 @@ from django.db.models import Count, Q, F, FloatField
 from django.db.models import ExpressionWrapper, Case, When, Value
 
 from matches.enums import ResultadoPartida
+from tournaments.enums import StatusInscricao
 
     
 class PerfilQuerySet(models.QuerySet):
+
+    def com_total_likes(self):
+        return self.annotate(
+            total_likes=Count(
+                'user__likes_recebidos',
+                distinct=True
+            )
+        )
+    
+    def com_torneios_count(self):
+        return self.annotate(
+            torneios_count=Count(
+                "user__torneioparticipante",
+                filter=Q(
+                    user__torneioparticipante__status=StatusInscricao.APROVADA
+                )
+            )
+        )
 
     def com_taxa_vitoria(self):
 

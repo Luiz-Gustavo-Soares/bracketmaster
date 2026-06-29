@@ -51,9 +51,15 @@ class Profile(models.Model):
         self.cidade = cidade
 
     def count_likes_recebidos(self):
+        if hasattr(self, "total_likes"):
+            return self.total_likes
+        
         return self.user.likes_recebidos.count()
 
     def count_part_torneio(self):
+        if hasattr(self, "torneios_count"):
+            return self.torneios_count
+        
         return TorneioParticipante.objects.filter(
             jogador=self.user,
             status=StatusInscricao.APROVADA

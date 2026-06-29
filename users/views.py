@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login
 from django.contrib.auth import authenticate, logout
@@ -11,6 +11,7 @@ from users.services.usersServices import ProfileService
 from users.forms import RegisterForm, ProfileForm, LoginForm
 from users.services.exceptions import AltoLikeError
 from tournaments.models import TorneioParticipante
+from tournaments.enums import StatusInscricao
 from django.contrib import messages
 from django.contrib.auth.views import PasswordResetView
 from django.core.cache import cache
@@ -209,12 +210,13 @@ def busc_profile(request):
     page = request.GET.get('page', 1)
 
 
-    perfis = Profile.objects.com_taxa_vitoria().select_related('cidade').annotate(
-            total_likes=Count(
-                'user__likes_recebidos',
-                distinct=True
-            )
-        ) .order_by('-total_likes', 'user__username')
+    perfis = Profile.objects\
+        .select_related('cidade')\
+        .select_related('user')\
+        .com_taxa_vitoria()\
+        .com_total_likes()\
+        .com_torneios_count()\
+        .order_by('-total_likes', 'user__username')
     
     top_profiles = list(perfis[:3])
 
