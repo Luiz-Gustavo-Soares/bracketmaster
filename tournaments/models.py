@@ -12,7 +12,7 @@ from .strategies.base_strategy import BaseStrategy
 from .states.statesTorneio import EncInscricoesState, EmAndamentoState, CriadoState, InscricoesState, StateTorneio
 from matches.models import Partida
 from core.models import Cidade, Endereco
-
+from tournaments.query_sets import TorneioQuerySet, ParticipanteQuerySet
 
 class Torneio(models.Model):
     """Modelo Principal do torneio"""
@@ -94,6 +94,8 @@ class Torneio(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
 
 
+    objects = TorneioQuerySet.as_manager()
+
     @property
     def strategy(self) -> BaseStrategy:
         """Altera a estrategia conforme o FORMATO do TORNEIO"""
@@ -173,9 +175,10 @@ class Torneio(models.Model):
         return f"/static/media/capas_campeonato/{self.imagem_fundo}.jpg"
 
     def count_participantes_validos(self):
-        return self.participantes.filter(
-            status=StatusInscricao.APROVADA
-        ).count()
+        if hasattr(self, "participantes_validos_count"):
+            return self.participantes_validos_count
+
+        return self.participantes.aprovados().count()
 
     def tempo_para_iniciar(self):
         agora = timezone.now()
@@ -201,11 +204,6 @@ class Torneio(models.Model):
         return self.nome
 
 
-class ParticipanteQuerySet(models.QuerySet):
-    def aprovados(self):
-        return self.filter(
-            status=StatusInscricao.APROVADA
-        )
 
 
 class TorneioParticipante(models.Model):

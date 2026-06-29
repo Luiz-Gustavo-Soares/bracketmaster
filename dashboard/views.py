@@ -92,12 +92,15 @@ def meus_torneios_view(request, pk=None, edit=False):
             torneio_participantes_edit_list = torneio_participantes_edit_list.order_by('status')
 
 
-    inscricoes = TorneioParticipante.objects.filter(
-        jogador=request.user,
-    ).select_related('torneio').all()
+    inscricoes = TorneioParticipante.objects.filter(jogador=request.user,)\
+    .select_related('torneio', 'torneio__endereco', 'torneio__organizador').all()
+    
     inscricoes = inscricoes.exclude(torneio__status=StatusTorneio.FINALIZADO)
 
-    torneios_criados = Torneio.objects.filter(organizador=request.user).all().order_by('status')
+    torneios_criados = Torneio.objects.filter(organizador=request.user)\
+        .select_related('endereco')\
+        .com_participantes_validos_count()\
+        .all().order_by('status')
 
     if request.method == "POST":
         form = TorneioForm(
