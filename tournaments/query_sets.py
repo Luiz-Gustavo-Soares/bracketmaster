@@ -20,3 +20,14 @@ class ParticipanteQuerySet(models.QuerySet):
         return self.filter(
             status=StatusInscricao.APROVADA
         )
+
+    def com_qnt_participantes(self):
+        return self.annotate(
+            participantes_validos_count=Count(
+                "torneio__participantes",
+                filter=Q(
+                    torneio__participantes__status=StatusInscricao.APROVADA
+                ),
+                distinct=True,
+            )
+        )

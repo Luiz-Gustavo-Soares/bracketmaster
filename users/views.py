@@ -145,7 +145,7 @@ def profile(request, username):
     """
 
     try:
-        p = Profile.objects.com_taxa_vitoria().get(
+        p = Profile.objects.select_related('user').com_taxa_vitoria().get(
             user__username=username
         )
 
@@ -154,11 +154,11 @@ def profile(request, username):
     
     page_number = request.GET.get('page', 1)
 
-    participacoes = TorneioParticipante.objects.aprovados().filter(
+    participacoes = TorneioParticipante.objects.com_qnt_participantes().select_related('torneio').aprovados().filter(
         jogador=p.user
-        ).order_by(
-            '-data_inscricao'
-        )
+    ).order_by(
+        '-data_inscricao'
+    )
     
     
 
