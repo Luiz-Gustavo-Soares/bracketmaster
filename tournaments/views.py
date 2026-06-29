@@ -363,11 +363,17 @@ def definir_ganhador_partida(request, torneio_id):
 
 
 def play_view(request, torneio_id):
-    torneio = get_object_or_404(
-        Torneio,
-        id=torneio_id
-    )
+    try:
+        torneio = (
+            Torneio.objects
+            # .select_related('participantes')
+            .get(
+            id=torneio_id
+            )
+        )
 
+    except Torneio.DoesNotExist:
+        raise Http404("Article not found.")
 
     rodada_atual = int(request.GET.get('rodada', 0))
     
@@ -380,7 +386,7 @@ def play_view(request, torneio_id):
     
     classificacao = RankingService.calcular_ranking(torneio, elim=torneio.formato_torneio == FormatoTorneio.SINGLE_ELIM)
     
-    rodada = Rodada.objects.filter(torneio=torneio, numero=rodada_atual).first()
+    rodada = Rodada.objects.prefetch_related('partidas').filter(torneio=torneio, numero=rodada_atual).first()
 
 
     matches = []

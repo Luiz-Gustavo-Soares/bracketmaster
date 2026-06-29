@@ -246,6 +246,7 @@ class TorneioParticipante(models.Model):
 
         opponents = []
 
+        # Obs. depois tenho que otimizar essa bomba...
         partidas = Partida.objects.filter(
             participacoes__jogador=self.jogador,
             rodada__torneio=self.torneio
