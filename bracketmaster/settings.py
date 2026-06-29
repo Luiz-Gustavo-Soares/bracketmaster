@@ -47,9 +47,6 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', default='').split(',')
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
 
 # Application definition
 
@@ -78,15 +75,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-if DEBUG:
-    INSTALLED_APPS += [
-        "debug_toolbar",
-    ]
 
-    MIDDLEWARE.insert(
-        0,
-        "debug_toolbar.middleware.DebugToolbarMiddleware",
-    )
+
 
 ROOT_URLCONF = 'bracketmaster.urls'
 
@@ -111,23 +101,40 @@ WSGI_APPLICATION = 'bracketmaster.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
+
 DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
+    }
+}
+
+
+if DEBUG:
+    INSTALLED_APPS += [
+        "debug_toolbar",
+    ]
+
+    MIDDLEWARE.insert(
+        0,
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    )
+
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
+
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': env('DB_NAME'),
-#         'USER': env('DB_USER'),
-#         'PASSWORD': env('DB_PASSWORD'),
-#         'HOST': env('DB_HOST'),
-#         'PORT': env('DB_PORT'),
-#     }
-# }
 
 # LOGGING = {
 #     "version": 1,
