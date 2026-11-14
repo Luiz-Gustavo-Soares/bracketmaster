@@ -2,6 +2,7 @@ from .base_strategy import BaseStrategy
 from matches.models import Partida, ParticipacaoPartida
 from matches.enums import ResultadoPartida
 from tournaments.enums import StatusRodada
+from matches.services.partidada_service import PartidaService
 
 
 
@@ -63,16 +64,18 @@ class SingleEliminationStrategy(BaseStrategy):
 
             partidas.append(partida)
 
-        # if jogadores:
-        #     p = jogadores.pop(0)
-        #     partida = Partida.objects.create(rodada=rodada)
-        #     ParticipacaoPartida.objects.create(
-        #         partida=partida,
-        #         jogador=p.jogador
-        #     )
-        #     # partida.finalizar_partida(p.jogador) tem que ver como modelar isso ainda se o bye vai ser uma partidad solo
-        #     partidas.append(partida)
-        
+            # Quantidade ímpar: o jogador sem adversário avança automaticamente.
+            if jogadores:
+                participante = jogadores.pop(0)
+                partida = Partida.objects.create(rodada=rodada)
+                participacao = ParticipacaoPartida.objects.create(
+                    partida=partida,
+                    jogador=participante.jogador,
+                )
+                PartidaService.registrar_resultado(partida, participacao)
+                PartidaService.finalizar_partida(partida)
+                partidas.append(partida)
+       
         return partidas
 
 
