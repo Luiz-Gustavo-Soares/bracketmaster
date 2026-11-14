@@ -65,16 +65,16 @@ class SingleEliminationStrategy(BaseStrategy):
             partidas.append(partida)
 
             # Quantidade ímpar: o jogador sem adversário avança automaticamente.
-            # if jogadores:
-            #     participante = jogadores.pop(0)
-            #     partida = Partida.objects.create(rodada=rodada)
-            #     participacao = ParticipacaoPartida.objects.create(
-            #         partida=partida,
-            #         jogador=participante.jogador,
-            #     )
-            #     PartidaService.registrar_resultado(partida, participacao)
-            #     PartidaService.finalizar_partida(partida)
-            #     partidas.append(partida)
+            if jogadores:
+                participante = jogadores.pop(0)
+                partida = Partida.objects.create(rodada=rodada)
+                participacao = ParticipacaoPartida.objects.create(
+                    partida=partida,
+                    jogador=participante.jogador,
+                )
+                PartidaService.registrar_resultado(partida, participacao)
+                PartidaService.finalizar_partida(partida)
+                partidas.append(partida)
        
         return partidas
 
