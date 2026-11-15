@@ -1,0 +1,17 @@
+[run]
+branch = True
+
+source =
+    matches
+    tournaments
+
+omit =
+    */migrations/*
+    */tests.py
+    */tests/*
+    */views.py
+
+
+[report]
+show_missing = True
+precision = 1
