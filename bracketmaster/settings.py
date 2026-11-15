@@ -96,6 +96,8 @@ TEMPLATES = [
     },
 ]
 
+
+WHITENOISE_MAX_AGE = 31536000
 WSGI_APPLICATION = 'bracketmaster.wsgi.application'
 
 

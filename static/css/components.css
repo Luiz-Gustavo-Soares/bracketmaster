@@ -137,9 +137,9 @@
 }
 
 .badge-danger {
-    background-color: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    background-color: rgba(127, 29, 29, 0.75);
+    color: #fca5a5; 
+    border: 1px solid rgba(252, 165, 165, 0.4);
 }
 
 .badge-muted {
@@ -149,9 +149,9 @@
 }
 
 .badge-primary {
-    background-color: rgba(99, 102, 241, 0.1);
-    color: var(--brand-primary);
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    background-color: rgba(30, 58, 138, 0.75);
+    color: #93c5fd;
+    border: 1px solid rgba(147, 197, 253, 0.4);
 }
 
 /* --- Alertas --- */
