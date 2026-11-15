@@ -78,11 +78,10 @@
 .wotc-disclaimer p {
     font-size: 0.65rem;
     line-height: 1.6;
-    color: var(--text-muted);
+    color: #b4b4be;
     margin-bottom: 0.5rem;
 }
 
-/* --- FOOTER MINIMAL (Padrão para Perfil) --- */
 .footer-minimal {
     display: flex;
     justify-content: space-between;
