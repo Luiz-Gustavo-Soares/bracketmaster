@@ -5,7 +5,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
-<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}" media="print" onload="this.media='all'">
 <link rel="preload" href="{% static 'media/backgrounds/bird_magic.jpg' %}" as="image" fetchpriority="high">
 {% endblock %}
 
